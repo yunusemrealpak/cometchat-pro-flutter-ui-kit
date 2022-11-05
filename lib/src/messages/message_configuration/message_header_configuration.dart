@@ -14,10 +14,14 @@ import '../../../flutter_chat_ui_kit.dart';
 ///
 class MessageHeaderConfiguration {
   const MessageHeaderConfiguration(
-      {this.showBackButton = true,
+      {this.hideHeader = false,
+      this.showBackButton = true,
       this.backButton,
       this.avatarConfiguration,
       this.statusIndicatorConfiguration});
+
+  ///[hideHeader] if true it shows header
+  final bool hideHeader;
 
   ///[showBackButton] if true it shows back button
   final bool showBackButton;

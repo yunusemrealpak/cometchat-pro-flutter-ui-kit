@@ -1271,11 +1271,14 @@ class CometChatMessageListState extends State<CometChatMessageList>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: widget.style.gradient == null
-              ? widget.style.background ?? theme.palette.getBackground()
-              : null,
-          gradient: widget.style.gradient),
+      // decoration: BoxDecoration(
+      //     color: widget.style.gradient == null
+      //         ? widget.style.background ?? theme.palette.getBackground()
+      //         : null,
+      //     gradient: widget.style.gradient),
+      decoration: const BoxDecoration(
+        color: Colors.transparent,
+      ),
       child: _getBody(),
     );
   }

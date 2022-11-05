@@ -296,18 +296,21 @@ class CometChatMessagesState extends State<CometChatMessages>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CometChatMessageHeader(
-          user: widget.user,
-          group: widget.group,
-          enableTypingIndicator: widget.enableTypingIndicator,
-          theme: widget.theme,
-          showBackButton: widget.messageHeaderConfiguration.showBackButton,
-          backButton: widget.messageHeaderConfiguration.backButton,
-          avatarConfiguration:
-              widget.messageHeaderConfiguration.avatarConfiguration,
-          statusIndicatorConfiguration:
-              widget.messageHeaderConfiguration.statusIndicatorConfiguration,
-        ),
+        appBar: widget.messageHeaderConfiguration.hideHeader
+            ? null
+            : CometChatMessageHeader(
+                user: widget.user,
+                group: widget.group,
+                enableTypingIndicator: widget.enableTypingIndicator,
+                theme: widget.theme,
+                showBackButton:
+                    widget.messageHeaderConfiguration.showBackButton,
+                backButton: widget.messageHeaderConfiguration.backButton,
+                avatarConfiguration:
+                    widget.messageHeaderConfiguration.avatarConfiguration,
+                statusIndicatorConfiguration: widget
+                    .messageHeaderConfiguration.statusIndicatorConfiguration,
+              ),
         body: Stack(
           children: [
             Column(
