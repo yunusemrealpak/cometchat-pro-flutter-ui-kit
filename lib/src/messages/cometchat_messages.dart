@@ -294,37 +294,36 @@ class CometChatMessagesState extends State<CometChatMessages>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: widget.messageHeaderConfiguration.hideHeader
-            ? null
-            : CometChatMessageHeader(
-                user: widget.user,
-                group: widget.group,
-                enableTypingIndicator: widget.enableTypingIndicator,
-                theme: widget.theme,
-                showBackButton:
-                    widget.messageHeaderConfiguration.showBackButton,
-                backButton: widget.messageHeaderConfiguration.backButton,
-                avatarConfiguration:
-                    widget.messageHeaderConfiguration.avatarConfiguration,
-                statusIndicatorConfiguration: widget
-                    .messageHeaderConfiguration.statusIndicatorConfiguration,
-              ),
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                //----message list-----
-                Expanded(child: getMessageList()),
-
-                //-----message composer-----
-                if (widget.hideMessageComposer == false) getMessageComposer()
-              ],
+    return Scaffold(
+      backgroundColor: widget.theme?.palette.backGroundColor.light,
+      appBar: widget.messageHeaderConfiguration.hideHeader
+          ? null
+          : CometChatMessageHeader(
+              user: widget.user,
+              group: widget.group,
+              enableTypingIndicator: widget.enableTypingIndicator,
+              theme: widget.theme,
+              showBackButton:
+                  widget.messageHeaderConfiguration.showBackButton,
+              backButton: widget.messageHeaderConfiguration.backButton,
+              avatarConfiguration:
+                  widget.messageHeaderConfiguration.avatarConfiguration,
+              statusIndicatorConfiguration: widget
+                  .messageHeaderConfiguration.statusIndicatorConfiguration,
             ),
-            if (_isOverlayOpen == true) ..._liveAnimationList
-          ],
-        ),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              //----message list-----
+              Expanded(child: getMessageList()),
+
+              //-----message composer-----
+              if (widget.hideMessageComposer == false) getMessageComposer()
+            ],
+          ),
+          if (_isOverlayOpen == true) ..._liveAnimationList
+        ],
       ),
     );
   }
