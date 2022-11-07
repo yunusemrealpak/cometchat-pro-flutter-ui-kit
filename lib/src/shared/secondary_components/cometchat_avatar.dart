@@ -78,53 +78,57 @@ class CometChatAvatar extends StatelessWidget {
       }
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        borderRadius:
-            BorderRadius.all(Radius.circular(outerCornerRadius ?? 100.0)),
-        border: outerViewBorder ??
-            Border.all(
-              color: outerViewBackgroundColor ??
-                  backgroundColor ??
-                  const Color(0xff141414).withOpacity(0.71),
-              width: outerViewWidth ?? 0,
+    return ClipRRect(
+      borderRadius:
+              BorderRadius.all(Radius.circular(outerCornerRadius ?? 100.0)),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius:
+              BorderRadius.all(Radius.circular(outerCornerRadius ?? 100.0)),
+          border: outerViewBorder ??
+              Border.all(
+                color: outerViewBackgroundColor ??
+                    backgroundColor ??
+                    const Color(0xff141414).withOpacity(0.71),
+                width: outerViewWidth ?? 0,
+              ),
+          color: backgroundColor ?? const Color(0xff141414).withOpacity(0.71),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(outerViewSpacing ?? 0),
+          child: Container(
+            height: width ?? _width,
+            width: height ?? _height,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius:
+                  BorderRadius.all(Radius.circular(cornerRadius ?? 100.0)),
+              border: border,
             ),
-        color: backgroundColor ?? const Color(0xff141414).withOpacity(0.71),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(outerViewSpacing ?? 0),
-        child: Container(
-          height: width ?? _width,
-          width: height ?? _height,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius:
-                BorderRadius.all(Radius.circular(cornerRadius ?? 100.0)),
-            border: border,
-          ),
-
-          //--------on image url null or image url is not valid then show text--------
-          child: _url.isNotEmpty
-              ? Image.network(_url,
-                  errorBuilder: (context, object, stackTrace) {
-                  return Center(
+    
+            //--------on image url null or image url is not valid then show text--------
+            child: _url.isNotEmpty
+                ? Image.network(_url, fit: BoxFit.cover,
+                    errorBuilder: (context, object, stackTrace) {
+                    return Center(
+                      child: Text(_text,
+                          style: nameTextStyle ??
+                              const TextStyle(
+                                  fontSize: 17.0,
+                                  color: Color(0xffFFFFFF),
+                                  fontWeight: FontWeight.w500)),
+                    );
+                  })
+                : Center(
                     child: Text(_text,
                         style: nameTextStyle ??
                             const TextStyle(
                                 fontSize: 17.0,
                                 color: Color(0xffFFFFFF),
                                 fontWeight: FontWeight.w500)),
-                  );
-                })
-              : Center(
-                  child: Text(_text,
-                      style: nameTextStyle ??
-                          const TextStyle(
-                              fontSize: 17.0,
-                              color: Color(0xffFFFFFF),
-                              fontWeight: FontWeight.w500)),
-                ),
+                  ),
+          ),
         ),
       ),
     );

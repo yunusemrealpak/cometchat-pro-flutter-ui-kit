@@ -1134,7 +1134,7 @@ class CometChatMessageListState extends State<CometChatMessageList>
         actionItems: _templateMap[message.type]!,
         message: message,
         state: this,
-        backgroundColor: theme.palette.getBackground(),
+        backgroundColor: theme.palette.getAccent100(),
         theme: theme);
   }
 
