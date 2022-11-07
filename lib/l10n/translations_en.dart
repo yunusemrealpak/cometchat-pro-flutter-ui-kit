@@ -704,7 +704,7 @@ class TranslationsEn extends Translations {
   String get message => 'Message';
 
   @override
-  String get no_messages_here_yet => 'No Messages here yet';
+  String get no_messages_here_yet => '';
 
   @override
   String get select_reaction => 'Select Reaction';
