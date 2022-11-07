@@ -1214,7 +1214,7 @@ class CometChatMessageListState extends State<CometChatMessageList>
       return _getLoadingIndicator();
     } else if (_messageList.isEmpty) {
       //----------- empty list widget-----------
-      return _getNoChatIndicator();
+      return const SizedBox.expand();
     } else {
       return Stack(
         children: [
