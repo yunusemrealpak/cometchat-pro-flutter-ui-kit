@@ -1105,7 +1105,7 @@ class CometChatMessageListState extends State<CometChatMessageList>
                 const MessageReceiptConfiguration(),
         dateConfiguration:
             widget.messageBubbleConfiguration.dateConfiguration ??
-                const DateConfiguration(),
+                const DateConfiguration() ,
         timeAlignment: widget.messageBubbleConfiguration.timeAlignment ??
             TimeAlignment.bottom,
       ),
