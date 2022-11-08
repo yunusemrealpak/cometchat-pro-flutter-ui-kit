@@ -23,6 +23,7 @@ import 'package:flutter_chat_ui_kit/flutter_chat_ui_kit.dart';
 class MessageComposerConfiguration {
   const MessageComposerConfiguration(
       {this.placeholderText,
+      this.hideActionButton = false,
       this.hideAttachment = false,
       this.hideMicrophone = false,
       this.hideLiveReaction = false,
@@ -35,6 +36,9 @@ class MessageComposerConfiguration {
 
   ///[placeholderText] hint text
   final String? placeholderText;
+
+  ///[hideActionButton] if true hides + button
+  final bool hideActionButton;
 
   ///[hideAttachment] if true hides attachments options
   final bool hideAttachment;

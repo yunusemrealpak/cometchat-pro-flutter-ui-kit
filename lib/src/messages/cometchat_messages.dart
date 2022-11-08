@@ -283,6 +283,7 @@ class CometChatMessagesState extends State<CometChatMessages>
       messageTypes: widget.messageComposerConfiguration.messageTypes ??
           widget.messageTypes,
       enableSoundForMessages: widget.enableSoundForMessages,
+      hideActionButton: widget.messageComposerConfiguration.hideActionButton,
       hideEmoji: widget.messageComposerConfiguration.hideEmoji,
       hideAttachment: widget.messageComposerConfiguration.hideAttachment,
       hideLiveReaction: widget.messageComposerConfiguration.hideLiveReaction,
