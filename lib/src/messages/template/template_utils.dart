@@ -6,19 +6,19 @@ import '../../../flutter_chat_ui_kit.dart';
 class TemplateUtils {
   static const editOption = CometChatMessageOptions(
       id: MessageOptionConstants.editMessage,
-      title: "Edit",
+      title: "Düzenle",
       iconUrl: "assets/icons/edit.png",
       optionFor: OptionFor.sender,
       packageName: UIConstants.packageName);
   static CometChatMessageOptions deleteOption = const CometChatMessageOptions(
       id: MessageOptionConstants.deleteMessage,
-      title: "Delete",
+      title: "Sil",
       iconUrl: "assets/icons/delete.png",
       optionFor: OptionFor.sender,
       packageName: UIConstants.packageName);
   static const replyOption = CometChatMessageOptions(
       id: MessageOptionConstants.replyMessage,
-      title: "Reply",
+      title: "Cevapla",
       iconUrl: "assets/icons/reply.png",
       optionFor: OptionFor.both,
       packageName: UIConstants.packageName);
@@ -30,35 +30,35 @@ class TemplateUtils {
       packageName: UIConstants.packageName);
   static const shareOption = CometChatMessageOptions(
       id: MessageOptionConstants.shareMessage,
-      title: "Share",
+      title: "Paylaş",
       iconUrl: "assets/icons/share.png",
       optionFor: OptionFor.both);
   static const copyOption = CometChatMessageOptions(
       id: MessageOptionConstants.copyMessage,
-      title: "Copy Text",
+      title: "Kopyala",
       iconUrl: "assets/icons/copy.png",
       optionFor: OptionFor.both,
       packageName: UIConstants.packageName);
   static const forwardOption = CometChatMessageOptions(
       id: MessageOptionConstants.forwardMessage,
-      title: "Forward",
+      title: "İlet",
       iconUrl: "assets/icons/forward.png",
       optionFor: OptionFor.both,
       packageName: UIConstants.packageName);
   static const informationOption = CometChatMessageOptions(
       id: MessageOptionConstants.messageInformation,
-      title: "Information",
+      title: "Bilgi",
       iconUrl: "assets/icons/info.png",
       optionFor: OptionFor.both);
   static const translateOption = CometChatMessageOptions(
       id: MessageOptionConstants.translateMessage,
-      title: "Translate",
+      title: "Çevir",
       iconUrl: "assets/icons/translate.png",
       optionFor: OptionFor.both,
       packageName: UIConstants.packageName);
   static const reactToMessageOption = CometChatMessageOptions(
       id: MessageOptionConstants.reactToMessage,
-      title: "Reaction",
+      title: "Reaksiyon",
       iconUrl: "assets/icons/edit.png",
       optionFor: OptionFor.both,
       packageName: UIConstants.packageName);
@@ -73,7 +73,7 @@ class TemplateUtils {
     messageOptionList.add(copyOption);
     // messageOptionList.add(forwardOption);
     // messageOptionList.add(informationOption);
-    messageOptionList.add(translateOption);
+    // messageOptionList.add(translateOption);
     messageOptionList.add(reactToMessageOption);
     messageOptionList.add(deleteOption);
     return messageOptionList;
@@ -171,7 +171,7 @@ class TemplateUtils {
   static getDefaultAudioTemplate() {
     return CometChatMessageTemplate(
       type: MessageTypeConstants.audio,
-      name: "Audio",
+      name: "Ses",
       iconUrl: "assets/icons/audio.png",
       iconUrlPackageName: UIConstants.packageName,
       options: audioTemplateOption(),
@@ -191,7 +191,7 @@ class TemplateUtils {
   static getDefaultImageTemplate() {
     return CometChatMessageTemplate(
       type: MessageTypeConstants.image,
-      name: "Image",
+      name: "Fotoğraf",
       iconUrl: "assets/icons/photo_library.png",
       iconUrlPackageName: UIConstants.packageName,
       options: imageTemplateOption(),
@@ -201,7 +201,7 @@ class TemplateUtils {
   static getDefaultLocationTemplate() {
     return CometChatMessageTemplate(
       type: MessageTypeConstants.location,
-      name: "Location",
+      name: "Konum",
       iconUrl: "assets/icons/location.png",
       iconUrlPackageName: UIConstants.packageName,
       options: locationTemplateOption(),
@@ -211,7 +211,7 @@ class TemplateUtils {
   static getDefaultPollTemplate() {
     return CometChatMessageTemplate(
       type: MessageTypeConstants.poll,
-      name: "Poll",
+      name: "Anket",
       iconUrl: "assets/icons/polls.png",
       iconUrlPackageName: UIConstants.packageName,
       options: pollTemplateOption(),
@@ -221,7 +221,7 @@ class TemplateUtils {
   static getDefaultCollaborativeWhiteboardTemplate() {
     return CometChatMessageTemplate(
       type: MessageTypeConstants.whiteboard,
-      name: "collaborativeWhiteboard",
+      name: "Beyaz Tahta",
       iconUrl: "assets/icons/collaborative_whiteboard.png",
       iconUrlPackageName: UIConstants.packageName,
       options: whiteboardTemplateOption(),
@@ -231,7 +231,7 @@ class TemplateUtils {
   static getDefaultCollaborativeDocumentTemplate() {
     return CometChatMessageTemplate(
       type: MessageTypeConstants.document,
-      name: "Collaborative Document",
+      name: "Ortak Döküman",
       iconUrl: "assets/icons/collaborative_document.png",
       iconUrlPackageName: UIConstants.packageName,
       options: documentTemplateOption(),
@@ -265,7 +265,7 @@ class TemplateUtils {
   static getDefaultFileTemplate() {
     return CometChatMessageTemplate(
       type: MessageTypeConstants.file,
-      name: "File",
+      name: "Dosya",
       iconUrl: "assets/icons/attachment_file.png",
       iconUrlPackageName: UIConstants.packageName,
       options: fileTemplateOptions(),
