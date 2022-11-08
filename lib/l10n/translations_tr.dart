@@ -725,7 +725,7 @@ class TranslationsTr extends Translations {
   String get open_whiteboard_subtitle => 'Open whiteboard to draw together';
 
   @override
-  String get message_is_deleted => 'Message is Deleted';
+  String get message_is_deleted => 'Mesaj silindi';
 
   @override
   String get file => 'Dosya';
