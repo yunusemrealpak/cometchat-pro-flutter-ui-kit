@@ -17,6 +17,7 @@ import 'translations_pt.dart';
 import 'translations_ru.dart';
 import 'translations_sv.dart';
 import 'translations_zh.dart';
+import 'translations_tr.dart';
 
 /// Callers can lookup localized strings with an instance of Translations returned
 /// by `Translations.of(context)`.
@@ -115,7 +116,8 @@ abstract class Translations {
     Locale('ru'),
     Locale('sv'),
     Locale('zh'),
-    Locale('zh', 'TW')
+    Locale('zh', 'TW'),
+    Locale('tr'),
   ];
 
   /// No description provided for @users.
@@ -1760,7 +1762,8 @@ class _TranslationsDelegate extends LocalizationsDelegate<Translations> {
         'pt',
         'ru',
         'sv',
-        'zh'
+        'zh',
+        'tr'
       ].contains(locale.languageCode);
 
   @override
@@ -1806,6 +1809,8 @@ Translations lookupTranslations(Locale locale) {
       return TranslationsSv();
     case 'zh':
       return TranslationsZh();
+    case 'tr':
+      return TranslationsTr();
   }
 
   throw FlutterError(
