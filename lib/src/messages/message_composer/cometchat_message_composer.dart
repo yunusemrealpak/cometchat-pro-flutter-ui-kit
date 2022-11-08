@@ -49,6 +49,7 @@ class CometChatMessageComposer extends StatefulWidget {
       this.group,
       this.style = const MessageComposerStyle(),
       this.placeholderText,
+      this.hideActionButton = false,
       this.hideAttachment = false,
       this.hideMicrophone = false,
       this.hideLiveReaction = false,
@@ -79,6 +80,9 @@ class CometChatMessageComposer extends StatefulWidget {
 
   ///[placeholderText] hint text
   final String? placeholderText;
+
+  ///[hideActionButton] if true hides + button
+  final bool hideActionButton;
 
   ///[hideAttachment] if true hides attachments options
   final bool hideAttachment;
@@ -631,7 +635,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: _theme.palette.getAccent()),
-        backgroundColor: _theme.palette.getBackground(),
+        backgroundColor: _theme.palette.getAccent100(),
         iconBackground: _theme.palette.getAccent100(),
         layoutIconColor: _theme.palette.getPrimary());
 
@@ -873,7 +877,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                       if (_hideTextField == false)
                         Divider(
                           height: 1,
-                          color: _theme.palette.getAccent100(),
+                          color: _theme.palette.getAccent200(),
                         ),
                       Container(
                         height: 40,
@@ -881,7 +885,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                         child: Row(
                           children: [
                             //-----show add to chat bottom sheet-----
-                            if (_actionItems.isNotEmpty)
+                            if (_actionItems.isNotEmpty && !widget.hideActionButton)
                               IconButton(
                                   padding: const EdgeInsets.all(0),
                                   constraints: const BoxConstraints(),
@@ -911,7 +915,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                                         await showCometChatEmojiKeyboard(
                                             context: context,
                                             backgroundColor:
-                                                _theme.palette.getBackground(),
+                                                _theme.palette.getAccent100(),
                                             titleStyle: TextStyle(
                                                 fontSize: 17,
                                                 fontWeight: _theme
@@ -926,7 +930,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                                                 color: _theme.palette
                                                     .getAccent600()),
                                             dividerColor:
-                                                _theme.palette.getAccent100(),
+                                                _theme.palette.getAccent200(),
                                             selectedCategoryIconColor:
                                                 _theme.palette.getPrimary(),
                                             unselectedCategoryIconColor:

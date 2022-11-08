@@ -561,7 +561,7 @@ class CometChatMessageBubble extends StatelessWidget {
       return getStickerBubble();
     } else if (messageObject.category == MessageCategoryConstants.action &&
         messageObject.type == MessageTypeConstants.groupActions) {
-      return getGroupActionBubble(_theme);
+      return const SizedBox(); // getGroupActionBubble(_theme);
     } else if (messageObject.type == MessageTypeConstants.document) {
       return getDocumentBubble(context, _theme);
     } else if (messageObject.type == MessageTypeConstants.whiteboard) {
