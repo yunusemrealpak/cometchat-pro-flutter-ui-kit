@@ -370,26 +370,26 @@ class CometChatGroupListState extends State<CometChatGroupList>
     }, onError: (CometChatException e) {
       Navigator.pop(context); //pop loading dialog
 
-      showCometChatConfirmDialog(
-          context: context,
-          style: ConfirmDialogStyle(
-              backgroundColor:
-                  widget.style.background ?? theme.palette.getBackground(),
-              shadowColor: theme.palette.getAccent300(),
-              confirmButtonTextStyle: TextStyle(
-                  fontSize: theme.typography.text2.fontSize,
-                  fontWeight: theme.typography.text2.fontWeight,
-                  color: theme.palette.getPrimary())),
-          title: Text(Translations.of(context).something_went_wrong_error,
-              style: TextStyle(
-                  fontSize: theme.typography.name.fontSize,
-                  fontWeight: theme.typography.name.fontWeight,
-                  color: theme.palette.getAccent(),
-                  fontFamily: theme.typography.name.fontFamily)),
-          confirmButtonText: Translations.of(context).okay,
-          onConfirm: () {
-            Navigator.pop(context); //pop confirm dialog
-          });
+      // showCometChatConfirmDialog(
+      //     context: context,
+      //     style: ConfirmDialogStyle(
+      //         backgroundColor:
+      //             widget.style.background ?? theme.palette.getAccent100(),
+      //         shadowColor: theme.palette.getAccent300(),
+      //         confirmButtonTextStyle: TextStyle(
+      //             fontSize: theme.typography.text2.fontSize,
+      //             fontWeight: theme.typography.text2.fontWeight,
+      //             color: theme.palette.getPrimary())),
+      //     title: Text(Translations.of(context).something_went_wrong_error,
+      //         style: TextStyle(
+      //             fontSize: theme.typography.name.fontSize,
+      //             fontWeight: theme.typography.name.fontWeight,
+      //             color: theme.palette.getAccent(),
+      //             fontFamily: theme.typography.name.fontFamily)),
+      //     confirmButtonText: Translations.of(context).okay,
+      //     onConfirm: () {
+      //       Navigator.pop(context); //pop confirm dialog
+      //     });
 
       debugPrint("Group Joining failed with exception: ${e.message}");
       CometChatGroupEvents.onGroupError(e);

@@ -680,7 +680,7 @@ class TranslationsTr extends Translations {
   String get cant_load_messages => 'Can\'t load messages.Please try again';
 
   @override
-  String get try_again => 'TRY AGAIN';
+  String get try_again => 'Tekrar Dene';
 
   @override
   String get cant_load_chats => 'Can\'t load chats.Please try again';
