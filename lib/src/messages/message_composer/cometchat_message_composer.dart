@@ -63,6 +63,8 @@ class CometChatMessageComposer extends StatefulWidget {
       this.stateCallBack,
       this.threadParentMessageId = 0,
       this.customOutgoingMessageSound,
+      this.maxLines = 1,
+      this.minLines,
       this.excludeMessageTypes})
       : super(key: key);
 
@@ -71,6 +73,12 @@ class CometChatMessageComposer extends StatefulWidget {
 
   ///[group] group id
   final String? group;
+
+  ///[maxLines] maxLines = 1
+  final int maxLines;
+
+  ///[minLines]
+  final int? minLines;
 
   ///[threadParentMessageId] parent message id for in thread messages
   final int threadParentMessageId;
@@ -856,7 +864,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                             },
                             controller: textEditingController,
                             focusNode: focusNode,
-                            maxLines: null,
+                            maxLines: widget.maxLines,
+                            minLines: widget.minLines,
                             decoration: InputDecoration(
                               hintText: widget.placeholderText ??
                                   Translations.of(context).message,
