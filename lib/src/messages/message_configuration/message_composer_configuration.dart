@@ -32,10 +32,15 @@ class MessageComposerConfiguration {
       this.customOutgoingMessageSound,
       this.messageTypes,
       this.excludeMessageTypes,
+      this.maxLines = 1,
+      this.minLines,
       this.onSendButtonClick});
 
   ///[placeholderText] hint text
   final String? placeholderText;
+
+  final int? minLines;
+  final int maxLines;
 
   ///[hideActionButton] if true hides + button
   final bool hideActionButton;

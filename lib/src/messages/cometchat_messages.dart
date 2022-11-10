@@ -290,6 +290,8 @@ class CometChatMessagesState extends State<CometChatMessages>
       hideMicrophone: widget.messageComposerConfiguration.hideMicrophone,
       showSendButton: widget.messageComposerConfiguration.showSendButton,
       placeholderText: widget.messageComposerConfiguration.placeholderText,
+      minLines: widget.messageComposerConfiguration.minLines,
+      maxLines: widget.messageComposerConfiguration.maxLines,
     );
   }
 
