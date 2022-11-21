@@ -34,6 +34,7 @@ class MessageComposerConfiguration {
       this.excludeMessageTypes,
       this.maxLines = 1,
       this.minLines,
+      this.maxLength = 140,
       this.onSendButtonClick});
 
   ///[placeholderText] hint text
@@ -41,6 +42,7 @@ class MessageComposerConfiguration {
 
   final int? minLines;
   final int maxLines;
+  final int maxLength;
 
   ///[hideActionButton] if true hides + button
   final bool hideActionButton;

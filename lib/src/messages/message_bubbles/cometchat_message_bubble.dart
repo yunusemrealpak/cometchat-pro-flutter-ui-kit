@@ -874,6 +874,7 @@ class MessageBubbleStyle {
     this.border,
     this.nameTextStyle,
     this.gradient,
+    this.textStyle,
   });
 
   ///[height] height of bubble
@@ -893,6 +894,9 @@ class MessageBubbleStyle {
 
   ///[nameTextStyle] name text style
   final TextStyle? nameTextStyle;
+
+  ///[textStyle] message text style
+  final TextStyle? textStyle;
 
   final Gradient? gradient;
 }

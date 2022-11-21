@@ -292,6 +292,7 @@ class CometChatMessagesState extends State<CometChatMessages>
       placeholderText: widget.messageComposerConfiguration.placeholderText,
       minLines: widget.messageComposerConfiguration.minLines,
       maxLines: widget.messageComposerConfiguration.maxLines,
+      maxLength: widget.messageComposerConfiguration.maxLength,
     );
   }
 
