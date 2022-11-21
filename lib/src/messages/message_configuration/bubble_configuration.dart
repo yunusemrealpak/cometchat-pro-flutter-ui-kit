@@ -11,11 +11,16 @@ import 'package:flutter_chat_ui_kit/flutter_chat_ui_kit.dart';
 ///
 /// ```
 class MessageBubbleConfiguration {
-  const MessageBubbleConfiguration(
-      {this.dateConfiguration,
-      this.messageReceiptConfiguration,
-      this.avatarConfiguration,
-      this.timeAlignment});
+  const MessageBubbleConfiguration({
+    this.dateConfiguration,
+    this.messageReceiptConfiguration,
+    this.avatarConfiguration,
+    this.timeAlignment,
+    this.messageBubbleStyle,
+  });
+
+  ///[messageBubbleStyle] style of message bubbles
+  final MessageBubbleStyle? messageBubbleStyle;
 
   ///[dateConfiguration]
   final DateConfiguration? dateConfiguration;
