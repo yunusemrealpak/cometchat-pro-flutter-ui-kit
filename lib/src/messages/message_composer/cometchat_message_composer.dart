@@ -702,7 +702,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
               Image.asset(
                 "assets/icons/send.png",
                 package: UIConstants.packageName,
-                color: textEditingController.text.isEmpty ? _theme.palette.getAccent400() : _theme.palette.getPrimary(),
+                color: _theme.palette.getAccent400(),
               ),
           onPressed: widget.onSendButtonClick ??
               () {
