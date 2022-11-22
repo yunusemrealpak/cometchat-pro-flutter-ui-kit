@@ -669,8 +669,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
   }
 
   Widget _getSendButton(CometChatTheme _theme) {
-    final text = textEditingController.text.replaceAll(" ", "");
-    if (text.isEmpty && widget.hideLiveReaction == false) {
+    if (textEditingController.text.isEmpty && widget.hideLiveReaction == false) {
       return IconButton(
         padding: const EdgeInsets.all(0),
         constraints: const BoxConstraints(),
@@ -703,7 +702,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
               Image.asset(
                 "assets/icons/send.png",
                 package: UIConstants.packageName,
-                color: textEditingController.text.isEmpty ? _theme.palette.getSecondary900() : _theme.palette.getPrimary(),
+                color: textEditingController.text.isEmpty ? _theme.palette.getAccent400() : _theme.palette.getPrimary(),
               ),
           onPressed: widget.onSendButtonClick ??
               () {
@@ -821,15 +820,6 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                             onChanged: (val) {
                               _onTyping();
                               setState(() {});
-                            },
-                            textInputAction: TextInputAction.newline,
-                            onFieldSubmitted: (val) {
-                              debugPrint(val);
-                              val = val.replaceAll(' ', '');
-                              debugPrint(val);
-                              if(val.isEmpty) {
-                                textEditingController.text = '';
-                              }
                             },
                             controller: textEditingController,
                             focusNode: focusNode,
