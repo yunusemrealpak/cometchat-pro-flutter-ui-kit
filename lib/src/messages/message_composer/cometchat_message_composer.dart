@@ -821,8 +821,14 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                               _onTyping();
                               setState(() {});
                             },
+                            textInputAction: TextInputAction.newline,
+                            onFieldSubmitted: (val) {
+                              val = val.replaceAll(' ', '');
+                              if(val.isEmpty) {
+                                textEditingController.text = '';
+                              }
+                            },
                             controller: textEditingController,
-                            textInputAction: textEditingController.text.isNotEmpty ? TextInputAction.newline : TextInputAction.done,
                             focusNode: focusNode,
                             maxLines: widget.maxLines,
                             minLines: widget.minLines,
