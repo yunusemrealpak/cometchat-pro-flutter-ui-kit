@@ -79,6 +79,7 @@ class CometChatMessageList extends StatefulWidget {
       this.excludedMessageOptions,
       this.style = const MessageListStyle(),
       this.onMessageTap,
+      this.onAvatarTap,
       this.notifyParent})
       : super(key: key);
 
@@ -92,6 +93,7 @@ class CometChatMessageList extends StatefulWidget {
   final int limit;
 
   final Function(BaseMessage)? onMessageTap;
+  final void Function(BaseMessage)? onAvatarTap;
 
   ///[onlyUnread] if true then shows only unread messages
   final bool onlyUnread;
@@ -1050,6 +1052,7 @@ class CometChatMessageListState extends State<CometChatMessageList> with Message
       child: CometChatMessageBubble(
         customView: _templateMapWithView[messageObject.type],
         messageObject: messageObject,
+        onAvatarTap: widget.onAvatarTap,
         loggedInUserId: loggedInUser?.uid ?? '',
         messageInputData: _messageBubbleData,
         alignment: _alignment,

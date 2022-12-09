@@ -36,6 +36,7 @@ class CometChatMessages extends StatefulWidget {
       this.stateCallBack,
       this.messageTypes,
       this.excludeMessageTypes,
+      this.onAvatarTap,
       this.onMessageTap,
       this.notifyParent})
       : super(key: key);
@@ -50,6 +51,7 @@ class CometChatMessages extends StatefulWidget {
   final bool hideMessageComposer;
 
   final Function(BaseMessage)? onMessageTap;
+  final void Function(BaseMessage)? onAvatarTap;
 
   ///[enableTypingIndicator] if true then show typing indicator for composer
   final bool enableTypingIndicator;
@@ -234,6 +236,7 @@ class CometChatMessagesState extends State<CometChatMessages>
       group: widget.group,
       theme: widget.theme,
       onMessageTap: widget.onMessageTap,
+      onAvatarTap: widget.onAvatarTap,
       limit: widget.messageListConfiguration.limit,
       onlyUnread: widget.messageListConfiguration.onlyUnread,
       hideDeletedMessages: widget.messageListConfiguration.hideDeletedMessages,

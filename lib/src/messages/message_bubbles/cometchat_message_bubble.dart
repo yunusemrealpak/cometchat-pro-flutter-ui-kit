@@ -66,6 +66,7 @@ class CometChatMessageBubble extends StatelessWidget {
       this.theme,
       this.receiverUserId,
       this.receiverGroupId,
+      this.onAvatarTap,
       this.customView})
       : super(key: key);
 
@@ -80,6 +81,8 @@ class CometChatMessageBubble extends StatelessWidget {
 
   ///[style] message bubble style
   final MessageBubbleStyle style;
+
+  final void Function(BaseMessage)? onAvatarTap;
 
   ///[alignment] bubble alignment left/center/right
   final BubbleAlignment alignment;
@@ -199,27 +202,30 @@ class CometChatMessageBubble extends StatelessWidget {
     if (messageInputData.thumbnail) {
       return Padding(
         padding: const EdgeInsets.only(top: 15),
-        child: CometChatAvatar(
-          image: userObject.avatar,
-          name: userObject.name,
-          width: avatarConfiguration.width ?? 36,
-          height: avatarConfiguration.height ?? 36,
-          backgroundColor: avatarConfiguration.backgroundColor ??
-              _theme.palette.getAccent700(),
-          cornerRadius: avatarConfiguration.cornerRadius,
-          outerCornerRadius: avatarConfiguration.outerCornerRadius,
-          border: avatarConfiguration.border,
-          outerViewBackgroundColor:
-              avatarConfiguration.outerViewBackgroundColor,
-          nameTextStyle: avatarConfiguration.nameTextStyle ??
-              TextStyle(
-                  color: _theme.palette.getBackground(),
-                  fontSize: _theme.typography.name.fontSize,
-                  fontWeight: _theme.typography.name.fontWeight,
-                  fontFamily: _theme.typography.name.fontFamily),
-          outerViewBorder: avatarConfiguration.outerViewBorder,
-          outerViewSpacing: avatarConfiguration.outerViewSpacing,
-          outerViewWidth: avatarConfiguration.outerViewWidth,
+        child: GestureDetector(
+          onTap: () => onAvatarTap?.call(messageObject),
+          child: CometChatAvatar(
+            image: userObject.avatar,
+            name: userObject.name,
+            width: avatarConfiguration.width ?? 36,
+            height: avatarConfiguration.height ?? 36,
+            backgroundColor: avatarConfiguration.backgroundColor ??
+                _theme.palette.getAccent700(),
+            cornerRadius: avatarConfiguration.cornerRadius,
+            outerCornerRadius: avatarConfiguration.outerCornerRadius,
+            border: avatarConfiguration.border,
+            outerViewBackgroundColor:
+                avatarConfiguration.outerViewBackgroundColor,
+            nameTextStyle: avatarConfiguration.nameTextStyle ??
+                TextStyle(
+                    color: _theme.palette.getBackground(),
+                    fontSize: _theme.typography.name.fontSize,
+                    fontWeight: _theme.typography.name.fontWeight,
+                    fontFamily: _theme.typography.name.fontFamily),
+            outerViewBorder: avatarConfiguration.outerViewBorder,
+            outerViewSpacing: avatarConfiguration.outerViewSpacing,
+            outerViewWidth: avatarConfiguration.outerViewWidth,
+          ),
         ),
       );
     } else {
