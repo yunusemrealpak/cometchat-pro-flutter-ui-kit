@@ -51,6 +51,7 @@ class CometChatConversationList extends StatefulWidget with MessageListener {
       this.conversationListItemConfiguration,
       this.stateCallBack,
       this.enableSoundForMessages = true,
+      this.onConversationTap,
       this.customIncomingMessageSound})
       : super(key: key);
 
@@ -110,6 +111,8 @@ class CometChatConversationList extends StatefulWidget with MessageListener {
 
   ///[stateCallBack]
   final void Function(CometChatConversationListState)? stateCallBack;
+
+  final void Function(Conversation)? onConversationTap;
 
   @override
   CometChatConversationListState createState() =>
@@ -776,6 +779,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
         theme: widget.theme,
         onTap: () async {
           CometChatConversationEvents.onTap(conversationList[index]);
+          widget.onConversationTap?.call(conversationList[index]);
         },
         onLongPress: () {
           CometChatConversationEvents.onLongPress(conversationList[index]);
