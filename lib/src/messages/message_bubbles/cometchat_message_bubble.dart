@@ -120,7 +120,7 @@ class CometChatMessageBubble extends StatelessWidget {
     if (messageObject.sentAt == null) {
       return const SizedBox();
     } else if (messageInputData.timestamp) {
-      DateTime lastMessageTime = messageObject.sentAt!;
+      DateTime lastMessageTime = messageObject.sentAt!.toLocal();
       return CometChatDate(
         date: lastMessageTime,
         pattern: dateConfiguration.pattern ?? DateTimePattern.timeFormat,
