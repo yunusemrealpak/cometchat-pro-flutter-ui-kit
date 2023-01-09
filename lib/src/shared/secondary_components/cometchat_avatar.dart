@@ -17,6 +17,7 @@ class CometChatAvatar extends StatelessWidget {
     this.nameTextStyle,
     this.outerCornerRadius,
     this.outerViewBorder,
+    this.metadata,
     //this.nameTextColor
   }) : super(key: key);
 
@@ -59,12 +60,20 @@ class CometChatAvatar extends StatelessWidget {
   ///[nameTextStyle] font style if visible
   final TextStyle? nameTextStyle;
 
+  final Map<String, dynamic>? metadata;
+
   @override
   Widget build(BuildContext context) {
     String _url = "";
     String _text = "AB";
     double _width = 40;
     double _height = 40;
+
+    bool isPremium = false;
+    BoxBorder premiumBorder = Border.all(
+      color: const Color(0xffFFD700),
+      width: 2,
+    );
 
     //Check if Text should be visible or image
     if (image != null && image!.isNotEmpty) {
@@ -78,9 +87,16 @@ class CometChatAvatar extends StatelessWidget {
       }
     }
 
+    // Check if user is premium
+    if (metadata != null) {
+      if (metadata!.containsKey("premium")) {
+        isPremium = metadata!["premium"];
+      }
+    }
+
     return ClipRRect(
       borderRadius:
-              BorderRadius.all(Radius.circular(outerCornerRadius ?? 100.0)),
+          BorderRadius.all(Radius.circular(outerCornerRadius ?? 100.0)),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -104,9 +120,9 @@ class CometChatAvatar extends StatelessWidget {
               shape: BoxShape.rectangle,
               borderRadius:
                   BorderRadius.all(Radius.circular(cornerRadius ?? 100.0)),
-              border: border,
+              border: (isPremium && border == null) ? premiumBorder : border,
             ),
-    
+
             //--------on image url null or image url is not valid then show text--------
             child: _url.isNotEmpty
                 ? Image.network(_url, fit: BoxFit.cover,

@@ -3,6 +3,7 @@ import 'package:flutter_chat_ui_kit/flutter_chat_ui_kit.dart';
 import 'package:flutter_chat_ui_kit/src/messages/message_bubbles/cometchat_audio_bubble.dart';
 import 'package:flutter_chat_ui_kit/src/messages/message_bubbles/cometchat_location_bubble.dart';
 import 'package:cometchat/models/action.dart' as action;
+import 'package:flutter_svg/svg.dart';
 import 'image_viewer.dart';
 import 'video_player.dart';
 
@@ -176,18 +177,36 @@ class CometChatMessageBubble extends StatelessWidget {
     }
   }
 
-  Widget getName(CometChatTheme _theme) {
+  Widget getName(CometChatTheme _theme, User userObject) {
+    bool isPremium = false;
+
+    if (userObject.metadata != null) {
+      if (userObject.metadata!.containsKey("premium")) {
+        isPremium = userObject.metadata!["premium"];
+      }
+    }
+
     if (messageInputData.title) {
       return Padding(
         padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-        child: Text(
-          messageObject.sender!.name,
-          style: style.nameTextStyle ??
-              TextStyle(
-                  fontSize: _theme.typography.text2.fontSize,
-                  color: _theme.palette.getAccent600(),
-                  fontWeight: _theme.typography.text2.fontWeight,
-                  fontFamily: _theme.typography.text2.fontFamily),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              messageObject.sender!.name,
+              style: style.nameTextStyle ??
+                  TextStyle(
+                    fontSize: _theme.typography.text2.fontSize,
+                    color: isPremium
+                        ? _theme.palette.getSuccess()
+                        : _theme.palette.getAccent600(),
+                    fontWeight: _theme.typography.text2.fontWeight,
+                    fontFamily: _theme.typography.text2.fontFamily,
+                  ),
+            ),
+            if (isPremium)
+              SvgPicture.asset('assets/svg/premium.svg', width: 50, height: 50),
+          ],
         ),
       );
     } else {
@@ -207,6 +226,7 @@ class CometChatMessageBubble extends StatelessWidget {
           child: CometChatAvatar(
             image: userObject.avatar,
             name: userObject.name,
+            metadata: userObject.metadata,
             width: avatarConfiguration.width ?? 36,
             height: avatarConfiguration.height ?? 36,
             backgroundColor: avatarConfiguration.backgroundColor ??
@@ -781,7 +801,7 @@ class CometChatMessageBubble extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  getName(_theme),
+                  getName(_theme, messageObject.sender!),
                   if (timeAlignment == TimeAlignment.top) getTime(_theme),
                 ],
               ),
