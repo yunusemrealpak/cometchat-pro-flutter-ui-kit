@@ -206,11 +206,14 @@ class CometChatMessageBubble extends StatelessWidget {
                   ),
             ),
             if (isPremium)
-              Image.asset(
-                'assets/icons/premium.png',
-                package: UIConstants.packageName,
-                width: 12,
-                height: 12,
+              Padding(
+                padding: const EdgeInsets.only(left: 3.0, bottom: 2.0),
+                child: Image.asset(
+                  'assets/icons/premium.png',
+                  package: UIConstants.packageName,
+                  width: 12,
+                  height: 12,
+                ),
               ),
           ],
         ),
