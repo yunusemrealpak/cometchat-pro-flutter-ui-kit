@@ -520,40 +520,54 @@ class CometChatConversationListState extends State<CometChatConversationList>
     }
 
     showCometChatConfirmDialog(
-        context: context,
-        confirmButtonText: Translations.of(context).delete_capital,
-        cancelButtonText: Translations.of(context).cancel_capital,
-        messageText: Text(
-          Translations.of(context).delete_confirm,
-          style: TextStyle(
-              fontSize: theme.typography.title2.fontSize,
-              fontWeight: theme.typography.title2.fontWeight,
-              color: theme.palette.getAccent(),
-              fontFamily: theme.typography.title2.fontFamily),
-        ),
-        onCancel: () {
-          Navigator.pop(context);
-        },
-        style: ConfirmDialogStyle(
-            backgroundColor:
-                widget.style.background ?? theme.palette.getBackground(),
-            shadowColor: theme.palette.getAccent300(),
-            confirmButtonTextStyle: TextStyle(
-                fontSize: theme.typography.text2.fontSize,
-                fontWeight: theme.typography.text2.fontWeight,
-                color: theme.palette.getPrimary()),
-            cancelButtonTextStyle: TextStyle(
-                fontSize: theme.typography.text2.fontSize,
-                fontWeight: theme.typography.text2.fontWeight,
-                color: theme.palette.getPrimary())),
-        onConfirm: () async {
-          await CometChat.deleteConversation(conversationWith, conversationType,
-              onSuccess: (_) {
+      context: context,
+      confirmButtonText: Translations.of(context).delete_capital,
+      cancelButtonText: Translations.of(context).cancel_capital,
+      messageText: Text(
+        Translations.of(context).delete_confirm,
+        style: TextStyle(
+            fontSize: theme.typography.title2.fontSize,
+            fontWeight: theme.typography.title2.fontWeight,
+            color: theme.palette.getAccent(),
+            fontFamily: theme.typography.title2.fontFamily),
+      ),
+      style: ConfirmDialogStyle(
+          backgroundColor:
+              widget.style.background ?? theme.palette.getBackground(),
+          shadowColor: theme.palette.getAccent300(),
+          confirmButtonTextStyle: TextStyle(
+              fontSize: theme.typography.text2.fontSize,
+              fontWeight: theme.typography.text2.fontWeight,
+              color: theme.palette.getPrimary()),
+          cancelButtonTextStyle: TextStyle(
+              fontSize: theme.typography.text2.fontSize,
+              fontWeight: theme.typography.text2.fontWeight,
+              color: theme.palette.getPrimary())),
+      onConfirm: () async {
+        await CometChat.deleteConversation(
+          conversationWith,
+          conversationType,
+          onSuccess: (_) {
             conversationList.removeAt(index);
-          }, onError: (_) {});
-          Navigator.pop(context);
-          setState(() {});
-        });
+          },
+          onError: (_) {},
+        );
+        Navigator.pop(context);
+        setState(() {});
+      },
+      onCustomConfirm: (dialogContext) async {
+        await CometChat.deleteConversation(
+          conversationWith,
+          conversationType,
+          onSuccess: (_) {
+            conversationList.removeAt(index);
+          },
+          onError: (_) {},
+        );
+        Navigator.pop(dialogContext);
+        setState(() {});
+      },
+    );
   }
 
   playNotificationSound(BaseMessage message) {
@@ -844,8 +858,6 @@ class CometChatConversationListState extends State<CometChatConversationList>
           }
 
           if (conversationList[index].conversationType != _conversationType) {
-            debugPrint(
-                "conversationList[index].conversationType: ${conversationList[index].conversationType} _conversationType: $_conversationType");
             return const SizedBox();
           }
 

@@ -6,13 +6,14 @@ showCometChatConfirmDialog(
     Widget? messageText,
     String? confirmButtonText,
     String? cancelButtonText,
+    Function(BuildContext)? onCustomConfirm,
     Function()? onConfirm,
     Function()? onCancel,
     ConfirmDialogStyle style = const ConfirmDialogStyle()}) {
   showDialog(
     context: context,
     barrierColor: style.shadowColor ?? const Color(0xff000000).withOpacity(0.2),
-    builder: (BuildContext context) {
+    builder: (BuildContext dialogContext) {
       return AlertDialog(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
@@ -33,22 +34,26 @@ showCometChatConfirmDialog(
               ),
               onPressed: onCancel ??
                   () {
-                    Navigator.of(context).pop();
+                    Navigator.of(dialogContext).pop();
                   },
             ),
           if (confirmButtonText != null)
             TextButton(
-              child: Text(confirmButtonText,
-                  style: style.confirmButtonTextStyle ??
-                      const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff3399FF))),
-              onPressed: onConfirm ??
-                  () {
-                    Navigator.of(context).pop();
-                  },
-            ),
+                child: Text(confirmButtonText,
+                    style: style.confirmButtonTextStyle ??
+                        const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff3399FF))),
+                onPressed: onCustomConfirm != null
+                    ? onCustomConfirm(dialogContext)
+                    : () {}
+
+                // onConfirm ??
+                //     () {
+                //       Navigator.of(context).pop();
+                //     },
+                ),
         ],
       );
     },
