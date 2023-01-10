@@ -191,7 +191,7 @@ class CometChatMessageBubble extends StatelessWidget {
         padding: const EdgeInsets.only(right: 8.0, left: 8.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               messageObject.sender!.name,
