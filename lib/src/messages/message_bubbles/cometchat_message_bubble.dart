@@ -209,7 +209,9 @@ class CometChatMessageBubble extends StatelessWidget {
               Tooltip(
                 message: "Premium Üye",
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 3.0, bottom: 8.0),
+                  padding: const EdgeInsets.only(
+                    left: 4.5,
+                  ),
                   child: Image.asset(
                     'assets/icons/premium.png',
                     package: UIConstants.packageName,
