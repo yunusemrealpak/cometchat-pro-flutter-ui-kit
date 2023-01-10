@@ -72,7 +72,6 @@ class CometChatAvatar extends StatelessWidget {
     bool isPremium = false;
     BoxBorder premiumBorder = Border.all(
       color: const Color(0xffFFD700),
-      width: 2,
     );
 
     //Check if Text should be visible or image
