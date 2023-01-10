@@ -811,7 +811,7 @@ class CometChatMessageBubble extends StatelessWidget {
           if (alignment == BubbleAlignment.left)
             getAvatar(_theme, messageObject.sender!),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: getCrossAxisAlignment(),
             children: [
               Row(
                 children: [
