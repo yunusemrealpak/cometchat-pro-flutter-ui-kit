@@ -205,7 +205,13 @@ class CometChatMessageBubble extends StatelessWidget {
                   ),
             ),
             if (isPremium)
-              SvgPicture.asset('assets/svg/premium.svg', width: 20, height: 20),
+              Image.asset(
+                'assets/icons/premium.png',
+                package: UIConstants.packageName,
+                width: 12,
+                height: 12,
+                color: _theme.palette.getSuccess(),
+              ),
           ],
         ),
       );
