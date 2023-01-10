@@ -1,6 +1,3 @@
-
-
-
 import 'translations.dart';
 
 /// The translations for Turkish (`tr`).
@@ -167,13 +164,15 @@ class TranslationsTr extends Translations {
   String get shared_collaborative_document => 'ortak bir belge paylaştı';
 
   @override
-  String get shared_collaborative_whiteboard => 'ortak bir beyaz tahta paylaştı';
+  String get shared_collaborative_whiteboard =>
+      'ortak bir beyaz tahta paylaştı';
 
   @override
   String get created_whiteboard => 'Yeni bir ortak beyaz tahta oluşturdunuz';
 
   @override
-  String get created_document => 'You’ve created a new SOMcollaborative document';
+  String get created_document =>
+      'You’ve created a new SOMcollaborative document';
 
   @override
   String get photos => 'Fotoğraflar';
@@ -569,16 +568,18 @@ class TranslationsTr extends Translations {
   String get delete => 'Sil';
 
   @override
-  String get delete_confirm => 'Would you like to delete this conversation? This conversation will be deleted from all of your devices';
+  String get delete_confirm =>
+      'Bu sohbeti silmek ister misiniz? Bu görüşme tüm cihazlarınızdan silinecek';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'İptal';
 
   @override
   String get leave_confirm => 'Are you sure you want to leave the group?';
 
   @override
-  String get transfer_confirm => 'You are the group owner, please transfer ownership to a member before leaving the group';
+  String get transfer_confirm =>
+      'You are the group owner, please transfer ownership to a member before leaving the group';
 
   @override
   String get adding => 'Ekleniyor...';
@@ -590,34 +591,41 @@ class TranslationsTr extends Translations {
   String get transferring => 'Transferring';
 
   @override
-  String get yes => 'Yes';
+  String get yes => 'Evet';
 
   @override
-  String get no => 'No';
+  String get no => 'Hayır';
 
   @override
   String get something_wrong => 'Something went wrong, please try again';
 
   @override
-  String get invalid_group_name => 'Please enter a valid name for the group and try again';
+  String get invalid_group_name =>
+      'Please enter a valid name for the group and try again';
 
   @override
-  String get invalid_password => 'Please enter a valid password for the group and try again';
+  String get invalid_password =>
+      'Please enter a valid password for the group and try again';
 
   @override
-  String get invalid_group_type => 'Please enter a valid type for the group and try again';
+  String get invalid_group_type =>
+      'Please enter a valid type for the group and try again';
 
   @override
-  String get wrong_password => 'Please enter the correct password and try again';
+  String get wrong_password =>
+      'Please enter the correct password and try again';
 
   @override
-  String get invalid_poll_question => 'Please enter the required question before creating a poll';
+  String get invalid_poll_question =>
+      'Please enter the required question before creating a poll';
 
   @override
-  String get invalid_poll_option => 'Please enter the required answer before creating a poll';
+  String get invalid_poll_option =>
+      'Please enter the required answer before creating a poll';
 
   @override
-  String get same_language_message => 'Selected language for translation is similar to the language of original message';
+  String get same_language_message =>
+      'Selected language for translation is similar to the language of original message';
 
   @override
   String get leave => 'Ayrıl';
@@ -809,7 +817,8 @@ class TranslationsTr extends Translations {
   String get group_password => 'Group Password';
 
   @override
-  String get are_you_sure_unsafe_content => 'Are you surely want to see the unsafe content';
+  String get are_you_sure_unsafe_content =>
+      'Are you surely want to see the unsafe content';
 
   @override
   String get unsafe_content => 'Unsafe Content';

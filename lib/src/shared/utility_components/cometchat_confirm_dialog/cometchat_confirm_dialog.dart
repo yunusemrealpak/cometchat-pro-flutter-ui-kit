@@ -46,7 +46,7 @@ showCometChatConfirmDialog(
                             fontWeight: FontWeight.w500,
                             color: Color(0xff3399FF))),
                 onPressed: onCustomConfirm != null
-                    ? onCustomConfirm(dialogContext)
+                    ? () => onCustomConfirm(dialogContext)
                     : () {}
 
                 // onConfirm ??
