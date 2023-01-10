@@ -205,10 +205,7 @@ class CometChatMessageBubble extends StatelessWidget {
                   ),
             ),
             if (isPremium)
-              Text(
-                'Premimu bu',
-                style: TextStyle(color: Colors.white),
-              ),
+              SvgPicture.asset('assets/svg/premium.svg', width: 20, height: 20),
           ],
         ),
       );
@@ -813,7 +810,7 @@ class CometChatMessageBubble extends StatelessWidget {
 
               Padding(
                 padding: const EdgeInsets.only(
-                    right: 8.0, top: 0, left: 8, bottom: 3),
+                    right: 8.0, top: 1.5, left: 8, bottom: 3),
                 child: Container(
                   constraints: BoxConstraints(
                       maxWidth: style.width ??
