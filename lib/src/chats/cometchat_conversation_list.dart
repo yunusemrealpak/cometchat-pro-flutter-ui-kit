@@ -842,6 +842,13 @@ class CometChatConversationListState extends State<CometChatConversationList>
           }
 
           if (conversationList[index].conversationType ==
+              widget.conversationType.name) {
+            debugPrint(
+                "conversationList[index].conversationType: ${conversationList[index].conversationType}");
+            return const SizedBox();
+          }
+
+          if (conversationList[index].conversationType ==
                   ReceiverTypeConstants.group ||
               conversationList[index].conversationWith is User) {
             return Column(
