@@ -201,7 +201,9 @@ class CometChatMessageBubble extends StatelessWidget {
                     color: isPremium
                         ? _theme.palette.getSuccess()
                         : _theme.palette.getAccent600(),
-                    fontWeight: _theme.typography.text2.fontWeight,
+                    fontWeight: isPremium
+                        ? FontWeight.bold
+                        : _theme.typography.text2.fontWeight,
                     fontFamily: _theme.typography.text2.fontFamily,
                   ),
             ),
