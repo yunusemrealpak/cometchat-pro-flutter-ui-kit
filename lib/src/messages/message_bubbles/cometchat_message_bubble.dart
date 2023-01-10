@@ -191,6 +191,7 @@ class CometChatMessageBubble extends StatelessWidget {
         padding: const EdgeInsets.only(right: 8.0, left: 8.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               messageObject.sender!.name,
@@ -210,7 +211,6 @@ class CometChatMessageBubble extends StatelessWidget {
                 package: UIConstants.packageName,
                 width: 12,
                 height: 12,
-                color: _theme.palette.getSuccess(),
               ),
           ],
         ),
@@ -226,7 +226,7 @@ class CometChatMessageBubble extends StatelessWidget {
   Widget getAvatar(CometChatTheme _theme, User userObject) {
     if (messageInputData.thumbnail) {
       return Padding(
-        padding: const EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.only(top: 0),
         child: GestureDetector(
           onTap: () => onAvatarTap?.call(messageObject),
           child: CometChatAvatar(
@@ -803,7 +803,6 @@ class CometChatMessageBubble extends StatelessWidget {
           if (alignment == BubbleAlignment.left)
             getAvatar(_theme, messageObject.sender!),
           Column(
-            crossAxisAlignment: getCrossAxisAlignment(),
             children: [
               Row(
                 children: [
