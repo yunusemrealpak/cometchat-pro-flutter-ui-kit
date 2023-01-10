@@ -138,6 +138,8 @@ class CometChatConversationListState extends State<CometChatConversationList>
   String?
       activeID; //active user or groupID, null when no message list is active
 
+  String _conversationType = '';
+
   getLoggedInUser() async {
     User? user = await CometChat.getLoggedInUser();
     if (user != null) {
@@ -162,7 +164,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
           widget.conversationListItemConfiguration!;
     }
     getLoggedInUser();
-    String _conversationType = '';
+
     if (widget.conversationType == ConversationTypes.user) {
       _conversationType = ReceiverTypeConstants.user;
     } else if (widget.conversationType == ConversationTypes.group) {
@@ -841,10 +843,9 @@ class CometChatConversationListState extends State<CometChatConversationList>
             return _getLoadingIndicator(_theme);
           }
 
-          if (conversationList[index].conversationType ==
-              widget.conversationType.name) {
+          if (conversationList[index].conversationType != _conversationType) {
             debugPrint(
-                "conversationList[index].conversationType: ${conversationList[index].conversationType}");
+                "conversationList[index].conversationType: ${conversationList[index].conversationType} _conversationType: $_conversationType");
             return const SizedBox();
           }
 
