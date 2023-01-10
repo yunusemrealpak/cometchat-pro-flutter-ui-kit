@@ -806,6 +806,7 @@ class CometChatMessageBubble extends StatelessWidget {
           if (alignment == BubbleAlignment.left)
             getAvatar(_theme, messageObject.sender!),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -856,7 +857,7 @@ class CometChatMessageBubble extends StatelessWidget {
               ),
 
               const SizedBox(
-                height: 4,
+                height: 2,
               ),
               Row(
                 mainAxisAlignment: alignment == BubbleAlignment.right
