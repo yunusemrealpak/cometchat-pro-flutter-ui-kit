@@ -95,12 +95,13 @@ class CometChatAvatar extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.all(isPremium ? 2 : 0),
+      padding: const EdgeInsets.all(2.0),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius:
             BorderRadius.all(Radius.circular(outerCornerRadius ?? 100.0)),
-        border: isPremium ? premiumBorder : null,
+        border:
+            isPremium ? premiumBorder : Border.all(color: Colors.transparent),
       ),
       child: ClipRRect(
         borderRadius:
