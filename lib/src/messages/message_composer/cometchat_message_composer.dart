@@ -137,7 +137,8 @@ class CometChatMessageComposer extends StatefulWidget {
   final void Function(CometChatMessageComposerState)? stateCallBack;
 
   @override
-  CometChatMessageComposerState createState() => CometChatMessageComposerState();
+  CometChatMessageComposerState createState() =>
+      CometChatMessageComposerState();
 }
 
 class CometChatMessageComposerState extends State<CometChatMessageComposer> {
@@ -204,13 +205,15 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
     previousText = textEditingController.text;
 
     if (_isTyping == false) {
-      CometChat.startTyping(receaverUid: receiverID, receiverType: receiverType);
+      CometChat.startTyping(
+          receaverUid: receiverID, receiverType: receiverType);
       _isTyping = true;
     }
 
     _deBouncer.run(() {
       if (_isTyping) {
-        CometChat.endTyping(receaverUid: receiverID, receiverType: receiverType);
+        CometChat.endTyping(
+            receaverUid: receiverID, receiverType: receiverType);
         _isTyping = false;
       }
     });
@@ -230,7 +233,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
     }
 
     for (CometChatMessageTemplate template in _messageTypes) {
-      if (template.type != MessageTypeConstants.groupActions && template.type != MessageTypeConstants.custom) {
+      if (template.type != MessageTypeConstants.groupActions &&
+          template.type != MessageTypeConstants.custom) {
         //to hide sticker option
         if (template.type == MessageTypeConstants.sticker) {
           _hideSticker = false;
@@ -243,7 +247,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
         } else {
           _actionItems.add(ActionItem(
             id: template.type,
-            title: TemplateUtils.getMessageTypeToTemplateTitle(template.name, template.type, context),
+            title: TemplateUtils.getMessageTypeToTemplateTitle(
+                template.name, template.type, context),
             iconUrl: template.iconUrl,
             iconUrlPackageName: template.iconUrlPackageName,
             titleStyle: TextStyle(
@@ -337,7 +342,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
     if (message is TextMessage) {
       messagePreviewSubtitle = message.text;
     } else {
-      messagePreviewSubtitle = TemplateUtils.getMessageTypeToSubtitle(message.type, context);
+      messagePreviewSubtitle =
+          TemplateUtils.getMessageTypeToSubtitle(message.type, context);
     }
 
     if (mode == PreviewMessageMode.edit && message is TextMessage) {
@@ -402,7 +408,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
         SoundManager.play(
             sound: Sound.outgoingMessage,
             customSound: widget.customOutgoingMessageSound,
-            packageName: widget.customOutgoingMessageSound == null || widget.customOutgoingMessageSound == ""
+            packageName: widget.customOutgoingMessageSound == null ||
+                    widget.customOutgoingMessageSound == ""
                 ? UIConstants.packageName
                 : null);
       }
@@ -418,7 +425,10 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
     });
   }
 
-  sendMediaMessage({required PickedFile pickedFile, required String messageType, Map<String, dynamic>? metadata}) async {
+  sendMediaMessage(
+      {required PickedFile pickedFile,
+      required String messageType,
+      Map<String, dynamic>? metadata}) async {
     String muid = DateTime.now().microsecondsSinceEpoch.toString();
 
     MediaMessage _mediaMessage = MediaMessage(
@@ -432,7 +442,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
       muid: muid,
     );
 
-    CometChatMessageEvents.onMessageSent(_mediaMessage, MessageStatus.inProgress);
+    CometChatMessageEvents.onMessageSent(
+        _mediaMessage, MessageStatus.inProgress);
 
     MediaMessage _mediaMessage2 = MediaMessage(
       receiverType: receiverType,
@@ -445,7 +456,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
       muid: muid,
     );
 
-    await CometChat.sendMediaMessage(_mediaMessage2, onSuccess: (MediaMessage message) async {
+    await CometChat.sendMediaMessage(_mediaMessage2,
+        onSuccess: (MediaMessage message) async {
       debugPrint("Media message sent successfully: ${_mediaMessage.muid}");
 
       if (Platform.isIOS) {
@@ -461,7 +473,9 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
       // }
 
       if (widget.enableSoundForMessages) {
-        SoundManager.play(sound: Sound.outgoingMessage, customSound: widget.customOutgoingMessageSound);
+        SoundManager.play(
+            sound: Sound.outgoingMessage,
+            customSound: widget.customOutgoingMessageSound);
       }
       CometChatMessageEvents.onMessageSent(message, MessageStatus.sent);
     }, onError: (e) {
@@ -484,13 +498,17 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
     textEditingController.text = '';
     setState(() {});
 
-    CometChat.editMessage(editedMessage, onSuccess: (BaseMessage updatedMessage) {
+    CometChat.editMessage(editedMessage,
+        onSuccess: (BaseMessage updatedMessage) {
       if (widget.enableSoundForMessages) {
-        SoundManager.play(sound: Sound.outgoingMessage, customSound: widget.customOutgoingMessageSound);
+        SoundManager.play(
+            sound: Sound.outgoingMessage,
+            customSound: widget.customOutgoingMessageSound);
       }
 
       //CometChatMessageEvents.onMessageEdited(updatedMessage);
-      CometChatMessageEvents.onMessageEdit(updatedMessage, MessageEditStatus.success);
+      CometChatMessageEvents.onMessageEdit(
+          updatedMessage, MessageEditStatus.success);
     }, onError: (CometChatException e) {
       if (editedMessage.metadata != null) {
         editedMessage.metadata!["error"] = true;
@@ -506,7 +524,10 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
 
   sendCollaborativeWhiteBoard() {
     CometChat.callExtension(
-        ExtensionConstants.whiteboard, "POST", ExtensionUrls.whiteboard, {"receiver": receiverID, "receiverType": receiverType},
+        ExtensionConstants.whiteboard,
+        "POST",
+        ExtensionUrls.whiteboard,
+        {"receiver": receiverID, "receiverType": receiverType},
         onSuccess: (Map<String, dynamic> map) {
       debugPrint("Success map $map");
     }, onError: (CometChatException e) {
@@ -530,7 +551,10 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
 
   sendCollaborativeDocument() {
     CometChat.callExtension(
-        ExtensionConstants.document, "POST", ExtensionUrls.document, {"receiver": receiverID, "receiverType": receiverType},
+        ExtensionConstants.document,
+        "POST",
+        ExtensionUrls.document,
+        {"receiver": receiverID, "receiverType": receiverType},
         onSuccess: (Map<String, dynamic> map) {
       debugPrint("Success map $map");
     }, onError: (CometChatException e) {
@@ -563,13 +587,17 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
       muid: DateTime.now().microsecondsSinceEpoch.toString(),
     );
 
-    CometChatMessageEvents.onMessageSent(customMessage, MessageStatus.inProgress);
+    CometChatMessageEvents.onMessageSent(
+        customMessage, MessageStatus.inProgress);
 
-    CometChat.sendCustomMessage(customMessage, onSuccess: (CustomMessage message) {
+    CometChat.sendCustomMessage(customMessage,
+        onSuccess: (CustomMessage message) {
       debugPrint("Custom Message Sent Successfully : $message");
 
       if (widget.enableSoundForMessages) {
-        SoundManager.play(sound: Sound.outgoingMessage, customSound: widget.customOutgoingMessageSound);
+        SoundManager.play(
+            sound: Sound.outgoingMessage,
+            customSound: widget.customOutgoingMessageSound);
       }
       CometChatMessageEvents.onMessageSent(message, MessageStatus.sent);
     }, onError: (CometChatException e) {
@@ -616,10 +644,13 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
     ActionItem? item = await showCometChatActionSheet(
         context: context,
         actionItems: _actionItems,
-        titleStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: _theme.palette.getAccent()),
+        titleStyle: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: _theme.palette.getAccent()),
         backgroundColor: _theme.palette.getAccent100(),
         iconBackground: _theme.palette.getAccent100(),
-        layoutIconColor: _theme.palette.getPrimary());
+        layoutIconColor: _theme.palette.getAccent());
 
     if (item == null) {
       return;
@@ -669,12 +700,15 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
   }
 
   Widget _getSendButton(CometChatTheme _theme) {
-    if (textEditingController.text.isEmpty && widget.hideLiveReaction == false) {
+    if (textEditingController.text.isEmpty &&
+        widget.hideLiveReaction == false) {
       return IconButton(
         padding: const EdgeInsets.all(0),
         constraints: const BoxConstraints(),
         icon: widget.style.liveReactionIcon ??
-            Image.asset("assets/icons/heart.png", package: UIConstants.packageName, color: _theme.palette.getError()),
+            Image.asset("assets/icons/heart.png",
+                package: UIConstants.packageName,
+                color: _theme.palette.getError()),
         onPressed: () async {
           if (_hideLiveReaction == false) {
             //setState(() {
@@ -730,7 +764,11 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
     );
     TransientMessage _transientMessage = TransientMessage(
         receiverType: receiverType,
-        data: {"type": "live_reaction", 'reaction': "heart", "packageName": UIConstants.packageName},
+        data: {
+          "type": "live_reaction",
+          'reaction': "heart",
+          "packageName": UIConstants.packageName
+        },
         receiverId: receiverID);
     CometChat.sendTransientMessage(_transientMessage, onSuccess: () {
       debugPrint("Success");
@@ -763,11 +801,13 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
             decoration: BoxDecoration(
               color: widget.style.background ?? _theme.palette.getBackground(),
             ),
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
             child: Column(
               children: [
                 //-----message preview container-----
-                if (messagePreviewTitle != null && messagePreviewTitle!.isNotEmpty)
+                if (messagePreviewTitle != null &&
+                    messagePreviewTitle!.isNotEmpty)
                   CometChatMessagePreview(
                     messagePreviewTitle: messagePreviewTitle!,
                     messagePreviewSubtitle: messagePreviewSubtitle ?? '',
@@ -789,15 +829,22 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                             fontWeight: _theme.typography.text2.fontWeight,
                             fontFamily: _theme.typography.text2.fontFamily),
                         closeIconColor: _theme.palette.getAccent500(),
-                        messagePreviewBorder: Border(left: BorderSide(color: _theme.palette.getAccent100(), width: 3))),
+                        messagePreviewBorder: Border(
+                            left: BorderSide(
+                                color: _theme.palette.getAccent100(),
+                                width: 3))),
                   ),
 
                 //-----
                 Container(
                   decoration: BoxDecoration(
-                      color: widget.style.gradient == null ? widget.style.background ?? _theme.palette.getAccent100() : null,
+                      color: widget.style.gradient == null
+                          ? widget.style.background ??
+                              _theme.palette.getAccent100()
+                          : null,
                       border: widget.style.border,
-                      borderRadius: BorderRadius.all(Radius.circular(widget.style.cornerRadius ?? 8.0)),
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(widget.style.cornerRadius ?? 8.0)),
                       gradient: widget.style.gradient),
                   child: Column(
                     children: [
@@ -808,7 +855,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                           padding: const EdgeInsets.only(left: 12.0, right: 12),
                           child: TextFormField(
                             inputFormatters: [
-                              LengthLimitingTextInputFormatter(widget.maxLength),
+                              LengthLimitingTextInputFormatter(
+                                  widget.maxLength),
                             ],
                             style: widget.style.inputTextStyle ??
                                 TextStyle(
@@ -826,13 +874,16 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                             maxLines: widget.maxLines,
                             minLines: widget.minLines,
                             decoration: InputDecoration(
-                              hintText: widget.placeholderText ?? Translations.of(context).message,
+                              hintText: widget.placeholderText ??
+                                  Translations.of(context).message,
                               hintStyle: widget.style.placeholderTextStyle ??
                                   TextStyle(
                                     color: _theme.palette.getAccent600(),
                                     fontSize: _theme.typography.name.fontSize,
-                                    fontWeight: _theme.typography.name.fontWeight,
-                                    fontFamily: _theme.typography.name.fontFamily,
+                                    fontWeight:
+                                        _theme.typography.name.fontWeight,
+                                    fontFamily:
+                                        _theme.typography.name.fontFamily,
                                   ),
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,
@@ -850,7 +901,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                         child: Row(
                           children: [
                             //-----show add to chat bottom sheet-----
-                            if (_actionItems.isNotEmpty && !widget.hideActionButton)
+                            if (_actionItems.isNotEmpty &&
+                                !widget.hideActionButton)
                               IconButton(
                                   padding: const EdgeInsets.all(0),
                                   constraints: const BoxConstraints(),
@@ -876,20 +928,30 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                                     color: _theme.palette.getAccent700(),
                                   ),
                                   onPressed: () async {
-                                    String? emoji = await showCometChatEmojiKeyboard(
-                                        context: context,
-                                        backgroundColor: _theme.palette.getAccent100(),
-                                        titleStyle: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: _theme.typography.name.fontWeight,
-                                            color: _theme.palette.getAccent()),
-                                        categoryLabel: TextStyle(
-                                            fontSize: _theme.typography.caption1.fontSize,
-                                            fontWeight: _theme.typography.caption1.fontWeight,
-                                            color: _theme.palette.getAccent600()),
-                                        dividerColor: _theme.palette.getAccent200(),
-                                        selectedCategoryIconColor: _theme.palette.getPrimary(),
-                                        unselectedCategoryIconColor: _theme.palette.getAccent600());
+                                    String? emoji =
+                                        await showCometChatEmojiKeyboard(
+                                            context: context,
+                                            backgroundColor:
+                                                _theme.palette.getAccent100(),
+                                            titleStyle: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: _theme
+                                                    .typography.name.fontWeight,
+                                                color:
+                                                    _theme.palette.getAccent()),
+                                            categoryLabel: TextStyle(
+                                                fontSize: _theme.typography
+                                                    .caption1.fontSize,
+                                                fontWeight: _theme.typography
+                                                    .caption1.fontWeight,
+                                                color: _theme.palette
+                                                    .getAccent600()),
+                                            dividerColor:
+                                                _theme.palette.getAccent200(),
+                                            selectedCategoryIconColor:
+                                                _theme.palette.getPrimary(),
+                                            unselectedCategoryIconColor:
+                                                _theme.palette.getAccent600());
                                     if (emoji != null) {
                                       textEditingController.text += emoji;
                                       setState(() {});
@@ -919,7 +981,8 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                                     } else {
                                       focusNode.unfocus();
                                     }
-                                    _isStickerKeyboardOpen = !_isStickerKeyboardOpen;
+                                    _isStickerKeyboardOpen =
+                                        !_isStickerKeyboardOpen;
                                     setState(() {});
                                   } //do something,
                                   ),

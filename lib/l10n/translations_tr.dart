@@ -697,10 +697,10 @@ class TranslationsTr extends Translations {
   String get no_chats_yet => 'No Chats yet';
 
   @override
-  String get take_photo => 'Take Photo';
+  String get take_photo => 'Kamera';
 
   @override
-  String get photo_and_video_library => 'Photo & Video Library';
+  String get photo_and_video_library => 'Galeri';
 
   @override
   String get image_library => 'Image Library';
@@ -718,7 +718,7 @@ class TranslationsTr extends Translations {
   String get select_reaction => 'Select Reaction';
 
   @override
-  String get audio => 'Audio';
+  String get audio => 'Ses';
 
   @override
   String get open_document => 'Open Document';
