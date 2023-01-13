@@ -32,10 +32,10 @@ showCometChatConfirmDialog(
                         fontWeight: FontWeight.w500,
                         color: Color(0xff3399FF)),
               ),
-              onPressed: onCancel?.call(dialogContext) ??
-                  () {
+              onPressed: () {
+                onCancel?.call(dialogContext) ??
                     Navigator.of(dialogContext).pop();
-                  },
+              },
             ),
           if (confirmButtonText != null)
             TextButton(
@@ -45,12 +45,12 @@ showCometChatConfirmDialog(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Color(0xff3399FF))),
-              onPressed: onCustomConfirm != null
-                  ? () => onCustomConfirm(dialogContext)
-                  : onConfirm?.call(dialogContext) ??
-                      () {
+              onPressed: () {
+                onCustomConfirm != null
+                    ? () => onCustomConfirm(dialogContext)
+                    : onConfirm?.call(dialogContext) ??
                         Navigator.of(context).pop();
-                      },
+              },
             ),
         ],
       );
