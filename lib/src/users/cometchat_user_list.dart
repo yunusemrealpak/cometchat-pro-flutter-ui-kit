@@ -254,12 +254,12 @@ class CometChatUserListState extends State<CometChatUserList>
                 fontSize: _theme.typography.text2.fontSize,
                 fontWeight: _theme.typography.text2.fontWeight,
                 color: _theme.palette.getPrimary())),
-        onCancel: () {
-          Navigator.pop(context);
-          Navigator.pop(context);
+        onCancel: (dialogContext) {
+          Navigator.pop(dialogContext);
+          Navigator.pop(dialogContext);
         },
-        onConfirm: () {
-          Navigator.pop(context);
+        onConfirm: (dialogContext) {
+          Navigator.pop(dialogContext);
           _loadMore();
         });
   }

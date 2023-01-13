@@ -543,7 +543,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
               fontSize: theme.typography.text2.fontSize,
               fontWeight: theme.typography.text2.fontWeight,
               color: theme.palette.getPrimary())),
-      onConfirm: () async {
+      onConfirm: (dialogContext) async {
         await CometChat.deleteConversation(
           conversationWith,
           conversationType,
@@ -552,7 +552,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
           },
           onError: (_) {},
         );
-        Navigator.pop(context);
+        Navigator.pop(dialogContext);
         setState(() {});
       },
       onCustomConfirm: (dialogContext) async {
@@ -635,12 +635,12 @@ class CometChatConversationListState extends State<CometChatConversationList>
               ),
               confirmButtonText: Translations.of(context).try_again,
               cancelButtonText: Translations.of(context).cancel_capital,
-              onCancel: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
+              onCancel: (dialogContext) {
+                Navigator.pop(dialogContext);
+                Navigator.pop(dialogContext);
               },
-              onConfirm: () {
-                Navigator.pop(context);
+              onConfirm: (dialogContext) {
+                Navigator.pop(dialogContext);
                 _loadMore();
               });
         }
@@ -666,12 +666,12 @@ class CometChatConversationListState extends State<CometChatConversationList>
             ),
             cancelButtonText: Translations.of(context).cancel_capital,
             confirmButtonText: Translations.of(context).try_again,
-            onCancel: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+            onCancel: (dialogContext) {
+              Navigator.pop(dialogContext);
+              Navigator.pop(dialogContext);
             },
-            onConfirm: () {
-              Navigator.pop(context);
+            onConfirm: (dialogContext) {
+              Navigator.pop(dialogContext);
               _loadMore();
             });
       }

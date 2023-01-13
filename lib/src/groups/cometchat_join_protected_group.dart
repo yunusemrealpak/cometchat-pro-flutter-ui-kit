@@ -106,8 +106,8 @@ class _CometChatJoinProtectedGroupState
                 fontFamily: theme.typography.title2.fontFamily),
           ),
           confirmButtonText: Translations.of(context).okay,
-          onConfirm: () {
-            Navigator.pop(context); //pop confirm dialog
+          onConfirm: (dialogContext) {
+            Navigator.pop(dialogContext); //pop confirm dialog
           });
       debugPrint("Group Joining failed with exception: ${e.message}");
       CometChatGroupEvents.onGroupError(e);

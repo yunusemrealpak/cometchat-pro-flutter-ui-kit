@@ -6,6 +6,7 @@ class Utils {
   static const internetNotAvailable = "ERROR_INTERNET_UNAVAILABLE";
 
   static String getErrorTranslatedText(BuildContext context, String errorCode) {
+    debugPrint("Error code: $errorCode");
     if (errorCode == internetNotAvailable) {
       return Translations.of(context).error_internet_unavailable;
     } else {}

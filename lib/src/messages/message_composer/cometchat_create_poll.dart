@@ -145,12 +145,12 @@ class _CometChatCreatePollState extends State<CometChatCreatePoll> {
           ),
           cancelButtonText: Translations.of(context).cancel,
           confirmButtonText: Translations.of(context).try_again,
-          onCancel: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
+          onCancel: (dialogContext) {
+            Navigator.pop(dialogContext);
+            Navigator.pop(dialogContext);
           },
-          onConfirm: () {
-            Navigator.pop(context);
+          onConfirm: (dialogContext) {
+            Navigator.pop(dialogContext);
             createPoll();
           });
     });
