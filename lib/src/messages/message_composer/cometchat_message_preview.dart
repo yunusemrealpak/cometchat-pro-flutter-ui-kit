@@ -67,13 +67,16 @@ class CometChatMessagePreview extends StatelessWidget {
                               color: const Color(0xff141414).withOpacity(0.6)),
                     ),
                     if (hideCloseButton == false)
-                      messagePreviewCloseButtonIcon ??
-                          Icon(
-                            Icons.close,
-                            size: 16,
-                            color:
-                                style.closeIconColor ?? const Color(0xff000000),
-                          )
+                      GestureDetector(
+                        onTap: onCloseClick,
+                        child: messagePreviewCloseButtonIcon ??
+                            Icon(
+                              Icons.close,
+                              size: 16,
+                              color: style.closeIconColor ??
+                                  const Color(0xff000000),
+                            ),
+                      )
                   ],
                 ),
                 Text(
