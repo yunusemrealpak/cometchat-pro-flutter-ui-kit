@@ -297,6 +297,8 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                           [userObject!.uid],
                           onSuccess: (_) {},
                           onError: (_) {},
+                        ).then(
+                          (value) => Navigator.of(context).pop(),
                         );
                       }
                     },
