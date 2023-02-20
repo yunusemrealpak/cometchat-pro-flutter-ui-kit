@@ -278,29 +278,36 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
               child: getListItem(_theme),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: PopupMenuButton<int>(
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: 1,
-                  child: const Text(
-                    'Engelle',
-                    style: TextStyle(
-                      color: Colors.white,
+          if (groupObject == null)
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: PopupMenuButton<int>(
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 1,
+                    child: const Text(
+                      'Engelle',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
+                    onTap: () {
+                      if (userObject != null) {
+                        CometChat.blockUser(
+                          [userObject!.uid],
+                          onSuccess: (_) {},
+                          onError: (_) {},
+                        );
+                      }
+                    },
                   ),
-                  onTap: () {
-                    print(groupObject?.guid);
-                  },
-                ),
-              ],
-              offset: const Offset(0, 50),
-              color: _theme.palette.getAccent100(),
-              elevation: 8,
-              child: const Icon(Icons.more_vert, color: Colors.white),
+                ],
+                offset: const Offset(0, 50),
+                color: _theme.palette.getAccent100(),
+                elevation: 8,
+                child: const Icon(Icons.more_vert, color: Colors.white),
+              ),
             ),
-          ),
         ],
       ),
     );
