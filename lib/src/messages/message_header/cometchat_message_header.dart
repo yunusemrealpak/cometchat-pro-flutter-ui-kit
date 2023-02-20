@@ -36,6 +36,8 @@ class CometChatMessageHeader extends StatefulWidget implements PreferredSizeWidg
     this.avatarConfiguration,
     this.statusIndicatorConfiguration,
     this.changeBlockState,
+    this.hasBlockedMe = false,
+    this.blockByMe = false,
   }) : super(key: key);
 
   ///[user] user object if conversation with is User
@@ -66,6 +68,8 @@ class CometChatMessageHeader extends StatefulWidget implements PreferredSizeWidg
   final StatusIndicatorConfiguration? statusIndicatorConfiguration;
 
   final void Function({bool blockByMe, bool hasBlockedMe})? changeBlockState;
+  final bool hasBlockedMe;
+  final bool blockByMe;
 
   @override
   State<CometChatMessageHeader> createState() => _CometChatMessageHeaderState();
@@ -79,9 +83,6 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
   Group? groupObject;
   bool isTyping = false;
   User? typingUser;
-
-  bool blockByMe = false;
-  bool hasBlockedMe = false;
 
   final String messageListenerId = "cometchat_message_header_message_listener";
   final String groupListenerId = "cometchat_message_header_group_listener";
@@ -99,8 +100,6 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
     if (widget.user != null) {
       CometChat.getUser(widget.user!, onSuccess: (User fetchedUser) {
         userObject = fetchedUser;
-        blockByMe = userObject!.blockedByMe ?? false;
-        hasBlockedMe = userObject!.hasBlockedMe ?? false;
         if (mounted) setState(() {});
       }, onError: (CometChatException e) {});
     } else if (widget.group != null) {
@@ -295,12 +294,12 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
               child: getListItem(_theme),
             ),
           ),
-          if (groupObject == null && !hasBlockedMe)
+          if (groupObject == null && !widget.hasBlockedMe)
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: PopupMenuButton<int>(
                 itemBuilder: (context) => [
-                  if (blockByMe)
+                  if (widget.blockByMe)
                     PopupMenuItem(
                       value: 1,
                       child: const Text(
@@ -316,10 +315,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                             onSuccess: (_) {},
                             onError: (_) {},
                           ).then((value) {
-                            widget.changeBlockState?.call(blockByMe: false, hasBlockedMe: hasBlockedMe);
-                            setState(() {
-                              blockByMe = false;
-                            });
+                            widget.changeBlockState?.call(blockByMe: false, hasBlockedMe: widget.hasBlockedMe);
                           });
                         }
                       },
@@ -341,10 +337,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                             onError: (_) {},
                           ).then(
                             (value) {
-                              widget.changeBlockState?.call(blockByMe: true, hasBlockedMe: hasBlockedMe);
-                              setState(() {
-                                blockByMe = true;
-                              });
+                              widget.changeBlockState?.call(blockByMe: true, hasBlockedMe: widget.hasBlockedMe);
                             },
                           );
                         }
