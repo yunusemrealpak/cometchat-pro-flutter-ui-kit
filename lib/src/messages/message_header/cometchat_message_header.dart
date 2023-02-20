@@ -22,20 +22,10 @@ import 'package:cometchat/models/action.dart' as action;
 ///
 ///
 /// ```
-class CometChatMessageHeader extends StatefulWidget
-    implements PreferredSizeWidget {
+class CometChatMessageHeader extends StatefulWidget implements PreferredSizeWidget {
   ///creates a widget that gives message header
   const CometChatMessageHeader(
-      {Key? key,
-      this.style = const MessageHeaderStyle(),
-      this.user,
-      this.group,
-      this.showBackButton = true,
-      this.backButton,
-      this.enableTypingIndicator = true,
-      this.theme,
-      this.avatarConfiguration,
-      this.statusIndicatorConfiguration})
+      {Key? key, this.style = const MessageHeaderStyle(), this.user, this.group, this.showBackButton = true, this.backButton, this.enableTypingIndicator = true, this.theme, this.avatarConfiguration, this.statusIndicatorConfiguration})
       : super(key: key);
 
   ///[user] user object if conversation with is User
@@ -72,8 +62,7 @@ class CometChatMessageHeader extends StatefulWidget
   Size get preferredSize => Size.fromHeight(style.height ?? 65);
 }
 
-class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
-    with MessageListener, UserListener, GroupListener {
+class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with MessageListener, UserListener, GroupListener {
   User? userObject;
   Group? groupObject;
   bool isTyping = false;
@@ -132,15 +121,11 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
 
   @override
   void onTypingStarted(TypingIndicator typingIndicator) {
-    if (userObject != null &&
-        typingIndicator.receiverType == ReceiverTypeConstants.user &&
-        typingIndicator.sender.uid == userObject!.uid) {
+    if (userObject != null && typingIndicator.receiverType == ReceiverTypeConstants.user && typingIndicator.sender.uid == userObject!.uid) {
       isTyping = true;
       typingUser = typingIndicator.sender;
       if (mounted) setState(() {});
-    } else if (groupObject != null &&
-        typingIndicator.receiverType == ReceiverTypeConstants.group &&
-        typingIndicator.receiverId == groupObject!.guid) {
+    } else if (groupObject != null && typingIndicator.receiverType == ReceiverTypeConstants.group && typingIndicator.receiverId == groupObject!.guid) {
       isTyping = true;
       typingUser = typingIndicator.sender;
       if (mounted) setState(() {});
@@ -149,15 +134,11 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
 
   @override
   void onTypingEnded(TypingIndicator typingIndicator) {
-    if (userObject != null &&
-        typingIndicator.receiverType == ReceiverTypeConstants.user &&
-        typingIndicator.sender.uid == userObject!.uid) {
+    if (userObject != null && typingIndicator.receiverType == ReceiverTypeConstants.user && typingIndicator.sender.uid == userObject!.uid) {
       isTyping = false;
       typingUser = null;
       if (mounted) setState(() {});
-    } else if (groupObject != null &&
-        typingIndicator.receiverType == ReceiverTypeConstants.group &&
-        typingIndicator.receiverId == groupObject!.guid) {
+    } else if (groupObject != null && typingIndicator.receiverType == ReceiverTypeConstants.group && typingIndicator.receiverId == groupObject!.guid) {
       isTyping = false;
       typingUser = typingIndicator.sender;
       if (mounted) setState(() {});
@@ -179,8 +160,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
   }
 
   @override
-  void onGroupMemberJoined(
-      action.Action action, User joinedUser, Group joinedGroup) {
+  void onGroupMemberJoined(action.Action action, User joinedUser, Group joinedGroup) {
     incrementMemberCount(joinedGroup);
   }
 
@@ -190,24 +170,20 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
   }
 
   @override
-  void onGroupMemberKicked(
-      action.Action action, User kickedUser, User kickedBy, Group kickedFrom) {
+  void onGroupMemberKicked(action.Action action, User kickedUser, User kickedBy, Group kickedFrom) {
     decrementMemberCount(kickedFrom);
   }
 
   @override
-  void onGroupMemberBanned(
-      action.Action action, User bannedUser, User bannedBy, Group bannedFrom) {
+  void onGroupMemberBanned(action.Action action, User bannedUser, User bannedBy, Group bannedFrom) {
     decrementMemberCount(bannedFrom);
   }
 
   @override
-  void onGroupMemberUnbanned(action.Action action, User unbannedUser,
-      User unbannedBy, Group unbannedFrom) {}
+  void onGroupMemberUnbanned(action.Action action, User unbannedUser, User unbannedBy, Group unbannedFrom) {}
 
   @override
-  void onMemberAddedToGroup(
-      action.Action action, User addedby, User userAdded, Group addedTo) {
+  void onMemberAddedToGroup(action.Action action, User addedby, User userAdded, Group addedTo) {
     incrementMemberCount(addedTo);
   }
 
@@ -221,24 +197,16 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
           subtitleStyle: TextStyle(
               fontSize: _theme.typography.subtitle2.fontSize,
               fontWeight: _theme.typography.subtitle2.fontWeight,
-              color: isTyping ||
-                      (userObject != null &&
-                          userObject!.status == UserStatusConstants.online)
-                  ? _theme.palette.getPrimary()
-                  : _theme.palette.getAccent600()),
+              color: isTyping || (userObject != null && userObject!.status == UserStatusConstants.online) ? _theme.palette.getPrimary() : _theme.palette.getAccent600()),
         ),
-        avatarConfiguration: widget.avatarConfiguration ??
-            const AvatarConfiguration(width: 32, height: 32),
-        statusIndicatorConfiguration: widget.statusIndicatorConfiguration ??
-            const StatusIndicatorConfiguration(width: 10, height: 10),
+        avatarConfiguration: widget.avatarConfiguration ?? const AvatarConfiguration(width: 32, height: 32),
+        statusIndicatorConfiguration: widget.statusIndicatorConfiguration ?? const StatusIndicatorConfiguration(width: 10, height: 10),
         inputData: InputData<User>(
             thumbnail: true,
             status: true,
             title: true,
             subtitle: (User? user) {
-              return isTyping
-                  ? Translations.of(context).is_typing
-                  : user?.status ?? '';
+              return isTyping ? Translations.of(context).is_typing : user?.status ?? '';
             }),
         user: userObject,
       );
@@ -251,11 +219,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
           subtitleStyle: TextStyle(
               fontSize: _theme.typography.subtitle2.fontSize,
               fontWeight: _theme.typography.subtitle2.fontWeight,
-              color: isTyping ||
-                      (userObject != null &&
-                          userObject!.status == UserStatusConstants.online)
-                  ? _theme.palette.getPrimary()
-                  : _theme.palette.getAccent600()),
+              color: isTyping || (userObject != null && userObject!.status == UserStatusConstants.online) ? _theme.palette.getPrimary() : _theme.palette.getAccent600()),
         ),
         avatarConfiguration: const AvatarConfiguration(width: 32, height: 32),
         inputData: InputData<Group>(
@@ -263,9 +227,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
             status: true,
             title: true,
             subtitle: (Group? group) {
-              return isTyping
-                  ? '${typingUser?.name ?? ''} ${Translations.of(context).is_typing}'
-                  : '${group?.membersCount ?? 0} ${Translations.of(context).members}';
+              return isTyping ? '${typingUser?.name ?? ''} ${Translations.of(context).is_typing}' : '${group?.membersCount ?? 0} ${Translations.of(context).members}';
             }),
         group: groupObject,
       );
@@ -305,20 +267,40 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
     return Container(
       height: widget.style.height ?? 65,
       width: widget.style.width ?? MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          color: widget.style.background ?? _theme.palette.getBackground(),
-          border: widget.style.border,
-          gradient: widget.style.gradient,
-          borderRadius: BorderRadius.circular(widget.style.cornerRadius ?? 0)),
+      decoration: BoxDecoration(color: widget.style.background ?? _theme.palette.getBackground(), border: widget.style.border, gradient: widget.style.gradient, borderRadius: BorderRadius.circular(widget.style.cornerRadius ?? 0)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           getBackButton(context, _theme),
           Expanded(
-              child: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 16),
-            child: getListItem(_theme),
-          ))
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 16),
+              child: getListItem(_theme),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: PopupMenuButton<int>(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: const Text(
+                    'Engelle',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onTap: () {
+                    print(groupObject?.guid);
+                  },
+                ),
+              ],
+              offset: const Offset(0, 50),
+              color: _theme.palette.getAccent100(),
+              elevation: 8,
+              child: const Icon(Icons.more_vert, color: Colors.white),
+            ),
+          ),
         ],
       ),
     );
@@ -327,13 +309,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader>
 
 class MessageHeaderStyle {
   ///message header style components
-  const MessageHeaderStyle(
-      {this.height,
-      this.width,
-      this.border,
-      this.cornerRadius,
-      this.background,
-      this.gradient});
+  const MessageHeaderStyle({this.height, this.width, this.border, this.cornerRadius, this.background, this.gradient});
 
   ///[height] height of header
   final double? height;
