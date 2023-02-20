@@ -767,7 +767,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                   child: Column(
                     children: [
                       //-----text field-----
-                      if (_hideTextField == false)
+                      if (_hideTextField == false && !(widget.blockByMe || widget.hasBlockedMe))
                         Container(
                           color: widget.style.inputBackground,
                           padding: const EdgeInsets.only(left: 12.0, right: 12),
@@ -804,7 +804,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                             ),
                           ),
                         ),
-                      if (_hideTextField == false)
+                      if (_hideTextField == false && !(widget.blockByMe || widget.hasBlockedMe))
                         Divider(
                           height: 1,
                           color: _theme.palette.getAccent200(),
