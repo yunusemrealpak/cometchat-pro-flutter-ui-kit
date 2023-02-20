@@ -322,6 +322,8 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
               backButton: widget.messageHeaderConfiguration.backButton,
               avatarConfiguration: widget.messageHeaderConfiguration.avatarConfiguration,
               statusIndicatorConfiguration: widget.messageHeaderConfiguration.statusIndicatorConfiguration,
+              hasBlockedMe: hasBlockedMe,
+              blockByMe: blockByMe,
               changeBlockState: ({blockByMe = false, hasBlockedMe = false}) {
                 if (mounted) {
                   setState(() {
