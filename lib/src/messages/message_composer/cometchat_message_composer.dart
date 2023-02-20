@@ -68,7 +68,9 @@ class CometChatMessageComposer extends StatefulWidget {
     this.minLines,
     this.maxLength = 140,
     this.excludeMessageTypes,
-    this.changeBlockState,
+    this.blockByMe = false,
+    this.hasBlockedMe = false,
+    this.userName,
   }) : super(key: key);
 
   ///[user] user id
@@ -137,8 +139,14 @@ class CometChatMessageComposer extends StatefulWidget {
   ///[stateCallBack]
   final void Function(CometChatMessageComposerState)? stateCallBack;
 
-  ///[changeBlockState]
-  final void Function(Function({bool blockByMe, bool hasBlockedMe}) func)? changeBlockState;
+  ///[blockByMe]
+  final bool blockByMe;
+
+  ///[hasBlockedMe]
+  final bool hasBlockedMe;
+
+  ///[userName]
+  final String? userName;
 
   @override
   CometChatMessageComposerState createState() => CometChatMessageComposerState();
@@ -165,9 +173,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
   bool _hideLiveReaction = false;
   CometChatTheme theme = cometChatTheme;
 
-  User? userObject;
-  bool blockByMe = false;
-  bool hasBlockedMe = false;
+
 
   @override
   void initState() {
@@ -189,17 +195,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
 
     _getLoggedInUser();
 
-    if (widget.group == null && widget.user != null) {
-      CometChat.getUser(widget.user!, onSuccess: (User fetchedUser) {
-        userObject = fetchedUser;
-        blockByMe = userObject!.blockedByMe ?? false;
-        hasBlockedMe = userObject!.hasBlockedMe ?? false;
-        if (blockByMe || hasBlockedMe) {
-          _hideTextField = true;
-        }
-        if (mounted) setState(() {});
-      }, onError: (CometChatException e) {});
-    }
+    
   }
 
   @override
@@ -214,18 +210,6 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
   bool _isTyping = false;
 
   String previousText = "";
-
-  void changeBlockState({bool blockByMe = false, bool hasBlockedMe = false}) {
-    debugPrint("[Composer] changeBlockState : blockByMe : $blockByMe, hasBlockedMe : $hasBlockedMe");
-    this.blockByMe = blockByMe;
-    this.hasBlockedMe = hasBlockedMe;
-    if (blockByMe || hasBlockedMe) {
-      _hideTextField = true;
-    } else {
-      _hideTextField = false;
-    }
-    setState(() {});
-  }
 
   _onTyping() {
     if (previousText.length > textEditingController.text.length) {
@@ -825,7 +809,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                           height: 1,
                           color: _theme.palette.getAccent200(),
                         ),
-                      if (blockByMe || hasBlockedMe)
+                      if (widget.blockByMe || widget.hasBlockedMe)
                         Container(
                           width: double.infinity,
                           height: 40,
@@ -836,7 +820,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                           ),
                           child: Center(
                             child: Text(
-                              blockByMe ? '${userObject?.name ?? 'Kullanıcı'} tarafınızdan engellendi' : '${userObject?.name ?? 'Kullanıcı'} sizi engelledi',
+                              widget.blockByMe ? '${widget.userName ?? 'Kullanıcı'} tarafınızdan engellendi' : '${widget.userName ?? 'Kullanıcı'} sizi engelledi',
                               style: TextStyle(
                                 color: _theme.palette.getAccent600(),
                                 fontSize: _theme.typography.name.fontSize,
@@ -846,7 +830,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                             ),
                           ),
                         ),
-                      if (!(blockByMe || hasBlockedMe))
+                      if (!(widget.blockByMe || widget.hasBlockedMe))
                         Container(
                           height: 40,
                           padding: const EdgeInsets.only(left: 10.0, right: 10),

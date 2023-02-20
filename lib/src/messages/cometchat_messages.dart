@@ -82,20 +82,20 @@ class CometChatMessages extends StatefulWidget {
   ///[notifyParent] method to tell parent message List is active
   final Function(String? id)? notifyParent;
 
-
   @override
   State<CometChatMessages> createState() => CometChatMessagesState();
 }
 
-class CometChatMessagesState extends State<CometChatMessages>
-    with CometChatMessageEventListener, MessageListener {
+class CometChatMessagesState extends State<CometChatMessages> with CometChatMessageEventListener, MessageListener {
   CometChatMessageListState? messageListState;
   CometChatMessageComposerState? composerState;
   CometChatTheme _theme = cometChatTheme;
   bool _isOverlayOpen = false;
   List<Widget> _liveAnimationList = [];
 
-  void Function({bool blockByMe, bool hasBlockedMe})? changeBlockState;
+  User? userObject;
+  bool blockByMe = false;
+  bool hasBlockedMe = false;
 
   messageListStateCallBack(CometChatMessageListState _messageListState) {
     messageListState = _messageListState;
@@ -110,9 +110,17 @@ class CometChatMessagesState extends State<CometChatMessages>
     super.initState();
     _theme = widget.theme ?? cometChatTheme;
     if (widget.stateCallBack != null) widget.stateCallBack!(this);
-    CometChatMessageEvents.addMessagesListener(
-        "cometchat_message_listener", this);
+    CometChatMessageEvents.addMessagesListener("cometchat_message_listener", this);
     CometChat.addMessageListener("cometchat_message_listener", this);
+
+    if (widget.group == null && widget.user != null) {
+      CometChat.getUser(widget.user!, onSuccess: (User fetchedUser) {
+        userObject = fetchedUser;
+        blockByMe = userObject!.blockedByMe ?? false;
+        hasBlockedMe = userObject!.hasBlockedMe ?? false;
+        if (mounted) setState(() {});
+      }, onError: (CometChatException e) {});
+    }
   }
 
   @override
@@ -133,8 +141,7 @@ class CometChatMessagesState extends State<CometChatMessages>
   }
 
   @override
-  void onMessageReact(
-      BaseMessage message, String reaction, MessageStatus messageStatus) {
+  void onMessageReact(BaseMessage message, String reaction, MessageStatus messageStatus) {
     if (messageStatus == MessageStatus.inProgress) {
       messageListState?.reactToMessage(message, reaction);
     }
@@ -175,10 +182,7 @@ class CometChatMessagesState extends State<CometChatMessages>
                 group: widget.group,
                 style: CreatePollStyle(
                     background: _theme.palette.getBackground(),
-                    titleStyle: TextStyle(
-                        color: _theme.palette.getAccent(),
-                        fontSize: _theme.typography.title1.fontSize,
-                        fontWeight: _theme.typography.title1.fontWeight),
+                    titleStyle: TextStyle(color: _theme.palette.getAccent(), fontSize: _theme.typography.title1.fontSize, fontWeight: _theme.typography.title1.fontWeight),
                     closeIconColor: _theme.palette.getPrimary(),
                     createPollIconColor: _theme.palette.getPrimary(),
                     borderColor: _theme.palette.getAccent200(),
@@ -194,15 +198,8 @@ class CometChatMessagesState extends State<CometChatMessages>
                       fontFamily: _theme.typography.body.fontFamily,
                       fontWeight: _theme.typography.body.fontWeight,
                     ),
-                    addAnswerTextStyle: TextStyle(
-                        color: _theme.palette.getPrimary(),
-                        fontSize: _theme.typography.body.fontSize,
-                        fontFamily: _theme.typography.body.fontFamily,
-                        fontWeight: _theme.typography.body.fontWeight),
-                    answerHelpText: TextStyle(
-                        color: _theme.palette.getAccent600(),
-                        fontSize: _theme.typography.text2.fontSize,
-                        fontWeight: _theme.typography.text2.fontWeight)))));
+                    addAnswerTextStyle: TextStyle(color: _theme.palette.getPrimary(), fontSize: _theme.typography.body.fontSize, fontFamily: _theme.typography.body.fontFamily, fontWeight: _theme.typography.body.fontWeight),
+                    answerHelpText: TextStyle(color: _theme.palette.getAccent600(), fontSize: _theme.typography.text2.fontSize, fontWeight: _theme.typography.text2.fontWeight)))));
   }
 
   @override
@@ -220,8 +217,7 @@ class CometChatMessagesState extends State<CometChatMessages>
   //-----MessageListListener methods-----
   @override
   void onMessageEdit(BaseMessage message, MessageEditStatus status) {
-    if (message.type == MessageTypeConstants.text &&
-        status == MessageEditStatus.inProgress) {
+    if (message.type == MessageTypeConstants.text && status == MessageEditStatus.inProgress) {
       composerState?.previewMessage(message, PreviewMessageMode.edit);
     } else {
       messageListState?.updateMessage(message);
@@ -245,35 +241,24 @@ class CometChatMessagesState extends State<CometChatMessages>
       hideDeletedMessages: widget.messageListConfiguration.hideDeletedMessages,
       hideThreadReplies: widget.messageListConfiguration.hideThreadReplies,
       tags: widget.messageListConfiguration.tags,
-      excludeMessageTypes:
-          widget.messageListConfiguration.excludeMessageTypes ??
-              widget.excludeMessageTypes,
+      excludeMessageTypes: widget.messageListConfiguration.excludeMessageTypes ?? widget.excludeMessageTypes,
       emptyText: widget.messageListConfiguration.emptyText,
       errorText: widget.messageListConfiguration.errorText,
       hideError: widget.messageListConfiguration.hideError ?? false,
       customView: widget.messageListConfiguration.customView,
       //onErrorCallBack: widget.messageListConfiguration.onErrorCallBack,
-      scrollToBottomOnNewMessage:
-          widget.messageListConfiguration.scrollToBottomOnNewMessage,
+      scrollToBottomOnNewMessage: widget.messageListConfiguration.scrollToBottomOnNewMessage,
       enableSoundForMessages: widget.enableSoundForMessages,
-      customIncomingMessageSound:
-          widget.messageListConfiguration.customIncomingMessageSound ?? '',
-      showEmojiInLargerSize:
-          widget.messageListConfiguration.showEmojiInLargerSize,
-      messageTypes:
-          widget.messageListConfiguration.messageTypes ?? widget.messageTypes,
+      customIncomingMessageSound: widget.messageListConfiguration.customIncomingMessageSound ?? '',
+      showEmojiInLargerSize: widget.messageListConfiguration.showEmojiInLargerSize,
+      messageTypes: widget.messageListConfiguration.messageTypes ?? widget.messageTypes,
       stateCallBack: messageListStateCallBack,
-      messageBubbleConfiguration:
-          widget.messageListConfiguration.messageBubbleConfiguration,
-      excludedMessageOptions:
-          widget.messageListConfiguration.excludedMessageOptions,
+      messageBubbleConfiguration: widget.messageListConfiguration.messageBubbleConfiguration,
+      excludedMessageOptions: widget.messageListConfiguration.excludedMessageOptions,
       alignment: widget.messageListConfiguration.messageAlignment,
-      hideMessagesFromBlockedUsers:
-          widget.messageListConfiguration.hideMessagesFromBlockedUsers,
-      receivedMessageInputData:
-          widget.messageListConfiguration.receivedMessageInputData,
-      sentMessageInputData:
-          widget.messageListConfiguration.sentMessageInputData,
+      hideMessagesFromBlockedUsers: widget.messageListConfiguration.hideMessagesFromBlockedUsers,
+      receivedMessageInputData: widget.messageListConfiguration.receivedMessageInputData,
+      sentMessageInputData: widget.messageListConfiguration.sentMessageInputData,
       notifyParent: widget.notifyParent,
     );
   }
@@ -285,13 +270,9 @@ class CometChatMessagesState extends State<CometChatMessages>
       theme: widget.theme,
       stateCallBack: composerStateCallBack,
       enableTypingIndicator: widget.enableTypingIndicator,
-      customOutgoingMessageSound:
-          widget.messageComposerConfiguration.customOutgoingMessageSound,
-      excludeMessageTypes:
-          widget.messageComposerConfiguration.excludeMessageTypes ??
-              widget.excludeMessageTypes,
-      messageTypes: widget.messageComposerConfiguration.messageTypes ??
-          widget.messageTypes,
+      customOutgoingMessageSound: widget.messageComposerConfiguration.customOutgoingMessageSound,
+      excludeMessageTypes: widget.messageComposerConfiguration.excludeMessageTypes ?? widget.excludeMessageTypes,
+      messageTypes: widget.messageComposerConfiguration.messageTypes ?? widget.messageTypes,
       enableSoundForMessages: widget.enableSoundForMessages,
       hideActionButton: widget.messageComposerConfiguration.hideActionButton,
       hideEmoji: widget.messageComposerConfiguration.hideEmoji,
@@ -303,7 +284,8 @@ class CometChatMessagesState extends State<CometChatMessages>
       minLines: widget.messageComposerConfiguration.minLines,
       maxLines: widget.messageComposerConfiguration.maxLines,
       maxLength: widget.messageComposerConfiguration.maxLength,
-      changeBlockState: (func) => changeBlockState = func,
+      hasBlockedMe: hasBlockedMe,
+      blockByMe: blockByMe,
     );
   }
 
@@ -318,15 +300,15 @@ class CometChatMessagesState extends State<CometChatMessages>
               group: widget.group,
               enableTypingIndicator: widget.enableTypingIndicator,
               theme: widget.theme,
-              showBackButton:
-                  widget.messageHeaderConfiguration.showBackButton,
+              showBackButton: widget.messageHeaderConfiguration.showBackButton,
               backButton: widget.messageHeaderConfiguration.backButton,
-              avatarConfiguration:
-                  widget.messageHeaderConfiguration.avatarConfiguration,
-              statusIndicatorConfiguration: widget
-                  .messageHeaderConfiguration.statusIndicatorConfiguration,
+              avatarConfiguration: widget.messageHeaderConfiguration.avatarConfiguration,
+              statusIndicatorConfiguration: widget.messageHeaderConfiguration.statusIndicatorConfiguration,
               changeBlockState: ({blockByMe = false, hasBlockedMe = false}) {
-                changeBlockState?.call(blockByMe: blockByMe, hasBlockedMe: hasBlockedMe);
+                setState(() {
+                  this.blockByMe = blockByMe;
+                  this.hasBlockedMe = hasBlockedMe;
+                });
               },
             ),
       body: Stack(
@@ -334,7 +316,7 @@ class CometChatMessagesState extends State<CometChatMessages>
           Column(
             children: [
               //----message list-----
-              Expanded(child: getMessageList()),
+              Expanded(child: (blockByMe || hasBlockedMe) ? const SizedBox.expand() : getMessageList()),
 
               //-----message composer-----
               if (widget.hideMessageComposer == false) getMessageComposer()

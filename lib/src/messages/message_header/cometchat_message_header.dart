@@ -320,7 +320,6 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                             setState(() {
                               blockByMe = false;
                             });
-                            Navigator.of(context).pop(false);
                           });
                         }
                       },
@@ -346,7 +345,6 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                               setState(() {
                                 blockByMe = true;
                               });
-                              Navigator.of(context).pop(true);
                             },
                           );
                         }
