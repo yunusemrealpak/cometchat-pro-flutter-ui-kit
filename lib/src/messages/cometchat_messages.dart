@@ -286,6 +286,7 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
       maxLength: widget.messageComposerConfiguration.maxLength,
       hasBlockedMe: hasBlockedMe,
       blockByMe: blockByMe,
+      userName: userObject?.name,
     );
   }
 
