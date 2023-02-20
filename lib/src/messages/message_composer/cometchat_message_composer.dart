@@ -44,31 +44,32 @@ enum PreviewMessageMode { edit, reply, none }
 ///
 
 class CometChatMessageComposer extends StatefulWidget {
-  const CometChatMessageComposer(
-      {Key? key,
-      this.user,
-      this.group,
-      this.style = const MessageComposerStyle(),
-      this.placeholderText,
-      this.hideActionButton = false,
-      this.hideAttachment = false,
-      this.hideMicrophone = false,
-      this.hideLiveReaction = false,
-      this.hideEmoji = false,
-      this.showSendButton = true,
-      this.enableTypingIndicator = true,
-      this.enableSoundForMessages = true,
-      this.messageTypes,
-      this.onSendButtonClick,
-      this.theme,
-      this.stateCallBack,
-      this.threadParentMessageId = 0,
-      this.customOutgoingMessageSound,
-      this.maxLines = 1,
-      this.minLines,
-      this.maxLength = 140,
-      this.excludeMessageTypes})
-      : super(key: key);
+  const CometChatMessageComposer({
+    Key? key,
+    this.user,
+    this.group,
+    this.style = const MessageComposerStyle(),
+    this.placeholderText,
+    this.hideActionButton = false,
+    this.hideAttachment = false,
+    this.hideMicrophone = false,
+    this.hideLiveReaction = false,
+    this.hideEmoji = false,
+    this.showSendButton = true,
+    this.enableTypingIndicator = true,
+    this.enableSoundForMessages = true,
+    this.messageTypes,
+    this.onSendButtonClick,
+    this.theme,
+    this.stateCallBack,
+    this.threadParentMessageId = 0,
+    this.customOutgoingMessageSound,
+    this.maxLines = 1,
+    this.minLines,
+    this.maxLength = 140,
+    this.excludeMessageTypes,
+    this.changeBlockState,
+  }) : super(key: key);
 
   ///[user] user id
   final String? user;
@@ -136,6 +137,9 @@ class CometChatMessageComposer extends StatefulWidget {
   ///[stateCallBack]
   final void Function(CometChatMessageComposerState)? stateCallBack;
 
+  ///[changeBlockState]
+  final void Function(Function({bool blockByMe, bool hasBlockedMe}) func)? changeBlockState;
+
   @override
   CometChatMessageComposerState createState() => CometChatMessageComposerState();
 }
@@ -190,6 +194,9 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
         userObject = fetchedUser;
         blockByMe = userObject!.blockedByMe ?? false;
         hasBlockedMe = userObject!.hasBlockedMe ?? false;
+        if (blockByMe || hasBlockedMe) {
+          _hideTextField = true;
+        }
         if (mounted) setState(() {});
       }, onError: (CometChatException e) {});
     }
@@ -207,6 +214,17 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
   bool _isTyping = false;
 
   String previousText = "";
+
+  void changeBlockState({bool blockByMe = false, bool hasBlockedMe = false}) {
+    this.blockByMe = blockByMe;
+    this.hasBlockedMe = hasBlockedMe;
+    if (blockByMe || hasBlockedMe) {
+      _hideTextField = true;
+    } else {
+      _hideTextField = false;
+    }
+    if (mounted) setState(() {});
+  }
 
   _onTyping() {
     if (previousText.length > textEditingController.text.length) {
@@ -820,92 +838,93 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
                               blockByMe ? '${userObject?.name ?? 'Kullanıcı'} tarafınızdan engellendi' : '${userObject?.name ?? 'Kullanıcı'} sizi engelledi',
                               style: TextStyle(
                                 color: _theme.palette.getAccent600(),
-                                    fontSize: _theme.typography.name.fontSize,
-                                    fontWeight: _theme.typography.name.fontWeight,
-                                    fontFamily: _theme.typography.name.fontFamily,
+                                fontSize: _theme.typography.name.fontSize,
+                                fontWeight: _theme.typography.name.fontWeight,
+                                fontFamily: _theme.typography.name.fontFamily,
                               ),
                             ),
                           ),
                         ),
-                      if(!(blockByMe || hasBlockedMe)) Container(
-                        height: 40,
-                        padding: const EdgeInsets.only(left: 10.0, right: 10),
-                        child: Row(
-                          children: [
-                            //-----show add to chat bottom sheet-----
-                            if (_actionItems.isNotEmpty && !widget.hideActionButton)
-                              IconButton(
-                                  padding: const EdgeInsets.all(0),
-                                  constraints: const BoxConstraints(),
-                                  icon: Image.asset(
-                                    "assets/icons/add.png",
-                                    package: UIConstants.packageName,
-                                    color: _theme.palette.getAccent700(),
-                                  ),
-                                  onPressed: () async {
-                                    _showBottomActionSheet(_theme, context);
-                                  } //do something,
-                                  ),
-                            const Spacer(),
+                      if (!(blockByMe || hasBlockedMe))
+                        Container(
+                          height: 40,
+                          padding: const EdgeInsets.only(left: 10.0, right: 10),
+                          child: Row(
+                            children: [
+                              //-----show add to chat bottom sheet-----
+                              if (_actionItems.isNotEmpty && !widget.hideActionButton)
+                                IconButton(
+                                    padding: const EdgeInsets.all(0),
+                                    constraints: const BoxConstraints(),
+                                    icon: Image.asset(
+                                      "assets/icons/add.png",
+                                      package: UIConstants.packageName,
+                                      color: _theme.palette.getAccent700(),
+                                    ),
+                                    onPressed: () async {
+                                      _showBottomActionSheet(_theme, context);
+                                    } //do something,
+                                    ),
+                              const Spacer(),
 
-                            //-----show emoji keyboard-----
-                            if (widget.hideEmoji == false)
-                              IconButton(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  constraints: const BoxConstraints(),
-                                  icon: Image.asset(
-                                    "assets/icons/smileys.png",
-                                    package: UIConstants.packageName,
-                                    color: _theme.palette.getAccent700(),
-                                  ),
-                                  onPressed: () async {
-                                    String? emoji = await showCometChatEmojiKeyboard(
-                                        context: context,
-                                        backgroundColor: _theme.palette.getAccent100(),
-                                        titleStyle: TextStyle(fontSize: 17, fontWeight: _theme.typography.name.fontWeight, color: _theme.palette.getAccent()),
-                                        categoryLabel: TextStyle(fontSize: _theme.typography.caption1.fontSize, fontWeight: _theme.typography.caption1.fontWeight, color: _theme.palette.getAccent600()),
-                                        dividerColor: _theme.palette.getAccent200(),
-                                        selectedCategoryIconColor: _theme.palette.getPrimary(),
-                                        unselectedCategoryIconColor: _theme.palette.getAccent600());
-                                    if (emoji != null) {
-                                      textEditingController.text += emoji;
+                              //-----show emoji keyboard-----
+                              if (widget.hideEmoji == false)
+                                IconButton(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    constraints: const BoxConstraints(),
+                                    icon: Image.asset(
+                                      "assets/icons/smileys.png",
+                                      package: UIConstants.packageName,
+                                      color: _theme.palette.getAccent700(),
+                                    ),
+                                    onPressed: () async {
+                                      String? emoji = await showCometChatEmojiKeyboard(
+                                          context: context,
+                                          backgroundColor: _theme.palette.getAccent100(),
+                                          titleStyle: TextStyle(fontSize: 17, fontWeight: _theme.typography.name.fontWeight, color: _theme.palette.getAccent()),
+                                          categoryLabel: TextStyle(fontSize: _theme.typography.caption1.fontSize, fontWeight: _theme.typography.caption1.fontWeight, color: _theme.palette.getAccent600()),
+                                          dividerColor: _theme.palette.getAccent200(),
+                                          selectedCategoryIconColor: _theme.palette.getPrimary(),
+                                          unselectedCategoryIconColor: _theme.palette.getAccent600());
+                                      if (emoji != null) {
+                                        textEditingController.text += emoji;
+                                        setState(() {});
+                                      }
+                                    } //do something,
+                                    ),
+
+                              //-----show sticker keyboard-----
+                              if (_hideSticker == false)
+                                IconButton(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    constraints: const BoxConstraints(),
+                                    icon: _isStickerKeyboardOpen
+                                        ? Image.asset(
+                                            "assets/icons/keyboard.png",
+                                            package: UIConstants.packageName,
+                                            color: _theme.palette.getAccent700(),
+                                          )
+                                        : Image.asset(
+                                            "assets/icons/smile.png",
+                                            package: UIConstants.packageName,
+                                            color: _theme.palette.getAccent700(),
+                                          ),
+                                    onPressed: () async {
+                                      if (_isStickerKeyboardOpen) {
+                                        focusNode.requestFocus();
+                                      } else {
+                                        focusNode.unfocus();
+                                      }
+                                      _isStickerKeyboardOpen = !_isStickerKeyboardOpen;
                                       setState(() {});
-                                    }
-                                  } //do something,
-                                  ),
+                                    } //do something,
+                                    ),
 
-                            //-----show sticker keyboard-----
-                            if (_hideSticker == false)
-                              IconButton(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  constraints: const BoxConstraints(),
-                                  icon: _isStickerKeyboardOpen
-                                      ? Image.asset(
-                                          "assets/icons/keyboard.png",
-                                          package: UIConstants.packageName,
-                                          color: _theme.palette.getAccent700(),
-                                        )
-                                      : Image.asset(
-                                          "assets/icons/smile.png",
-                                          package: UIConstants.packageName,
-                                          color: _theme.palette.getAccent700(),
-                                        ),
-                                  onPressed: () async {
-                                    if (_isStickerKeyboardOpen) {
-                                      focusNode.requestFocus();
-                                    } else {
-                                      focusNode.unfocus();
-                                    }
-                                    _isStickerKeyboardOpen = !_isStickerKeyboardOpen;
-                                    setState(() {});
-                                  } //do something,
-                                  ),
-
-                            //  -----show send or live reaction button-----
-                            _getSendButton(_theme),
-                          ],
-                        ),
-                      )
+                              //  -----show send or live reaction button-----
+                              _getSendButton(_theme),
+                            ],
+                          ),
+                        )
                     ],
                   ),
                 ),

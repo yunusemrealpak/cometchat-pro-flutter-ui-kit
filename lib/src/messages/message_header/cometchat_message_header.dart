@@ -24,9 +24,19 @@ import 'package:cometchat/models/action.dart' as action;
 /// ```
 class CometChatMessageHeader extends StatefulWidget implements PreferredSizeWidget {
   ///creates a widget that gives message header
-  const CometChatMessageHeader(
-      {Key? key, this.style = const MessageHeaderStyle(), this.user, this.group, this.showBackButton = true, this.backButton, this.enableTypingIndicator = true, this.theme, this.avatarConfiguration, this.statusIndicatorConfiguration})
-      : super(key: key);
+  const CometChatMessageHeader({
+    Key? key,
+    this.style = const MessageHeaderStyle(),
+    this.user,
+    this.group,
+    this.showBackButton = true,
+    this.backButton,
+    this.enableTypingIndicator = true,
+    this.theme,
+    this.avatarConfiguration,
+    this.statusIndicatorConfiguration,
+    this.changeBlockState,
+  }) : super(key: key);
 
   ///[user] user object if conversation with is User
   final String? user;
@@ -55,6 +65,8 @@ class CometChatMessageHeader extends StatefulWidget implements PreferredSizeWidg
   ///[statusIndicatorConfiguration] set configuration property for [CometChatStatusIndicator] used inside [CometChatMessageHeader]
   final StatusIndicatorConfiguration? statusIndicatorConfiguration;
 
+  final void Function({bool blockByMe, bool hasBlockedMe})? changeBlockState;
+
   @override
   State<CometChatMessageHeader> createState() => _CometChatMessageHeaderState();
 
@@ -69,6 +81,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
   User? typingUser;
 
   bool blockByMe = false;
+  bool hasBlockedMe = false;
 
   final String messageListenerId = "cometchat_message_header_message_listener";
   final String groupListenerId = "cometchat_message_header_group_listener";
@@ -87,6 +100,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
       CometChat.getUser(widget.user!, onSuccess: (User fetchedUser) {
         userObject = fetchedUser;
         blockByMe = userObject!.blockedByMe ?? false;
+        hasBlockedMe = userObject!.hasBlockedMe ?? false;
         if (mounted) setState(() {});
       }, onError: (CometChatException e) {});
     } else if (widget.group != null) {
@@ -301,7 +315,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                             [userObject!.uid],
                             onSuccess: (_) {},
                             onError: (_) {},
-                          );
+                          ).then((value) => widget.changeBlockState?.call(blockByMe: false, hasBlockedMe: hasBlockedMe));
                         }
                       },
                     )
@@ -321,7 +335,10 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                             onSuccess: (_) {},
                             onError: (_) {},
                           ).then(
-                            (value) => Navigator.of(context).pop(),
+                            (value) {
+                              widget.changeBlockState?.call(blockByMe: true, hasBlockedMe: hasBlockedMe);
+                              Navigator.of(context).pop();
+                            },
                           );
                         }
                       },

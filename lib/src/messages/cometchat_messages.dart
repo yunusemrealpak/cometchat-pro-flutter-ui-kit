@@ -82,6 +82,7 @@ class CometChatMessages extends StatefulWidget {
   ///[notifyParent] method to tell parent message List is active
   final Function(String? id)? notifyParent;
 
+
   @override
   State<CometChatMessages> createState() => CometChatMessagesState();
 }
@@ -93,6 +94,8 @@ class CometChatMessagesState extends State<CometChatMessages>
   CometChatTheme _theme = cometChatTheme;
   bool _isOverlayOpen = false;
   List<Widget> _liveAnimationList = [];
+
+  void Function({bool blockByMe, bool hasBlockedMe})? changeBlockState;
 
   messageListStateCallBack(CometChatMessageListState _messageListState) {
     messageListState = _messageListState;
@@ -300,6 +303,7 @@ class CometChatMessagesState extends State<CometChatMessages>
       minLines: widget.messageComposerConfiguration.minLines,
       maxLines: widget.messageComposerConfiguration.maxLines,
       maxLength: widget.messageComposerConfiguration.maxLength,
+      changeBlockState: (func) => changeBlockState = func,
     );
   }
 
@@ -321,6 +325,9 @@ class CometChatMessagesState extends State<CometChatMessages>
                   widget.messageHeaderConfiguration.avatarConfiguration,
               statusIndicatorConfiguration: widget
                   .messageHeaderConfiguration.statusIndicatorConfiguration,
+              changeBlockState: ({blockByMe = false, hasBlockedMe = false}) {
+                changeBlockState?.call(blockByMe: blockByMe, hasBlockedMe: hasBlockedMe);
+              },
             ),
       body: Stack(
         children: [
