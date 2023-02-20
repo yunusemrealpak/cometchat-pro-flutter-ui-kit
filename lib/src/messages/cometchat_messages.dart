@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../../flutter_chat_ui_kit.dart';
 import 'message_composer/live_reaction_animation.dart';
@@ -97,6 +99,8 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
   bool blockByMe = false;
   bool hasBlockedMe = false;
 
+  Timer? _timer;
+
   messageListStateCallBack(CometChatMessageListState _messageListState) {
     messageListState = _messageListState;
   }
@@ -114,19 +118,39 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
     CometChat.addMessageListener("cometchat_message_listener", this);
 
     if (widget.group == null && widget.user != null) {
-      CometChat.getUser(widget.user!, onSuccess: (User fetchedUser) {
-        userObject = fetchedUser;
-        blockByMe = userObject!.blockedByMe ?? false;
-        hasBlockedMe = userObject!.hasBlockedMe ?? false;
-        if (mounted) setState(() {});
-      }, onError: (CometChatException e) {});
+      _getUser().then((value) {
+        if (blockByMe || hasBlockedMe) {
+          _timer = Timer.periodic(const Duration(seconds: 15), (e) {
+            debugPrint('cometchat_messages.dart: timer');
+            _getUser().then((value) {
+              if (!(blockByMe || hasBlockedMe)) {
+                _timer?.cancel();
+              }
+            });
+          });
+        }
+      });
     }
+  }
+
+  Future<void> _getUser() async {
+    final user = await CometChat.getUser(
+      widget.user!,
+      onSuccess: (User fetchedUser) {},
+      onError: (CometChatException e) {},
+    );
+
+    userObject = user;
+    blockByMe = userObject!.blockedByMe ?? false;
+    hasBlockedMe = userObject!.hasBlockedMe ?? false;
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
     CometChatMessageEvents.removeMessagesListener("cometchat_message_listener");
     CometChat.removeMessageListener("cometchat_message_listener");
+    _timer?.cancel();
     super.dispose();
   }
 
