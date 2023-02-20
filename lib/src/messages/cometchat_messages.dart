@@ -119,16 +119,9 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
 
     if (widget.group == null && widget.user != null) {
       _getUser().then((value) {
-        if (blockByMe || hasBlockedMe) {
-          _timer = Timer.periodic(const Duration(seconds: 15), (e) {
-            debugPrint('cometchat_messages.dart: timer');
-            _getUser().then((value) {
-              if (!(blockByMe || hasBlockedMe)) {
-                _timer?.cancel();
-              }
-            });
-          });
-        }
+        _timer = Timer.periodic(const Duration(seconds: 20), (e) {
+          _getUser();
+        });
       });
     }
   }
@@ -330,10 +323,12 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
               avatarConfiguration: widget.messageHeaderConfiguration.avatarConfiguration,
               statusIndicatorConfiguration: widget.messageHeaderConfiguration.statusIndicatorConfiguration,
               changeBlockState: ({blockByMe = false, hasBlockedMe = false}) {
-                setState(() {
-                  this.blockByMe = blockByMe;
-                  this.hasBlockedMe = hasBlockedMe;
-                });
+                if (mounted) {
+                  setState(() {
+                    this.blockByMe = blockByMe;
+                    this.hasBlockedMe = hasBlockedMe;
+                  });
+                }
               },
             ),
       body: Stack(
