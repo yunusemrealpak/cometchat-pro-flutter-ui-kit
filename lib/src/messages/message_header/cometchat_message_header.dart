@@ -68,6 +68,8 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
   bool isTyping = false;
   User? typingUser;
 
+  bool blockByMe = false;
+
   final String messageListenerId = "cometchat_message_header_message_listener";
   final String groupListenerId = "cometchat_message_header_group_listener";
   final String userListenerId = "cometchat_message_header_user_listener";
@@ -84,6 +86,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
     if (widget.user != null) {
       CometChat.getUser(widget.user!, onSuccess: (User fetchedUser) {
         userObject = fetchedUser;
+        blockByMe = userObject!.blockedByMe ?? false;
         if (mounted) setState(() {});
       }, onError: (CometChatException e) {});
     } else if (widget.group != null) {
@@ -283,26 +286,46 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
               padding: const EdgeInsets.only(right: 16),
               child: PopupMenuButton<int>(
                 itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: 1,
-                    child: const Text(
-                      'Engelle',
-                      style: TextStyle(
-                        color: Colors.white,
+                  if (blockByMe)
+                    PopupMenuItem(
+                      value: 1,
+                      child: const Text(
+                        'Engeli Kaldır',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
+                      onTap: () {
+                        if (userObject != null) {
+                          CometChat.unblockUser(
+                            [userObject!.uid],
+                            onSuccess: (_) {},
+                            onError: (_) {},
+                          );
+                        }
+                      },
+                    )
+                  else
+                    PopupMenuItem(
+                      value: 1,
+                      child: const Text(
+                        'Engelle',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onTap: () {
+                        if (userObject != null) {
+                          CometChat.blockUser(
+                            [userObject!.uid],
+                            onSuccess: (_) {},
+                            onError: (_) {},
+                          ).then(
+                            (value) => Navigator.of(context).pop(),
+                          );
+                        }
+                      },
                     ),
-                    onTap: () {
-                      if (userObject != null) {
-                        CometChat.blockUser(
-                          [userObject!.uid],
-                          onSuccess: (_) {},
-                          onError: (_) {},
-                        ).then(
-                          (value) => Navigator.of(context).pop(),
-                        );
-                      }
-                    },
-                  ),
                 ],
                 offset: const Offset(0, 50),
                 color: _theme.palette.getAccent100(),
