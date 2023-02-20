@@ -216,6 +216,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
   String previousText = "";
 
   void changeBlockState({bool blockByMe = false, bool hasBlockedMe = false}) {
+    debugPrint("[Composer] changeBlockState : blockByMe : $blockByMe, hasBlockedMe : $hasBlockedMe");
     this.blockByMe = blockByMe;
     this.hasBlockedMe = hasBlockedMe;
     if (blockByMe || hasBlockedMe) {
@@ -223,7 +224,7 @@ class CometChatMessageComposerState extends State<CometChatMessageComposer> {
     } else {
       _hideTextField = false;
     }
-    if (mounted) setState(() {});
+    setState(() {});
   }
 
   _onTyping() {

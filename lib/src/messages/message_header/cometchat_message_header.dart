@@ -295,7 +295,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
               child: getListItem(_theme),
             ),
           ),
-          if (groupObject == null)
+          if (groupObject == null && !hasBlockedMe)
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: PopupMenuButton<int>(
@@ -315,7 +315,12 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                             [userObject!.uid],
                             onSuccess: (_) {},
                             onError: (_) {},
-                          ).then((value) => widget.changeBlockState?.call(blockByMe: false, hasBlockedMe: hasBlockedMe));
+                          ).then((value) {
+                            widget.changeBlockState?.call(blockByMe: false, hasBlockedMe: hasBlockedMe);
+                            setState(() {
+                              blockByMe = false;
+                            });
+                          });
                         }
                       },
                     )
@@ -337,7 +342,9 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
                           ).then(
                             (value) {
                               widget.changeBlockState?.call(blockByMe: true, hasBlockedMe: hasBlockedMe);
-                              Navigator.of(context).pop();
+                              setState(() {
+                                blockByMe = true;
+                              });
                             },
                           );
                         }
