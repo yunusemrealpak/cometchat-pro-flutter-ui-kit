@@ -225,6 +225,7 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
               return isTyping ? Translations.of(context).is_typing : user?.status ?? '';
             }),
         user: userObject,
+        hideOnlineStatus: widget.blockByMe || widget.hasBlockedMe,
       );
     } else if (groupObject != null) {
       return CometChatDataItem(
