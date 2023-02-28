@@ -40,6 +40,8 @@ class CometChatMessages extends StatefulWidget {
       this.excludeMessageTypes,
       this.onAvatarTap,
       this.onMessageTap,
+      this.hideMessagesWhenBlocked = false,
+      this.onBlockUser,
       this.notifyParent})
       : super(key: key);
 
@@ -80,6 +82,10 @@ class CometChatMessages extends StatefulWidget {
   final List<CometChatMessageTemplate>? messageTypes;
 
   final List<String>? excludeMessageTypes;
+
+  final bool hideMessagesWhenBlocked;
+
+  final Function(String? userId)? onBlockUser;
 
   ///[notifyParent] method to tell parent message List is active
   final Function(String? id)? notifyParent;
@@ -331,6 +337,10 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
                     this.hasBlockedMe = hasBlockedMe;
                   });
                 }
+
+                if(blockByMe) {
+                  widget.onBlockUser?.call(widget.user);
+                }
               },
             ),
       body: Stack(
@@ -338,7 +348,7 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
           Column(
             children: [
               //----message list-----
-              Expanded(child: (blockByMe || hasBlockedMe) ? const SizedBox.expand() : getMessageList()),
+              Expanded(child: ((blockByMe || hasBlockedMe) && widget.hideMessagesWhenBlocked) ? const SizedBox.expand() : getMessageList()),
 
               //-----message composer-----
               if (widget.hideMessageComposer == false) getMessageComposer()
