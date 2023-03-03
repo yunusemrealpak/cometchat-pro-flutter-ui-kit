@@ -85,7 +85,7 @@ class CometChatMessages extends StatefulWidget {
 
   final bool hideMessagesWhenBlocked;
 
-  final Function(String? userId, {bool? blocked})? onBlockUser;
+  final Function(String? userId, bool blocked)? onBlockUser;
 
   ///[notifyParent] method to tell parent message List is active
   final Function(String? id)? notifyParent;
@@ -340,7 +340,7 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
 
                 widget.onBlockUser?.call(
                   widget.user,
-                  blocked: blockByMe,
+                  blockByMe,
                 );
               },
             ),
