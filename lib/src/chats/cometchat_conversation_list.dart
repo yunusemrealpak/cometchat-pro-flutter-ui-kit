@@ -21,8 +21,7 @@ class ItemFetcher<T> {
   Future<List<T>> fetchPrevious(dynamic request) async {
     final list = <T>[];
 
-    List<T> res = await request.fetchPrevious(
-        onSuccess: (List<T> messages) {}, onError: (CometChatException e) {});
+    List<T> res = await request.fetchPrevious(onSuccess: (List<T> messages) {}, onError: (CometChatException e) {});
 
     list.addAll(res);
     return list;
@@ -115,12 +114,10 @@ class CometChatConversationList extends StatefulWidget with MessageListener {
   final void Function(Conversation)? onConversationTap;
 
   @override
-  CometChatConversationListState createState() =>
-      CometChatConversationListState();
+  CometChatConversationListState createState() => CometChatConversationListState();
 }
 
-class CometChatConversationListState extends State<CometChatConversationList>
-    with MessageListener, UserListener, GroupListener {
+class CometChatConversationListState extends State<CometChatConversationList> with MessageListener, UserListener, GroupListener {
   final conversationList = <Conversation>[];
   final itemFetcher = ItemFetcher<Conversation>();
 
@@ -135,8 +132,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
   Set<String> typingIndicatorMap = {}; //index, isTypingBool
 
   String loggedInUserId = "";
-  String?
-      activeID; //active user or groupID, null when no message list is active
+  String? activeID; //active user or groupID, null when no message list is active
 
   String _conversationType = '';
 
@@ -155,13 +151,11 @@ class CometChatConversationListState extends State<CometChatConversationList>
       widget.stateCallBack!(this);
     }
     if (widget.conversationListItemConfiguration == null) {
-      _conversationListItemConfiguration =
-          const ConversationListItemConfigurations();
+      _conversationListItemConfiguration = const ConversationListItemConfigurations();
       _isListItemConfigurationPassed = false;
     } else {
       _isListItemConfigurationPassed = true;
-      _conversationListItemConfiguration =
-          widget.conversationListItemConfiguration!;
+      _conversationListItemConfiguration = widget.conversationListItemConfiguration!;
     }
     getLoggedInUser();
 
@@ -179,10 +173,8 @@ class CometChatConversationListState extends State<CometChatConversationList>
         .build();
 
     CometChat.addMessageListener("conversationListener", this);
-    CometChat.addUserListener(
-        "cometchat_conversation_list_user_listener", this);
-    CometChat.addGroupListener(
-        "cometchat_conversation_list_group_listener", this);
+    CometChat.addUserListener("cometchat_conversation_list_user_listener", this);
+    CometChat.addGroupListener("cometchat_conversation_list_group_listener", this);
     _loadMore();
   }
 
@@ -287,8 +279,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
   }
 
   @override
-  onGroupMemberKicked(
-      cc.Action action, User kickedUser, User kickedBy, Group kickedFrom) {
+  onGroupMemberKicked(cc.Action action, User kickedUser, User kickedBy, Group kickedFrom) {
     if (loggedInUserId == kickedUser.uid) {
       refreshSingleConversation(action, true, remove: true);
     } else {
@@ -297,8 +288,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
   }
 
   @override
-  onGroupMemberBanned(
-      cc.Action action, User bannedUser, User bannedBy, Group bannedFrom) {
+  onGroupMemberBanned(cc.Action action, User bannedUser, User bannedBy, Group bannedFrom) {
     if (loggedInUserId == bannedUser.uid) {
       refreshSingleConversation(action, true, remove: true);
     } else {
@@ -307,32 +297,26 @@ class CometChatConversationListState extends State<CometChatConversationList>
   }
 
   @override
-  onGroupMemberUnbanned(cc.Action action, User unbannedUser, User unbannedBy,
-      Group unbannedFrom) {
+  onGroupMemberUnbanned(cc.Action action, User unbannedUser, User unbannedBy, Group unbannedFrom) {
     refreshSingleConversation(action, true);
   }
 
   @override
-  onGroupMemberScopeChanged(cc.Action action, User updatedBy, User updatedUser,
-      String scopeChangedTo, String scopeChangedFrom, Group group) {
+  onGroupMemberScopeChanged(cc.Action action, User updatedBy, User updatedUser, String scopeChangedTo, String scopeChangedFrom, Group group) {
     refreshSingleConversation(action, true);
   }
 
   @override
-  onMemberAddedToGroup(
-      cc.Action action, User addedby, User userAdded, Group addedTo) {
+  onMemberAddedToGroup(cc.Action action, User addedby, User userAdded, Group addedTo) {
     refreshSingleConversation(action, true);
   }
   //----------------Group Listeners end----------------------------------------------
 
   updateUserStatus(User user, String status) {
-    int matchingIndex = conversationList.indexWhere((element) =>
-        (element.conversationType == ReceiverTypeConstants.user &&
-            (element.conversationWith as User).uid == user.uid));
+    int matchingIndex = conversationList.indexWhere((element) => (element.conversationType == ReceiverTypeConstants.user && (element.conversationWith as User).uid == user.uid));
 
     if (matchingIndex != -1) {
-      (conversationList[matchingIndex].conversationWith as User).status =
-          status;
+      (conversationList[matchingIndex].conversationWith as User).status = status;
       setState(() {});
     }
   }
@@ -341,8 +325,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
 
   //----------------Public Methods -----------------------------------------------------
   removeConversation(Conversation conversation) {
-    int _matchingIndex = conversationList.indexWhere(
-        (element) => (element.conversationId == conversation.conversationId));
+    int _matchingIndex = conversationList.indexWhere((element) => (element.conversationId == conversation.conversationId));
 
     if (_matchingIndex != -1) {
       conversationList.removeAt(_matchingIndex);
@@ -351,15 +334,13 @@ class CometChatConversationListState extends State<CometChatConversationList>
   }
 
   deleteConversation(Conversation conversation) {
-    int _matchingIndex = conversationList.indexWhere(
-        (element) => (element.conversationId == conversation.conversationId));
+    int _matchingIndex = conversationList.indexWhere((element) => (element.conversationId == conversation.conversationId));
 
     deleteConversationFromIndex(_matchingIndex);
   }
 
   resetUnreadCount(BaseMessage message) {
-    int matchingIndex = conversationList.indexWhere(
-        (element) => (element.conversationId == message.conversationId));
+    int matchingIndex = conversationList.indexWhere((element) => (element.conversationId == message.conversationId));
 
     if (matchingIndex != -1) {
       conversationList[matchingIndex].unreadMessageCount = 0;
@@ -368,8 +349,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
   }
 
   updateLastMessage(BaseMessage message) {
-    int matchingIndex = conversationList.indexWhere(
-        (element) => (element.conversationId == message.conversationId));
+    int matchingIndex = conversationList.indexWhere((element) => (element.conversationId == message.conversationId));
 
     if (matchingIndex != -1) {
       Conversation conversation = conversationList[matchingIndex];
@@ -382,8 +362,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
   }
 
   updateLastMessageOnEdited(BaseMessage message) async {
-    int matchingIndex = conversationList.indexWhere(
-        (element) => (element.conversationId == message.conversationId));
+    int matchingIndex = conversationList.indexWhere((element) => (element.conversationId == message.conversationId));
 
     if (matchingIndex != -1) {
       if (conversationList[matchingIndex].lastMessage?.id == message.id) {
@@ -393,10 +372,8 @@ class CometChatConversationListState extends State<CometChatConversationList>
     }
   }
 
-  refreshSingleConversation(BaseMessage message, bool isActionMessage,
-      {bool? remove}) async {
-    CometChat.getConversationFromMessage(message,
-        onSuccess: (Conversation conversation) {
+  refreshSingleConversation(BaseMessage message, bool isActionMessage, {bool? remove}) async {
+    CometChat.getConversationFromMessage(message, onSuccess: (Conversation conversation) {
       conversation.lastMessage = message;
       conversation.updatedAt = message.updatedAt;
       if (remove == true) {
@@ -409,8 +386,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
 
   ///Update the conversation with new conversation Object matched according to conversation id ,  if not matched inserted at top
   updateConversation(Conversation conversation, bool isActionMessage) {
-    int matchingIndex = conversationList.indexWhere(
-        (element) => (element.conversationId == conversation.conversationId));
+    int matchingIndex = conversationList.indexWhere((element) => (element.conversationId == conversation.conversationId));
 
     Map<String, dynamic>? metaData = conversation.lastMessage!.metadata;
     bool incrementUnreadCount = true;
@@ -427,16 +403,13 @@ class CometChatConversationListState extends State<CometChatConversationList>
 
       if (isActionMessage) {
         conversation.unreadMessageCount = oldConversation.unreadMessageCount;
-      } else if ((incrementUnreadCount || isCategoryMessage) &&
-          conversation.lastMessage?.sender?.uid != loggedInUserId) {
-        conversation.unreadMessageCount =
-            (oldConversation.unreadMessageCount ?? 0) + 1;
+      } else if ((incrementUnreadCount || isCategoryMessage) && conversation.lastMessage?.sender?.uid != loggedInUserId) {
+        conversation.unreadMessageCount = (oldConversation.unreadMessageCount ?? 0) + 1;
       }
       conversationList.removeAt(matchingIndex);
       conversationList.insert(0, conversation);
     } else {
-      if ((incrementUnreadCount || isCategoryMessage) &&
-          conversation.lastMessage?.sender?.uid != loggedInUserId) {
+      if ((incrementUnreadCount || isCategoryMessage) && conversation.lastMessage?.sender?.uid != loggedInUserId) {
         int oldCount = conversation.unreadMessageCount ?? 0;
         conversation.unreadMessageCount = oldCount + 1;
       }
@@ -450,23 +423,16 @@ class CometChatConversationListState extends State<CometChatConversationList>
   setReceipts(MessageReceipt receipt) {
     for (int i = 0; i < conversationList.length; i++) {
       Conversation conversation = conversationList[i];
-      if (conversation.conversationType == ReceiverTypeConstants.user &&
-          receipt.sender.uid == ((conversation.conversationWith as User).uid)) {
+      if (conversation.conversationType == ReceiverTypeConstants.user && receipt.sender.uid == ((conversation.conversationWith as User).uid)) {
         BaseMessage? lastMessage = conversation.lastMessage;
 
         //Check if receipt type is delivered
-        if (lastMessage != null &&
-            lastMessage.deliveredAt == null &&
-            receipt.receiptType == ReceiptTypeConstants.delivered &&
-            receipt.messageId == lastMessage.id) {
+        if (lastMessage != null && lastMessage.deliveredAt == null && receipt.receiptType == ReceiptTypeConstants.delivered && receipt.messageId == lastMessage.id) {
           lastMessage.deliveredAt = receipt.deliveredAt;
           conversationList[i].lastMessage = lastMessage;
           setState(() {});
           break;
-        } else if (lastMessage != null &&
-            lastMessage.readAt == null &&
-            receipt.receiptType == ReceiptTypeConstants.read &&
-            receipt.messageId == lastMessage.id) {
+        } else if (lastMessage != null && lastMessage.readAt == null && receipt.receiptType == ReceiptTypeConstants.read && receipt.messageId == lastMessage.id) {
           //if receipt type is read
           lastMessage.readAt = receipt.readAt;
           conversationList[i].lastMessage = lastMessage;
@@ -478,29 +444,19 @@ class CometChatConversationListState extends State<CometChatConversationList>
     }
   }
 
-  setTypingIndicator(
-      TypingIndicator typingIndicator, bool isTypingStarted) async {
+  setTypingIndicator(TypingIndicator typingIndicator, bool isTypingStarted) async {
     int matchingIndex;
     if (typingIndicator.receiverType == ReceiverTypeConstants.user) {
-      matchingIndex = conversationList.indexWhere(
-          (Conversation _conversation) =>
-              (_conversation.conversationType == ReceiverTypeConstants.user &&
-                  (_conversation.conversationWith as User).uid ==
-                      typingIndicator.sender.uid));
+      matchingIndex = conversationList.indexWhere((Conversation _conversation) => (_conversation.conversationType == ReceiverTypeConstants.user && (_conversation.conversationWith as User).uid == typingIndicator.sender.uid));
     } else {
-      matchingIndex = conversationList.indexWhere(
-          (Conversation _conversation) =>
-              (_conversation.conversationType == ReceiverTypeConstants.group &&
-                  (_conversation.conversationWith as Group).guid ==
-                      typingIndicator.receiverId));
+      matchingIndex = conversationList.indexWhere((Conversation _conversation) => (_conversation.conversationType == ReceiverTypeConstants.group && (_conversation.conversationWith as Group).guid == typingIndicator.receiverId));
     }
 
     if (matchingIndex != -1) {
       if (isTypingStarted == true) {
         typingIndicatorMap.add(conversationList[matchingIndex].conversationId!);
       } else {
-        typingIndicatorMap
-            .remove(conversationList[matchingIndex].conversationId!);
+        typingIndicatorMap.remove(conversationList[matchingIndex].conversationId!);
       }
       setState(() {});
     }
@@ -509,10 +465,8 @@ class CometChatConversationListState extends State<CometChatConversationList>
   void deleteConversationFromIndex(int index) async {
     late String conversationWith;
     late String conversationType;
-    if (conversationList[index].conversationType.toLowerCase() ==
-        ReceiverTypeConstants.group.toLowerCase()) {
-      conversationWith =
-          (conversationList[index].conversationWith as Group).guid;
+    if (conversationList[index].conversationType.toLowerCase() == ReceiverTypeConstants.group.toLowerCase()) {
+      conversationWith = (conversationList[index].conversationWith as Group).guid;
       conversationType = ReceiverTypeConstants.group;
     } else {
       conversationWith = (conversationList[index].conversationWith as User).uid;
@@ -525,24 +479,13 @@ class CometChatConversationListState extends State<CometChatConversationList>
       cancelButtonText: Translations.of(context).cancel_capital,
       messageText: Text(
         Translations.of(context).delete_confirm,
-        style: TextStyle(
-            fontSize: theme.typography.title2.fontSize,
-            fontWeight: theme.typography.title2.fontWeight,
-            color: theme.palette.getAccent(),
-            fontFamily: theme.typography.title2.fontFamily),
+        style: TextStyle(fontSize: theme.typography.title2.fontSize, fontWeight: theme.typography.title2.fontWeight, color: theme.palette.getAccent(), fontFamily: theme.typography.title2.fontFamily),
       ),
       style: ConfirmDialogStyle(
-          backgroundColor:
-              widget.style.background ?? theme.palette.getBackground(),
+          backgroundColor: widget.style.background ?? theme.palette.getBackground(),
           shadowColor: theme.palette.getAccent300(),
-          confirmButtonTextStyle: TextStyle(
-              fontSize: theme.typography.text2.fontSize,
-              fontWeight: theme.typography.text2.fontWeight,
-              color: theme.palette.getPrimary()),
-          cancelButtonTextStyle: TextStyle(
-              fontSize: theme.typography.text2.fontSize,
-              fontWeight: theme.typography.text2.fontWeight,
-              color: theme.palette.getPrimary())),
+          confirmButtonTextStyle: TextStyle(fontSize: theme.typography.text2.fontSize, fontWeight: theme.typography.text2.fontWeight, color: theme.palette.getPrimary()),
+          cancelButtonTextStyle: TextStyle(fontSize: theme.typography.text2.fontSize, fontWeight: theme.typography.text2.fontWeight, color: theme.palette.getPrimary())),
       onConfirm: (dialogContext) async {
         await CometChat.deleteConversation(
           conversationWith,
@@ -561,32 +504,30 @@ class CometChatConversationListState extends State<CometChatConversationList>
           conversationType,
           onSuccess: (_) {
             conversationList.removeAt(index);
+            Navigator.pop(context);
+            setState(() {});
           },
-          onError: (_) {},
+          onError: (_) {
+            Navigator.pop(context);
+            setState(() {});
+          },
         );
-        Navigator.pop(dialogContext);
-        setState(() {});
       },
     );
   }
 
   playNotificationSound(BaseMessage message) {
     //Write all conditions here to stop sound
-    if (message.type == MessageTypeConstants.custom &&
-        (message.metadata?["incrementUnreadCount"] != true)) {
+    if (message.type == MessageTypeConstants.custom && (message.metadata?["incrementUnreadCount"] != true)) {
       return;
     } //not playing sound in case message type is custom and increment counter is not true
     if (activeID == null) {
       //if no message list is open
-      SoundManager.play(
-          sound: Sound.incomingMessageFromOther,
-          customSound: widget.customIncomingMessageSound);
+      SoundManager.play(sound: Sound.incomingMessageFromOther, customSound: widget.customIncomingMessageSound);
     } else {
       if (activeID != message.conversationId) {
         //if open message list has different conversation id then message received conversation id
-        SoundManager.play(
-            sound: Sound.incomingMessage,
-            customSound: widget.customIncomingMessageSound);
+        SoundManager.play(sound: Sound.incomingMessage, customSound: widget.customIncomingMessageSound);
       }
     }
   }
@@ -598,8 +539,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
     isLoading = true;
 
     try {
-      conversationRequest.fetchNext(
-          onSuccess: (List<Conversation> fetchedList) {
+      conversationRequest.fetchNext(onSuccess: (List<Conversation> fetchedList) {
         if (fetchedList.isEmpty) {
           setState(() {
             isLoading = false;
@@ -621,17 +561,12 @@ class CometChatConversationListState extends State<CometChatConversationList>
           _showCustomError = true;
           setState(() {});
         } else if (widget.hideError == false) {
-          String _error =
-              widget.errorText ?? Utils.getErrorTranslatedText(context, e.code);
+          String _error = widget.errorText ?? Utils.getErrorTranslatedText(context, e.code);
           showCometChatConfirmDialog(
               context: context,
               messageText: Text(
                 _error,
-                style: TextStyle(
-                    fontSize: theme.typography.title2.fontSize,
-                    fontWeight: theme.typography.title2.fontWeight,
-                    color: theme.palette.getAccent(),
-                    fontFamily: theme.typography.title2.fontFamily),
+                style: TextStyle(fontSize: theme.typography.title2.fontSize, fontWeight: theme.typography.title2.fontWeight, color: theme.palette.getAccent(), fontFamily: theme.typography.title2.fontFamily),
               ),
               confirmButtonText: Translations.of(context).try_again,
               cancelButtonText: Translations.of(context).cancel_capital,
@@ -658,11 +593,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
             context: context,
             messageText: Text(
               widget.errorText ?? Translations.of(context).cant_load_chats,
-              style: TextStyle(
-                  fontSize: theme.typography.title2.fontSize,
-                  fontWeight: theme.typography.title2.fontWeight,
-                  color: theme.palette.getAccent(),
-                  fontFamily: theme.typography.title2.fontFamily),
+              style: TextStyle(fontSize: theme.typography.title2.fontSize, fontWeight: theme.typography.title2.fontWeight, color: theme.palette.getAccent(), fontFamily: theme.typography.title2.fontFamily),
             ),
             cancelButtonText: Translations.of(context).cancel_capital,
             confirmButtonText: Translations.of(context).try_again,
@@ -679,8 +610,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
   }
 
   markMessageRead(Conversation conversation) {
-    int matchingIndex = conversationList.indexWhere(
-        (element) => (element.conversationId == conversation.conversationId));
+    int matchingIndex = conversationList.indexWhere((element) => (element.conversationId == conversation.conversationId));
     if (matchingIndex != -1) {
       if (conversationList[matchingIndex].unreadMessageCount != 0) {
         conversationList[matchingIndex].unreadMessageCount = 0;
@@ -728,21 +658,15 @@ class CometChatConversationListState extends State<CometChatConversationList>
         Center(
           child: Text(
             widget.emptyText ?? "No Chats yet",
-            style: widget.style.empty ??
-                TextStyle(
-                    fontSize: _theme.typography.title1.fontSize,
-                    fontWeight: _theme.typography.title1.fontWeight,
-                    color: _theme.palette.getAccent400()),
+            style: widget.style.empty ?? TextStyle(fontSize: _theme.typography.title1.fontSize, fontWeight: _theme.typography.title1.fontWeight, color: _theme.palette.getAccent400()),
           ),
         );
   }
 
   bool _getHideReceipt(int index) {
-    if (_conversationListItemConfiguration.hideReceipt == true ||
-        conversationList[index].lastMessage == null) {
+    if (_conversationListItemConfiguration.hideReceipt == true || conversationList[index].lastMessage == null) {
       return true;
-    } else if (conversationList[index].lastMessage!.sender!.uid ==
-        loggedInUserId) {
+    } else if (conversationList[index].lastMessage!.sender!.uid == loggedInUserId) {
       return false;
     } else {
       return true;
@@ -764,11 +688,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
     if (_isListItemConfigurationPassed == false) {
       conversationOption = _getDefaultMenu(index, this);
     } else {
-      conversationOption = _conversationListItemConfiguration
-                  .conversationOptions !=
-              null
-          ? _conversationListItemConfiguration.conversationOptions!(index, this)
-          : null;
+      conversationOption = _conversationListItemConfiguration.conversationOptions != null ? _conversationListItemConfiguration.conversationOptions!(index, this) : null;
     }
 
     return Padding(
@@ -776,21 +696,15 @@ class CometChatConversationListState extends State<CometChatConversationList>
       child: CometChatConversationListItem(
         //key: UniqueKey(),
         inputData: _conversationListItemConfiguration.inputData,
-        dateConfiguration:
-            widget.dateConfiguration ?? const DateConfiguration(),
-        statusIndicatorConfiguration: widget.statusIndicatorConfiguration ??
-            const StatusIndicatorConfiguration(),
-        badgeCountConfiguration:
-            widget.badgeCountConfiguration ?? const BadgeCountConfiguration(),
-        avatarConfiguration:
-            widget.avatarConfiguration ?? const AvatarConfiguration(),
-        messageReceiptConfiguration: widget.messageReceiptConfiguration ??
-            const MessageReceiptConfiguration(),
+        dateConfiguration: widget.dateConfiguration ?? const DateConfiguration(),
+        statusIndicatorConfiguration: widget.statusIndicatorConfiguration ?? const StatusIndicatorConfiguration(),
+        badgeCountConfiguration: widget.badgeCountConfiguration ?? const BadgeCountConfiguration(),
+        avatarConfiguration: widget.avatarConfiguration ?? const AvatarConfiguration(),
+        messageReceiptConfiguration: widget.messageReceiptConfiguration ?? const MessageReceiptConfiguration(),
         hideThreadIndicator: _getHideThreadIndicator(index),
         conversation: conversationList[index],
         conversationOptions: conversationOption,
-        showTypingIndicator:
-            typingIndicatorMap.contains(conversationList[index].conversationId),
+        showTypingIndicator: typingIndicatorMap.contains(conversationList[index].conversationId),
         hideReceipt: _getHideReceipt(index),
         theme: widget.theme,
         onTap: () async {
@@ -800,10 +714,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
         onLongPress: () {
           CometChatConversationEvents.onLongPress(conversationList[index]);
         },
-        style: ConversationListItemStyle(
-            background: widget.style.gradient != null
-                ? Colors.transparent
-                : widget.style.background),
+        style: ConversationListItemStyle(background: widget.style.gradient != null ? Colors.transparent : widget.style.background),
       ),
     );
   }
@@ -848,9 +759,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
     } else {
       return ListView.builder(
         padding: const EdgeInsets.all(0),
-        itemCount: hasMoreItems
-            ? conversationList.length + 1
-            : conversationList.length,
+        itemCount: hasMoreItems ? conversationList.length + 1 : conversationList.length,
         itemBuilder: (BuildContext context, int index) {
           if (index >= conversationList.length) {
             _loadMore();
@@ -861,9 +770,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
             return const SizedBox();
           }
 
-          if (conversationList[index].conversationType ==
-                  ReceiverTypeConstants.group ||
-              conversationList[index].conversationWith is User) {
+          if (conversationList[index].conversationType == ReceiverTypeConstants.group || conversationList[index].conversationWith is User) {
             return Column(
               children: [
                 _getConversationListItem(index, _theme),
@@ -891,12 +798,7 @@ class CometChatConversationListState extends State<CometChatConversationList>
     CometChatTheme _theme = widget.theme ?? cometChatTheme;
 
     return Container(
-      decoration: BoxDecoration(
-          color: widget.style.background ?? _theme.palette.getBackground(),
-          gradient: widget.style.gradient,
-          borderRadius: BorderRadius.all(
-              Radius.circular(widget.style.cornerRadius ?? 7.0)),
-          border: widget.style.border),
+      decoration: BoxDecoration(color: widget.style.background ?? _theme.palette.getBackground(), gradient: widget.style.gradient, borderRadius: BorderRadius.all(Radius.circular(widget.style.cornerRadius ?? 7.0)), border: widget.style.border),
       child: _getBody(_theme),
     );
   }
