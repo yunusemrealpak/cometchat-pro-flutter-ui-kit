@@ -51,7 +51,7 @@ showCometChatConfirmDialog(
                   return;
                 }
 
-                onConfirm.call(context).then((value) => Navigator.of(context).pop());
+                onConfirm.call(context).then((value) => Navigator.of(dialogContext).pop());
               },
             ),
         ],
