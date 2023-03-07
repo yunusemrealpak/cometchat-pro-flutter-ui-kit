@@ -150,8 +150,8 @@ class _CometChatCreatePollState extends State<CometChatCreatePoll> {
             Navigator.pop(dialogContext);
           },
           onConfirm: (dialogContext) {
-            Navigator.pop(dialogContext);
             createPoll();
+            return Future.value();
           });
     });
   }

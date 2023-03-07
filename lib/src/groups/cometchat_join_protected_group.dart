@@ -107,7 +107,7 @@ class _CometChatJoinProtectedGroupState
           ),
           confirmButtonText: Translations.of(context).okay,
           onConfirm: (dialogContext) {
-            Navigator.pop(dialogContext); //pop confirm dialog
+            return Future.value();
           });
       debugPrint("Group Joining failed with exception: ${e.message}");
       CometChatGroupEvents.onGroupError(e);

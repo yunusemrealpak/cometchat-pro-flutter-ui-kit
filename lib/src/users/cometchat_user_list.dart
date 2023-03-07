@@ -259,8 +259,8 @@ class CometChatUserListState extends State<CometChatUserList>
           Navigator.pop(dialogContext);
         },
         onConfirm: (dialogContext) {
-          Navigator.pop(dialogContext);
           _loadMore();
+          return Future.value();
         });
   }
 

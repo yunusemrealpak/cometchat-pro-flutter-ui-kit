@@ -248,8 +248,8 @@ class CometChatGroupListState extends State<CometChatGroupList>
               Navigator.pop(dialogContext);
             },
             onConfirm: (dialogContext) {
-              Navigator.pop(dialogContext);
               _loadMore();
+              return Future.value();
             },
             style: ConfirmDialogStyle(
                 backgroundColor:
@@ -291,8 +291,8 @@ class CometChatGroupListState extends State<CometChatGroupList>
             Navigator.pop(dialogContext);
           },
           onConfirm: (dialogContext) {
-            Navigator.pop(dialogContext);
             _loadMore();
+            return Future.value();
           },
           style: ConfirmDialogStyle(
               backgroundColor:

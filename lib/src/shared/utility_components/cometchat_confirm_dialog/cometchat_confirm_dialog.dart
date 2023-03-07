@@ -7,7 +7,7 @@ showCometChatConfirmDialog(
     String? confirmButtonText,
     String? cancelButtonText,
     Function(BuildContext)? onCustomConfirm,
-    Function(BuildContext)? onConfirm,
+    Future<void> Function(BuildContext)? onConfirm,
     Function(BuildContext)? onCancel,
     ConfirmDialogStyle style = const ConfirmDialogStyle()}) {
   showDialog(
@@ -46,10 +46,12 @@ showCometChatConfirmDialog(
                           fontWeight: FontWeight.w500,
                           color: Color(0xff3399FF))),
               onPressed: () {
-                onCustomConfirm != null
-                    ? () => onCustomConfirm(dialogContext)
-                    : onConfirm?.call(dialogContext) ??
-                        Navigator.of(context).pop();
+                if (onConfirm == null) {
+                  Navigator.of(dialogContext).pop();
+                  return;
+                }
+
+                onConfirm.call(context).then((value) => Navigator.of(context).pop());
               },
             ),
         ],

@@ -484,8 +484,8 @@ class CometChatMessageListState extends State<CometChatMessageList>
                 Navigator.pop(dialogContext);
               },
               onConfirm: (dialogContext) {
-                Navigator.pop(dialogContext);
                 _loadMore(true);
+                return Future.value();
               });
         }
       });
@@ -520,8 +520,8 @@ class CometChatMessageListState extends State<CometChatMessageList>
               Navigator.pop(dialogContext);
             },
             onConfirm: (dialogContext) {
-              Navigator.pop(dialogContext);
               _loadMore(true);
+              return Future.value();
             });
       }
     }
@@ -763,7 +763,7 @@ class CometChatMessageListState extends State<CometChatMessageList>
                     color: theme.palette.getPrimary())),
             confirmButtonText: Translations.of(context).okay,
             onConfirm: (dialogContext) {
-              Navigator.pop(dialogContext);
+              return Future.value();
             });
       });
     }

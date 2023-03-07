@@ -83,7 +83,7 @@ class _CometChatImageBubbleState extends State<CometChatImageBubble> {
                 widget.confirmDialogConfiguration.cancelButtonText,
             onConfirm: (dialogContext) {
               showImage();
-              Navigator.of(dialogContext).pop();
+              return Future.value();
             },
             style: widget.confirmDialogConfiguration.confirmDialogStyle);
       },

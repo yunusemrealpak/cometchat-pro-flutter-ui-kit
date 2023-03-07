@@ -495,23 +495,8 @@ class CometChatConversationListState extends State<CometChatConversationList> wi
           },
           onError: (_) {},
         );
-        Navigator.pop(dialogContext);
         setState(() {});
-      },
-      onCustomConfirm: (dialogContext) async {
-        await CometChat.deleteConversation(
-          conversationWith,
-          conversationType,
-          onSuccess: (_) {
-            conversationList.removeAt(index);
-            Navigator.pop(context);
-            setState(() {});
-          },
-          onError: (_) {
-            Navigator.pop(context);
-            setState(() {});
-          },
-        );
+        return Future.value();
       },
     );
   }
@@ -577,6 +562,7 @@ class CometChatConversationListState extends State<CometChatConversationList> wi
               onConfirm: (dialogContext) {
                 Navigator.pop(dialogContext);
                 _loadMore();
+                return Future.value();
               });
         }
       });
@@ -604,6 +590,7 @@ class CometChatConversationListState extends State<CometChatConversationList> wi
             onConfirm: (dialogContext) {
               Navigator.pop(dialogContext);
               _loadMore();
+              return Future.value();
             });
       }
     }
