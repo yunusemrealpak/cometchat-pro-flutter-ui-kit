@@ -38,6 +38,7 @@ class CometChatMessageHeader extends StatefulWidget implements PreferredSizeWidg
     this.changeBlockState,
     this.hasBlockedMe = false,
     this.blockByMe = false,
+    this.onHeaderAvatarTap,
   }) : super(key: key);
 
   ///[user] user object if conversation with is User
@@ -70,6 +71,7 @@ class CometChatMessageHeader extends StatefulWidget implements PreferredSizeWidg
   final void Function({bool blockByMe, bool hasBlockedMe})? changeBlockState;
   final bool hasBlockedMe;
   final bool blockByMe;
+  final void Function(String user)? onHeaderAvatarTap;
 
   @override
   State<CometChatMessageHeader> createState() => _CometChatMessageHeaderState();
@@ -226,6 +228,9 @@ class _CometChatMessageHeaderState extends State<CometChatMessageHeader> with Me
             }),
         user: userObject,
         hideOnlineStatus: widget.blockByMe || widget.hasBlockedMe,
+        onAvatarTap: (String user) {
+          widget.onHeaderAvatarTap?.call(user);
+        },
       );
     } else if (groupObject != null) {
       return CometChatDataItem(

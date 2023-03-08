@@ -16,6 +16,7 @@ class CometChatDataItem<T> extends StatelessWidget {
     this.group,
     this.groupMember,
     this.hideOnlineStatus = false,
+    this.onAvatarTap,
   })  : assert(user != null || group != null || groupMember != null),
         super(key: key);
 
@@ -47,6 +48,7 @@ class CometChatDataItem<T> extends StatelessWidget {
   final GroupMember? groupMember;
 
   final bool hideOnlineStatus;
+  final Function(String user)? onAvatarTap;
 
   Widget getAvatar(CometChatTheme _theme) {
     if (inputData.thumbnail) {
@@ -182,7 +184,14 @@ class CometChatDataItem<T> extends StatelessWidget {
         leading: inputData.thumbnail
             ? Stack(
                 children: [
-                  getAvatar(_theme),
+                  GestureDetector(
+                      onTap: () {
+                        if (user == null) {
+                          return;
+                        }
+                        onAvatarTap?.call(user!.uid);
+                      },
+                      child: getAvatar(_theme)),
                   if (inputData.status && !hideOnlineStatus)
                     Positioned(
                       height: statusIndicatorConfiguration.height ?? 14,

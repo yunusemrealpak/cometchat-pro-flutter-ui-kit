@@ -42,6 +42,7 @@ class CometChatMessages extends StatefulWidget {
       this.onMessageTap,
       this.hideMessagesWhenBlocked = false,
       this.onBlockUser,
+      this.onHeaderAvatarTap,
       this.notifyParent})
       : super(key: key);
 
@@ -86,6 +87,7 @@ class CometChatMessages extends StatefulWidget {
   final bool hideMessagesWhenBlocked;
 
   final Function(String? userId, bool blocked)? onBlockUser;
+  final void Function(String? id)? onHeaderAvatarTap;
 
   ///[notifyParent] method to tell parent message List is active
   final Function(String? id)? notifyParent;
@@ -330,6 +332,7 @@ class CometChatMessagesState extends State<CometChatMessages> with CometChatMess
               statusIndicatorConfiguration: widget.messageHeaderConfiguration.statusIndicatorConfiguration,
               hasBlockedMe: hasBlockedMe,
               blockByMe: blockByMe,
+              onHeaderAvatarTap: widget.onHeaderAvatarTap,
               changeBlockState: ({blockByMe = false, hasBlockedMe = false}) {
                 if (mounted) {
                   setState(() {
