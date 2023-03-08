@@ -183,7 +183,7 @@ class CometChatDataItem<T> extends StatelessWidget {
             ? Stack(
                 children: [
                   getAvatar(_theme),
-                  if (inputData.status)
+                  if (inputData.status && !hideOnlineStatus)
                     Positioned(
                       height: statusIndicatorConfiguration.height ?? 14,
                       width: statusIndicatorConfiguration.width ?? 14,

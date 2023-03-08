@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui_kit/flutter_chat_ui_kit.dart';
 
@@ -58,7 +59,7 @@ class _CometChatImageBubbleState extends State<CometChatImageBubble> {
         return Center(
             child: Text(Translations.of(context).failed_to_load_image));
       },
-      image: NetworkImage(
+      image: CachedNetworkImageProvider(
         _imageUrl,
       ),
     );
