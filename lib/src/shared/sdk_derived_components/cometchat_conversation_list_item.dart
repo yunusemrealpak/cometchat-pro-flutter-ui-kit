@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import '../../../../flutter_chat_ui_kit.dart';
 import 'package:cometchat/models/action.dart' as action;
@@ -319,6 +321,7 @@ class CometChatConversationListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _user = conversation.conversationWith as User;
+    inspect(_user);
     bool hideStatus =
         (_user.hasBlockedMe ?? false) || (_user.blockedByMe ?? false);
     debugPrint(
