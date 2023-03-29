@@ -318,6 +318,9 @@ class CometChatConversationListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _user = conversation.conversationWith as User;
+    bool hideStatus =
+        (_user.hasBlockedMe ?? false) || (_user.blockedByMe ?? false);
     ConversationListItemStyle _style =
         style ?? const ConversationListItemStyle();
     CometChatTheme _theme = theme ?? cometChatTheme;
@@ -350,13 +353,14 @@ class CometChatConversationListItem extends StatelessWidget {
               ? Stack(
                   children: [
                     getAvatar(_theme),
-                    Positioned(
-                      height: 12,
-                      width: 12,
-                      right: 1,
-                      bottom: 1,
-                      child: getStatus(_theme),
-                    )
+                    if (!hideStatus)
+                      Positioned(
+                        height: 12,
+                        width: 12,
+                        right: 1,
+                        bottom: 1,
+                        child: getStatus(_theme),
+                      )
                   ],
                 )
               : null,
