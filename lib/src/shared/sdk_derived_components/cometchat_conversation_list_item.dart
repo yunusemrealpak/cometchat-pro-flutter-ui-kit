@@ -321,6 +321,8 @@ class CometChatConversationListItem extends StatelessWidget {
     final _user = conversation.conversationWith as User;
     bool hideStatus =
         (_user.hasBlockedMe ?? false) || (_user.blockedByMe ?? false);
+    debugPrint(
+        '[ CometChat Conversation List Item ] hideStatus: $hideStatus - ${_user.name}');
     ConversationListItemStyle _style =
         style ?? const ConversationListItemStyle();
     CometChatTheme _theme = theme ?? cometChatTheme;
