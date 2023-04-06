@@ -663,7 +663,7 @@ class CometChatMessageBubble extends StatelessWidget {
       return CometChatMessagePreview(
         messagePreviewTitle: senderUserName,
         messagePreviewSubtitle: messagePreviewSubtitle,
-        hideCloseButton: false,
+        hideCloseButton: true,
         style: CometChatMessagePreviewStyle(
             messagePreviewTitleStyle: TextStyle(
                 color: _theme.palette.getAccent600(),
