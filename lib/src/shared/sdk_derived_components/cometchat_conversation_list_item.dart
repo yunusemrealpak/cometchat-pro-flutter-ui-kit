@@ -109,8 +109,7 @@ class CometChatConversationListItem extends StatelessWidget {
         name: _name,
         width: avatarConfiguration.width,
         height: avatarConfiguration.height,
-        backgroundColor: avatarConfiguration.backgroundColor ??
-            _theme.palette.getAccent700(),
+        backgroundColor: avatarConfiguration.backgroundColor ?? _theme.palette.getAccent700(),
         cornerRadius: avatarConfiguration.cornerRadius,
         outerCornerRadius: avatarConfiguration.outerCornerRadius,
         border: avatarConfiguration.border,
@@ -138,10 +137,10 @@ class CometChatConversationListItem extends StatelessWidget {
       );
     } else if (conversation.conversationType == ReceiverTypeConstants.user) {
       return CometChatStatusIndicator(
-        backgroundColor: (conversation.conversationWith as User).status ==
-                UserStatusConstants.online
-            ? _theme.palette.getSuccess()
-            : null,
+        backgroundColor:
+            (conversation.conversationWith as User).status == UserStatusConstants.online
+                ? _theme.palette.getSuccess()
+                : null,
         border: statusIndicatorConfiguration.border,
         cornerRadius: statusIndicatorConfiguration.cornerRadius,
         height: statusIndicatorConfiguration.height,
@@ -162,8 +161,8 @@ class CometChatConversationListItem extends StatelessWidget {
         width: 0,
       );
     } else {
-      DateTime? lastMessageTime = conversation.lastMessage?.updatedAt ??
-          conversation.lastMessage?.sentAt;
+      DateTime? lastMessageTime =
+          conversation.lastMessage?.updatedAt ?? conversation.lastMessage?.sentAt;
       if (lastMessageTime == null) return const SizedBox();
       DateTime now = DateTime.now();
 
@@ -172,10 +171,8 @@ class CometChatConversationListItem extends StatelessWidget {
         contentPadding: dateConfiguration.contentPadding,
         isTransparentBackground: dateConfiguration.isTransparentBackground,
         cornerRadius: dateConfiguration.cornerRadius,
-        borderColor:
-            dateConfiguration.borderColor ?? _theme.palette.getBackground(),
-        backgroundColor:
-            dateConfiguration.backgroundColor ?? _theme.palette.getBackground(),
+        borderColor: dateConfiguration.borderColor ?? _theme.palette.getBackground(),
+        backgroundColor: dateConfiguration.backgroundColor ?? _theme.palette.getBackground(),
         textStyle: dateConfiguration.textStyle ??
             TextStyle(
                 color: _theme.palette.getAccent500(),
@@ -226,10 +223,8 @@ class CometChatConversationListItem extends StatelessWidget {
         cornerRadius: badgeCountConfiguration.cornerRadius ?? 100,
         textStyle: badgeCountConfiguration.textStyle ??
             TextStyle(
-                fontSize: _theme.typography.subtitle1.fontSize,
-                color: _theme.palette.getAccent()),
-        background:
-            badgeCountConfiguration.background ?? _theme.palette.getPrimary(),
+                fontSize: _theme.typography.subtitle1.fontSize, color: _theme.palette.getAccent()),
+        background: badgeCountConfiguration.background ?? _theme.palette.getPrimary(),
         borderColor: badgeCountConfiguration.borderColor,
         borderWidth: badgeCountConfiguration.borderWidth,
       );
@@ -252,8 +247,8 @@ class CometChatConversationListItem extends StatelessWidget {
     }
   }
 
-  Widget getSubtitle(ConversationListItemStyle _style, CometChatTheme _theme,
-      BuildContext context) {
+  Widget getSubtitle(
+      ConversationListItemStyle _style, CometChatTheme _theme, BuildContext context) {
     TextStyle _subtitleStyle = _style.subtitleStyle ??
         TextStyle(
             color: _theme.palette.getAccent600(),
@@ -321,13 +316,10 @@ class CometChatConversationListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _user = conversation.conversationWith as User;
-    inspect(_user);
-    bool hideStatus =
-        (_user.hasBlockedMe ?? false) || (_user.blockedByMe ?? false);
+    bool hideStatus = (_user.hasBlockedMe ?? false) || (_user.blockedByMe ?? false);
     debugPrint(
         '[ CometChat Conversation List Item ] hideStatus: $hideStatus - ${_user.name} - hasBlockedMe: ${_user.hasBlockedMe} - blockedByMe: ${_user.blockedByMe}');
-    ConversationListItemStyle _style =
-        style ?? const ConversationListItemStyle();
+    ConversationListItemStyle _style = style ?? const ConversationListItemStyle();
     CometChatTheme _theme = theme ?? cometChatTheme;
 
     //-------------------------------
@@ -399,11 +391,9 @@ class CometChatConversationListItem extends StatelessWidget {
                       style: _style.typingIndicator ??
                           TextStyle(
                               color: _theme.palette.getPrimary(),
-                              fontWeight:
-                                  _theme.typography.subtitle1.fontWeight,
+                              fontWeight: _theme.typography.subtitle1.fontWeight,
                               fontSize: _theme.typography.subtitle1.fontSize,
-                              fontFamily:
-                                  _theme.typography.subtitle1.fontFamily),
+                              fontFamily: _theme.typography.subtitle1.fontFamily),
                     )
                   else
                     Expanded(child: getSubtitle(_style, _theme, context))
