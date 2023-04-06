@@ -67,8 +67,8 @@ class TemplateUtils {
     List<CometChatMessageOptions> messageOptionList = [];
     //messageOptionList.addAll(getCommonOptions());
     messageOptionList.add(editOption);
-    //messageOptionList.add(replyOption);
-    //messageOptionList.add(replyInThreadOption);
+    messageOptionList.add(replyOption);
+    messageOptionList.add(replyInThreadOption);
     //messageOptionList.add(shareOption);
     messageOptionList.add(copyOption);
     // messageOptionList.add(forwardOption);
