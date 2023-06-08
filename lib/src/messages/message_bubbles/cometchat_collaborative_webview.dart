@@ -28,12 +28,42 @@ class CometChatCollaborativeWebView extends StatefulWidget {
   final Color? appBarColor;
 
   @override
-  _CometChatCollaborativeWebViewState createState() =>
-      _CometChatCollaborativeWebViewState();
+  _CometChatCollaborativeWebViewState createState() => _CometChatCollaborativeWebViewState();
 }
 
-class _CometChatCollaborativeWebViewState
-    extends State<CometChatCollaborativeWebView> {
+class _CometChatCollaborativeWebViewState extends State<CometChatCollaborativeWebView> {
+  late WebViewController _controller;
+
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Enable virtual display.
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            if (progress == 100) changeLoading(false);
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.webviewUrl));
+  }
+
+  void changeLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,15 +85,11 @@ class _CometChatCollaborativeWebViewState
         title: Text(
           widget.title,
           style: widget.titleStyle ??
-              const TextStyle(
-                  color: Color(0xff141414),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500),
+              const TextStyle(color: Color(0xff141414), fontSize: 20, fontWeight: FontWeight.w500),
         ),
       ),
-      body: WebView(
-        initialUrl: widget.webviewUrl,
-        javascriptMode: JavascriptMode.unrestricted,
+      body: WebViewWidget(
+        controller: _controller,
       ),
     );
   }
