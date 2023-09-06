@@ -14,13 +14,7 @@ enum ChatsAlignment { standard, side }
 /// ```
 ///
 class CometChatConversationsWithMessages extends StatefulWidget {
-  const CometChatConversationsWithMessages(
-      {Key? key,
-      this.theme,
-      this.conversationConfigurations = const ConversationConfigurations(),
-      this.messageConfiguration = const MessageConfiguration(),
-      this.stateCallBack})
-      : super(key: key);
+  const CometChatConversationsWithMessages({Key? key, this.theme, this.conversationConfigurations = const ConversationConfigurations(), this.messageConfiguration = const MessageConfiguration(), this.stateCallBack}) : super(key: key);
 
   final CometChatTheme? theme;
 
@@ -32,59 +26,48 @@ class CometChatConversationsWithMessages extends StatefulWidget {
   final void Function(CometChatConversationsWithMessagesState)? stateCallBack;
 
   @override
-  State<CometChatConversationsWithMessages> createState() =>
-      CometChatConversationsWithMessagesState();
+  State<CometChatConversationsWithMessages> createState() => CometChatConversationsWithMessagesState();
 }
 
-class CometChatConversationsWithMessagesState
-    extends State<CometChatConversationsWithMessages>
-    with CometChatMessageEventListener, CometChatConversationEventListener {
+class CometChatConversationsWithMessagesState extends State<CometChatConversationsWithMessages> with CometChatMessageEventListener, CometChatConversationEventListener {
   final String listenerId = "CometChatConversationWithMessage";
-  final String conversationListener =
-      "CometChatConversationWithMessagesConversationListener";
+  final String conversationListener = "CometChatConversationWithMessagesConversationListener";
   CometChatConversationsState? conversationState;
   CometChatMessagesState? messageState;
 
-  conversationStateCallBack(CometChatConversationsState _conversationState) {
-    conversationState = _conversationState;
+  conversationStateCallBack(CometChatConversationsState conversationState) {
+    conversationState = conversationState;
   }
 
-  messageStateCallBack(CometChatMessagesState _messageState) {
-    messageState = _messageState;
+  messageStateCallBack(CometChatMessagesState messageState) {
+    messageState = messageState;
   }
 
   @override
   void onConversationTap(Conversation conversation) {
-    String? _userId;
-    String? _groupId;
+    String? userId;
+    String? groupId;
     if (conversation.conversationType == ReceiverTypeConstants.user) {
-      _userId = (conversation.conversationWith as User).uid;
+      userId = (conversation.conversationWith as User).uid;
     } else if (conversation.conversationType == ReceiverTypeConstants.group) {
-      _groupId = (conversation.conversationWith as Group).guid;
+      groupId = (conversation.conversationWith as Group).guid;
     }
 
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => CometChatMessages(
-            user: _userId,
-            group: _groupId,
+            user: userId,
+            group: groupId,
             theme: widget.theme,
-            enableSoundForMessages:
-                widget.messageConfiguration.enableSoundForMessages,
-            enableTypingIndicator:
-                widget.messageConfiguration.enableTypingIndicator,
-            messageComposerConfiguration:
-                widget.messageConfiguration.messageComposerConfiguration,
-            messageListConfiguration:
-                widget.messageConfiguration.messageListConfiguration,
-            messageHeaderConfiguration:
-                widget.messageConfiguration.messageHeaderConfiguration,
-            hideMessageComposer:
-                widget.messageConfiguration.hideMessageComposer,
+            enableSoundForMessages: widget.messageConfiguration.enableSoundForMessages,
+            enableTypingIndicator: widget.messageConfiguration.enableTypingIndicator,
+            messageComposerConfiguration: widget.messageConfiguration.messageComposerConfiguration,
+            messageListConfiguration: widget.messageConfiguration.messageListConfiguration,
+            messageHeaderConfiguration: widget.messageConfiguration.messageHeaderConfiguration,
+            hideMessageComposer: widget.messageConfiguration.hideMessageComposer,
             messageTypes: widget.messageConfiguration.messageTypes,
-            excludeMessageTypes:
-                widget.messageConfiguration.excludeMessageTypes,
+            excludeMessageTypes: widget.messageConfiguration.excludeMessageTypes,
             stateCallBack: messageStateCallBack,
             notifyParent: changeActiveId,
           ),
@@ -95,8 +78,7 @@ class CometChatConversationsWithMessagesState
   void initState() {
     super.initState();
     CometChatMessageEvents.addMessagesListener(listenerId, this);
-    CometChatConversationEvents.addConversationListListener(
-        conversationListener, this);
+    CometChatConversationEvents.addConversationListListener(conversationListener, this);
     if (widget.stateCallBack != null) {
       widget.stateCallBack!(this);
     }
@@ -106,8 +88,7 @@ class CometChatConversationsWithMessagesState
   void dispose() {
     super.dispose();
     CometChatMessageEvents.removeMessagesListener(listenerId);
-    CometChatConversationEvents.removeConversationListListener(
-        conversationListener);
+    CometChatConversationEvents.removeConversationListListener(conversationListener);
   }
 
   changeActiveId(String? id) {
@@ -123,25 +104,16 @@ class CometChatConversationsWithMessagesState
       title: widget.conversationConfigurations.title,
       hideSearch: widget.conversationConfigurations.hideSearch,
       backButton: widget.conversationConfigurations.backButton,
-      hideStartConversation:
-          widget.conversationConfigurations.hideStartConversation,
+      hideStartConversation: widget.conversationConfigurations.hideStartConversation,
       search: widget.conversationConfigurations.search,
-      startConversationIcon:
-          widget.conversationConfigurations.startConversationIcon,
-      avatarConfiguration:
-          widget.conversationConfigurations.avatarConfiguration,
-      badgeCountConfiguration:
-          widget.conversationConfigurations.badgeCountConfiguration,
-      conversationListItemConfiguration:
-          widget.conversationConfigurations.conversationListItemConfiguration,
+      startConversationIcon: widget.conversationConfigurations.startConversationIcon,
+      avatarConfiguration: widget.conversationConfigurations.avatarConfiguration,
+      badgeCountConfiguration: widget.conversationConfigurations.badgeCountConfiguration,
+      conversationListItemConfiguration: widget.conversationConfigurations.conversationListItemConfiguration,
       dateConfiguration: widget.conversationConfigurations.dateConfiguration,
-      messageReceiptConfiguration:
-          widget.conversationConfigurations.messageReceiptConfiguration,
-      statusIndicatorConfiguration:
-          widget.conversationConfigurations.statusIndicatorConfiguration,
-      conversationListConfiguration:
-          widget.conversationConfigurations.conversationListConfiguration ??
-              const ConversationListConfigurations(),
+      messageReceiptConfiguration: widget.conversationConfigurations.messageReceiptConfiguration,
+      statusIndicatorConfiguration: widget.conversationConfigurations.statusIndicatorConfiguration,
+      conversationListConfiguration: widget.conversationConfigurations.conversationListConfiguration ?? const ConversationListConfigurations(),
       stateCallBack: conversationStateCallBack,
     );
   }

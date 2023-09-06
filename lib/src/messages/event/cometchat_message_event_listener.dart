@@ -4,7 +4,7 @@ import '../../../flutter_chat_ui_kit.dart';
 enum LiveReactionType { liveReaction }
 
 ///Listener class for [CometChatMessages]
-abstract class CometChatMessageEventListener implements UIEventHandler {
+mixin CometChatMessageEventListener implements UIEventHandler {
   //---composer events---
   void onMessageSent(BaseMessage message, MessageStatus messageStatus) {}
 
@@ -14,8 +14,7 @@ abstract class CometChatMessageEventListener implements UIEventHandler {
 
   void onCreatePoll(MessageStatus messageStatus) {}
 
-  void onMessageReact(
-      BaseMessage message, String reaction, MessageStatus messageStatus) {}
+  void onMessageReact(BaseMessage message, String reaction, MessageStatus messageStatus) {}
 
 //---message list events---
   void onMessageEdit(BaseMessage message, MessageEditStatus status) {}
@@ -34,6 +33,5 @@ abstract class CometChatMessageEventListener implements UIEventHandler {
 
   void onLiveReaction(String reaction) {}
 
-  void onEventClicked(CometChatMessageOptions messageOptions,
-      BaseMessage message, CometChatMessageListState state) {}
+  void onEventClicked(CometChatMessageOptions messageOptions, BaseMessage message, CometChatMessageListState state) {}
 }

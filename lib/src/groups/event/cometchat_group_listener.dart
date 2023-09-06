@@ -4,7 +4,7 @@ import '../../../../../flutter_chat_ui_kit.dart';
 
 ///Events can be triggered by Group Module
 ///e.g. Clicking on a particular group. All public-facing components in each module will trigger events.
-abstract class CometChatGroupEventListener implements UIEventHandler {
+mixin CometChatGroupEventListener implements UIEventHandler {
   ///This will get triggered when a user clicks/presses on single Group i.e at CometChatDataItem
   void onGroupTap(Group group, int index) {}
 
@@ -30,8 +30,7 @@ abstract class CometChatGroupEventListener implements UIEventHandler {
   void onGroupMemberLeave(User leftUser, Group leftGroup) {}
 
   ///This will get triggered when group member's scope is changed by logged in user
-  void onGroupMemberChangeScope(User updatedBy, User updatedUser,
-      String scopeChangedTo, String scopeChangedFrom, Group group) {}
+  void onGroupMemberChangeScope(User updatedBy, User updatedUser, String scopeChangedTo, String scopeChangedFrom, Group group) {}
 
   ///This will get triggered when group member is banned from the group by logged in user
   void onGroupMemberBan(User bannedUser, User bannedBy, Group bannedFrom) {}
@@ -40,8 +39,7 @@ abstract class CometChatGroupEventListener implements UIEventHandler {
   void onGroupMemberKick(User kickedUser, User kickedBy, Group kickedFrom) {}
 
   ///This will get triggered when a banned group member is unbanned from group by logged in user
-  void onGroupMemberUnban(
-      User unbannedUser, User unbannedBy, Group unbannedFrom) {}
+  void onGroupMemberUnban(User unbannedUser, User unbannedBy, Group unbannedFrom) {}
 
   ///This will get triggered when logged in user is joined successfully
   void onGroupMemberJoin(User joinedUser, Group joinedGroup) {}

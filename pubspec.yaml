@@ -7,8 +7,8 @@ version: 3.0.3-pluto.beta.1
 homepage: https://www.cometchat.com/
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.20.0"
+  sdk: ">=3.0.6 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   cached_network_image: ^3.2.3
