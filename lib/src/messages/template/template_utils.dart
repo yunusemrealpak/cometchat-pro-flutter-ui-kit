@@ -67,7 +67,7 @@ class TemplateUtils {
     List<CometChatMessageOptions> messageOptionList = [];
     //messageOptionList.addAll(getCommonOptions());
     messageOptionList.add(editOption);
-    //messageOptionList.add(replyOption);
+    messageOptionList.add(replyOption);
     //messageOptionList.add(replyInThreadOption);
     //messageOptionList.add(shareOption);
     messageOptionList.add(copyOption);
@@ -273,8 +273,7 @@ class TemplateUtils {
   }
 
   //Function returns map [ type: CometChatMessageTemplate ]
-  static Map<String, List<ActionItem>> getActionMap(
-      List<CometChatMessageTemplate> templateList) {
+  static Map<String, List<ActionItem>> getActionMap(List<CometChatMessageTemplate> templateList) {
     Map<String, List<ActionItem>> actionMap = {};
 
     for (CometChatMessageTemplate template in templateList) {
@@ -339,10 +338,10 @@ class TemplateUtils {
     List<CometChatMessageOptions> messageOptionList = [];
     messageOptionList.add(reactToMessageOption);
     messageOptionList.add(replyOption);
-    // messageOptionList.add(replyInThreadOption);
+    messageOptionList.add(replyInThreadOption);
     //messageOptionList.add(forwardOption);
     // messageOptionList.add(shareOption);
-    // messageOptionList.add(informationOption);
+    messageOptionList.add(informationOption);
     messageOptionList.add(deleteOption);
     return messageOptionList;
   }
@@ -396,8 +395,7 @@ class TemplateUtils {
     return category;
   }
 
-  static String getMessageTypeToSubtitle(
-      String messageType, BuildContext context) {
+  static String getMessageTypeToSubtitle(String messageType, BuildContext context) {
     String subtitle = messageType;
     switch (messageType) {
       case MessageTypeConstants.text:
@@ -466,8 +464,7 @@ class TemplateUtils {
     return subtitle;
   }
 
-  static String getLocalizeMessageOptionTitle(
-      String messageOption, BuildContext context) {
+  static String getLocalizeMessageOptionTitle(String messageOption, BuildContext context) {
     String localizedTitle = messageOption;
     switch (messageOption) {
       case MessageOptionConstants.editMessage:

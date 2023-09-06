@@ -130,10 +130,8 @@ class CometChatMessageBubble extends StatelessWidget {
         contentPadding: dateConfiguration.contentPadding,
         isTransparentBackground: dateConfiguration.isTransparentBackground,
         cornerRadius: dateConfiguration.cornerRadius,
-        borderColor:
-            dateConfiguration.borderColor ?? _theme.palette.getBackground(),
-        backgroundColor:
-            dateConfiguration.backgroundColor ?? _theme.palette.getBackground(),
+        borderColor: dateConfiguration.borderColor ?? _theme.palette.getBackground(),
+        backgroundColor: dateConfiguration.backgroundColor ?? _theme.palette.getBackground(),
         textStyle: dateConfiguration.textStyle ??
             TextStyle(
                 color: _theme.palette.getAccent500(),
@@ -198,12 +196,8 @@ class CometChatMessageBubble extends StatelessWidget {
               style: style.nameTextStyle ??
                   TextStyle(
                     fontSize: _theme.typography.text2.fontSize,
-                    color: isPremium
-                        ? _theme.palette.getSuccess()
-                        : _theme.palette.getAccent600(),
-                    fontWeight: isPremium
-                        ? FontWeight.bold
-                        : _theme.typography.text2.fontWeight,
+                    color: isPremium ? _theme.palette.getSuccess() : _theme.palette.getAccent600(),
+                    fontWeight: isPremium ? FontWeight.bold : _theme.typography.text2.fontWeight,
                     fontFamily: _theme.typography.text2.fontFamily,
                   ),
             ),
@@ -243,13 +237,11 @@ class CometChatMessageBubble extends StatelessWidget {
             metadata: userObject.metadata,
             width: avatarConfiguration.width ?? 36,
             height: avatarConfiguration.height ?? 36,
-            backgroundColor: avatarConfiguration.backgroundColor ??
-                _theme.palette.getAccent700(),
+            backgroundColor: avatarConfiguration.backgroundColor ?? _theme.palette.getAccent700(),
             cornerRadius: avatarConfiguration.cornerRadius,
             outerCornerRadius: avatarConfiguration.outerCornerRadius,
             border: avatarConfiguration.border,
-            outerViewBackgroundColor:
-                avatarConfiguration.outerViewBackgroundColor,
+            outerViewBackgroundColor: avatarConfiguration.outerViewBackgroundColor,
             nameTextStyle: avatarConfiguration.nameTextStyle ??
                 TextStyle(
                     color: _theme.palette.getBackground(),
@@ -284,39 +276,38 @@ class CometChatMessageBubble extends StatelessWidget {
 
   Widget getImageBubble(CometChatTheme _theme, BuildContext context) {
     MediaMessage imageMessage = messageObject as MediaMessage;
-    ConfirmDialogConfiguration _dialogConfiguration =
-        ConfirmDialogConfiguration(
-            title: Row(
-              children: [
-                Image.asset(
-                  "assets/icons/messages_unsafe.png",
-                  package: UIConstants.packageName,
-                  color: _theme.palette.getAccent(),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(Translations.of(context).unsafe_content,
-                    style: TextStyle(
-                        fontSize: _theme.typography.name.fontSize,
-                        fontWeight: _theme.typography.name.fontWeight,
-                        color: _theme.palette.getAccent(),
-                        fontFamily: _theme.typography.name.fontFamily))
-              ],
+    ConfirmDialogConfiguration _dialogConfiguration = ConfirmDialogConfiguration(
+        title: Row(
+          children: [
+            Image.asset(
+              "assets/icons/messages_unsafe.png",
+              package: UIConstants.packageName,
+              color: _theme.palette.getAccent(),
             ),
-            messageText: Text(
-              Translations.of(context).are_you_sure_unsafe_content,
-              style: TextStyle(
-                  fontSize: _theme.typography.title2.fontSize,
-                  fontWeight: _theme.typography.title2.fontWeight,
-                  color: _theme.palette.getAccent(),
-                  fontFamily: _theme.typography.title2.fontFamily),
+            const SizedBox(
+              width: 10,
             ),
-            confirmButtonText: Translations.of(context).yes,
-            cancelButtonText: Translations.of(context).no,
-            confirmDialogStyle: ConfirmDialogStyle(
-              backgroundColor: _theme.palette.getBackground(),
-            ));
+            Text(Translations.of(context).unsafe_content,
+                style: TextStyle(
+                    fontSize: _theme.typography.name.fontSize,
+                    fontWeight: _theme.typography.name.fontWeight,
+                    color: _theme.palette.getAccent(),
+                    fontFamily: _theme.typography.name.fontFamily))
+          ],
+        ),
+        messageText: Text(
+          Translations.of(context).are_you_sure_unsafe_content,
+          style: TextStyle(
+              fontSize: _theme.typography.title2.fontSize,
+              fontWeight: _theme.typography.title2.fontWeight,
+              color: _theme.palette.getAccent(),
+              fontFamily: _theme.typography.title2.fontFamily),
+        ),
+        confirmButtonText: Translations.of(context).yes,
+        cancelButtonText: Translations.of(context).no,
+        confirmDialogStyle: ConfirmDialogStyle(
+          backgroundColor: _theme.palette.getBackground(),
+        ));
 
     return GestureDetector(
       onTap: () {
@@ -438,8 +429,7 @@ class CometChatMessageBubble extends StatelessWidget {
     MediaMessage fileMessage = messageObject as MediaMessage;
     return Container(
         decoration: BoxDecoration(
-            color:
-                style.background ?? const Color(0xffF8F8F8).withOpacity(0.92),
+            color: style.background ?? const Color(0xffF8F8F8).withOpacity(0.92),
             border: style.border,
             borderRadius: BorderRadius.circular(style.cornerRadius ?? 8)),
         child: CometChatAudioBubble(
@@ -454,8 +444,7 @@ class CometChatMessageBubble extends StatelessWidget {
         //height: style.height ?? 190,
         width: style.width ?? 225,
         decoration: BoxDecoration(
-            color:
-                style.background ?? const Color(0xffF8F8F8).withOpacity(0.92),
+            color: style.background ?? const Color(0xffF8F8F8).withOpacity(0.92),
             border: style.border,
             borderRadius: BorderRadius.circular(style.cornerRadius ?? 8)),
         child: CometChatLocationBubble(
@@ -468,8 +457,7 @@ class CometChatMessageBubble extends StatelessWidget {
   Widget getStickerBubble() {
     CustomMessage stickerMessage = messageObject as CustomMessage;
     return Container(
-      constraints: BoxConstraints(
-          maxHeight: style.height ?? 225, maxWidth: style.width ?? 225),
+      constraints: BoxConstraints(maxHeight: style.height ?? 225, maxWidth: style.width ?? 225),
       child: CometChatStickerBubble(
         messageObject: stickerMessage,
       ),
@@ -569,16 +557,14 @@ class CometChatMessageBubble extends StatelessWidget {
         ));
   }
 
-  Widget getSuitableBubble(
-      CometChatTheme _theme, double width, BuildContext context) {
+  Widget getSuitableBubble(CometChatTheme _theme, double width, BuildContext context) {
     if (customView != null && messageObject.deletedAt == null) {
       if (customView != null) {
         return customView!(messageObject) ?? const SizedBox();
       }
     }
 
-    if (((messageObject.deletedBy != null &&
-                messageObject.deletedBy!.trim() != "") ||
+    if (((messageObject.deletedBy != null && messageObject.deletedBy!.trim() != "") ||
             messageObject.deletedAt != null) &&
         messageObject.type != MessageTypeConstants.groupActions) {
       return getDeleteMessageBubble(_theme);
@@ -652,21 +638,19 @@ class CometChatMessageBubble extends StatelessWidget {
   }
 
   Widget getMessagePreview(CometChatTheme _theme, BuildContext context) {
-    if (messageObject.metadata != null &&
-        messageObject.metadata!.containsKey("reply-message")) {
+    if (messageObject.metadata != null && messageObject.metadata!.containsKey("reply-message")) {
       String senderUserName = '';
       String messagePreviewSubtitle = '';
       try {
-        Map<String, dynamic> replyMetadata =
-            messageObject.metadata!["reply-message"];
+        Map<String, dynamic> replyMetadata = messageObject.metadata!["reply-message"];
 
         senderUserName = replyMetadata["sender"]["name"];
 
         if (replyMetadata["type"] == MessageTypeConstants.text) {
           messagePreviewSubtitle = replyMetadata["text"];
         } else {
-          messagePreviewSubtitle = TemplateUtils.getMessageTypeToSubtitle(
-              replyMetadata["type"], context);
+          messagePreviewSubtitle =
+              TemplateUtils.getMessageTypeToSubtitle(replyMetadata["type"], context);
 
           // messagePreviewSubtitle =
           //     messageTypeToSubtitle[replyMetadata["type"]] ??
@@ -692,9 +676,8 @@ class CometChatMessageBubble extends StatelessWidget {
                 fontWeight: _theme.typography.text2.fontWeight,
                 fontFamily: _theme.typography.text2.fontFamily),
             closeIconColor: _theme.palette.getAccent500(),
-            messagePreviewBorder: Border(
-                left: BorderSide(
-                    color: _theme.palette.getAccent100(), width: 3))),
+            messagePreviewBorder:
+                Border(left: BorderSide(color: _theme.palette.getAccent100(), width: 3))),
       );
     } else {
       return const SizedBox(
@@ -765,9 +748,7 @@ class CometChatMessageBubble extends StatelessWidget {
           height: 36,
           padding: const EdgeInsets.only(left: 12, right: 12),
           decoration: BoxDecoration(
-              border: Border(
-                  top: BorderSide(
-                      color: _theme.palette.getAccent200(), width: 1))),
+              border: Border(top: BorderSide(color: _theme.palette.getAccent200(), width: 1))),
           child: Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -808,8 +789,7 @@ class CometChatMessageBubble extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: getBubbleAlignment(),
         children: [
-          if (alignment == BubbleAlignment.left)
-            getAvatar(_theme, messageObject.sender!),
+          if (alignment == BubbleAlignment.left) getAvatar(_theme, messageObject.sender!),
           Column(
             crossAxisAlignment: getCrossAxisAlignment(),
             children: [
@@ -823,29 +803,23 @@ class CometChatMessageBubble extends StatelessWidget {
               //-----bubble-----
 
               Padding(
-                padding: const EdgeInsets.only(
-                    right: 8.0, top: 1.5, left: 8, bottom: 3),
+                padding: const EdgeInsets.only(right: 8.0, top: 1.5, left: 8, bottom: 3),
                 child: Container(
                   constraints: BoxConstraints(
-                      maxWidth: style.width ??
-                          MediaQuery.of(context).size.width * 65 / 100),
+                      maxWidth: style.width ?? MediaQuery.of(context).size.width * 65 / 100),
                   decoration: BoxDecoration(
-                      color: style.background ??
-                          const Color(0xffF8F8F8).withOpacity(0.92),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(style.cornerRadius ?? 8)),
+                      color: style.background ?? const Color(0xffF8F8F8).withOpacity(0.92),
+                      borderRadius: BorderRadius.all(Radius.circular(style.cornerRadius ?? 8)),
                       border: style.border,
                       gradient: style.gradient),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(style.cornerRadius ?? 8)),
+                    borderRadius: BorderRadius.all(Radius.circular(style.cornerRadius ?? 8)),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         getMessagePreview(_theme, context),
-                        getSuitableBubble(
-                            _theme, MediaQuery.of(context).size.width, context),
+                        getSuitableBubble(_theme, MediaQuery.of(context).size.width, context),
 
                         //----translated message----
                         getTranslationView(_theme),
@@ -875,8 +849,7 @@ class CometChatMessageBubble extends StatelessWidget {
               )
             ],
           ),
-          if (alignment == BubbleAlignment.right)
-            getAvatar(_theme, messageObject.sender!),
+          if (alignment == BubbleAlignment.right) getAvatar(_theme, messageObject.sender!),
         ],
       ),
     );
@@ -886,10 +859,7 @@ class CometChatMessageBubble extends StatelessWidget {
 class MessageBubbleData {
   ///message bubble data
   const MessageBubbleData(
-      {this.thumbnail = false,
-      this.name = false,
-      this.timeStamp = true,
-      this.readReceipt = true});
+      {this.thumbnail = false, this.name = false, this.timeStamp = true, this.readReceipt = true});
 
   ///[thumbnail] show or hide thumbnail
   final bool thumbnail;
