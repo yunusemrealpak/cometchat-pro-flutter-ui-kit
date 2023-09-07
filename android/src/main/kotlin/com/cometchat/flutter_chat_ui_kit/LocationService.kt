@@ -115,18 +115,9 @@ class LocationService : AppCompatActivity() {
 
 
     fun getAddressFromLatitudeLongitude(call: MethodCall,result: MethodChannel.Result,context: Context) {
-        val latitude: Double = call.argument("latitude") ?: 0.0
-        val longitude: Double = call.argument("longitude") ?: 0.0
+        
 
-        val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses: List<Address?>  = geocoder.getFromLocation(latitude, longitude, 1)
-
-
-        if(addresses.isNotEmpty()){
-            result.success(getAddressMap(addresses[0]))
-        }else{
-            result.error("NO DATA", "Address not found", "Address List came empty")
-        }
+        result.error("NO DATA", "Address not found", "Address List came empty")
     }
 
     private fun getAddressMap(address: Address?): HashMap<String, Any?>? {
